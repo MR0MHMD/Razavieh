@@ -19,7 +19,7 @@ class Report(models.Model):
 
 
 class ReportImage(models.Model):
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='images')
     image = ResizedImageField(upload_to='reports/%Y/%m/%d/', size=(500, 500),
                               quality=100, crop=['middle', 'center'], verbose_name='تصویر')
 

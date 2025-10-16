@@ -5,4 +5,12 @@
 {% endblock %}
 {% block body %}
 	<h1>report list</h1>
+    {% for report in reports %}
+        <div>
+            <img src="{{ report.images.first.image.url }}" alt="">
+            <p>{{ report.title }}</p>
+            <p>{{ report.description }}</p>
+        </div>
+    {% endfor %}
+    
 {% endblock %}

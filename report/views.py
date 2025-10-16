@@ -23,25 +23,6 @@ def create_report(request):
     return render(request, 'forms/create_report.html', context)
 
 
-# def create_report(request):
-#     if request.method == 'POST':
-#         form = ReportForm(request.POST)
-#         if form.is_valid():
-#             report = form.save()
-#
-#             files = request.FILES.getlist('image')  # همه فایل‌ها
-#             for f in files:
-#                 ReportImage.objects.create(report=report, image=f)
-#             return redirect('report:p')
-#     else:
-#         form = ReportForm()
-#         image_form = ReportImageForm()
-#         context = {
-#             'form': form,
-#             'image_form': image_form
-#         }
-#         return render(request, 'forms/create_report.html', context)
-
 def report_list(request):
     reports = Report.objects.all()
     return render(request, 'report/report_list.html', {'reports': reports})
