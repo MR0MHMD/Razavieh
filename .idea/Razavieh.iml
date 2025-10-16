@@ -23,7 +23,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../Razavieh\templates" />
+        <option value="$MODULE_DIR$/report/templates" />
       </list>
     </option>
   </component>

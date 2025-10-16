@@ -22,3 +22,8 @@ class ReportImage(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     image = ResizedImageField(upload_to='reports/%Y/%m/%d/', size=(500, 500),
                               quality=100, crop=['middle', 'center'], verbose_name='تصویر')
+
+    class Meta:
+        verbose_name = 'تصویر گزارشات'
+        verbose_name_plural = 'تصاویر گزارشات'
+

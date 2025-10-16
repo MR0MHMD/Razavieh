@@ -10,6 +10,5 @@ class ReportForm(forms.ModelForm):
 
 class ReportImageForm(forms.ModelForm):
     class Meta:
-        image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
         model = ReportImage
         fields = ['image']

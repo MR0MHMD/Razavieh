@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+	report list
+{% endblock %}
+{% block body %}
+	<h1>report list</h1>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="file" name="image" multiple>
+        <input type="submit">
+    </form>
+{% endblock %}
