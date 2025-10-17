@@ -1,0 +1,13 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}Post List{% endblock %}
+{% block body %}
+	<h1>Post List</h1>
+    {% for post in posts %}
+        <div class="">
+            <h2>{{ post.title }}</h2>
+            <img src="{{ post.image.url }}" alt="">
+            <h3>{{ post.created }}</h3>
+        </div>
+    {% endfor %}
+{% endblock %}

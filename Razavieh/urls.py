@@ -6,7 +6,8 @@ from report import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('report.urls', namespace='report')),
+    path('report/', include('report.urls', namespace='report')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
