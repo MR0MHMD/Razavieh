@@ -1,0 +1,30 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}
+	Report Detail
+{% endblock %}
+{% block body %}
+	<h1>report detail</h1>
+    <div>
+        {% for image in report.images.all %}
+            <img src="{{ image.image.url }}" alt="">
+        {% endfor %}
+        <p>{{ report.title }}</p>
+        <p>{{ report.description }}</p>
+        <p>{{ report.created | jformat:'%Y/%m/%d | %H:%M' }}</p>
+    </div>
+    <div class="">
+        <a href="{% url 'report:report_comment' report.slug %}">ثبت کامنت</a>
+    </div>
+    <div class="">
+        {% for comment in comments %}
+            <div class="">
+                <p>{{ comment.name }}</p>
+                <p>{{ comment.body }}</p>
+                <p>{{ comment.created | jformat:'%Y/%m/%d | %H:%M' }}</p>
+            </div>
+        {% endfor %}
+        <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده نظرات بیشتر</a>
+    </div>
+{% endblock %}

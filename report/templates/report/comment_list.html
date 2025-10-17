@@ -1,0 +1,17 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}
+	comments
+{% endblock %}
+{% block body %}
+	<h1>report list</h1>
+    {% for comment in comments %}
+        <div>
+            <p>{{ comment.name }}</p>
+            <p>{{ comment.body }}</p>
+            <p>{{ comment.created | jformat:'%Y/%m/%d | %H:%M' }}</p>
+        </div>
+    {% endfor %}
+    
+{% endblock %}

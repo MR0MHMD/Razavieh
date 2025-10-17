@@ -8,7 +8,7 @@
     {% for report in reports %}
         <div>
             <img src="{{ report.images.first.image.url }}" alt="">
-            <p>{{ report.title }}</p>
+            <p><a href="{{ report.get_absolute_url }}">{{ report.title }}</a></p>
             <p>{{ report.description }}</p>
         </div>
     {% endfor %}

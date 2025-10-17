@@ -1,6 +1,7 @@
-from django.utils.text import slugify
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
+from django.utils.text import slugify
+from django.urls import reverse
 from django.db import models
 
 
@@ -15,6 +16,9 @@ class Report(models.Model):
         ordering = ['-date']
         verbose_name = 'گزارش روز'
         verbose_name_plural = 'گزارشات روز'
+
+    def get_absolute_url(self):
+        return reverse('report:report_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -33,3 +37,22 @@ class ReportImage(models.Model):
     class Meta:
         verbose_name = 'تصویر گزارشات'
         verbose_name_plural = 'تصاویر گزارشات'
+
+
+class Comment(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=250, verbose_name='نام')
+    body = models.TextField(verbose_name="متن نظر")
+    created = jmodels.jDateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    active = models.BooleanField(default=False, verbose_name="وضعیت")
+
+    class Meta:
+        ordering = ['-created']
+        indexes = [
+            models.Index(fields=['created']),
+        ]
+        verbose_name = "نظر"
+        verbose_name_plural = "نظرات"
+
+    def __str__(self):
+        return f"{self.name} : {self.report}"
