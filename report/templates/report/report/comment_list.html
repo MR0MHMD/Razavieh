@@ -5,7 +5,7 @@
 	comments
 {% endblock %}
 {% block body %}
-	<h1>report list</h1>
+	<h1>کامنت های {{ comments.first.report.title }}</h1>
     {% for comment in comments %}
         <div>
             <p>{{ comment.name }}</p>

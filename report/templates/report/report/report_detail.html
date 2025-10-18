@@ -19,11 +19,13 @@
     </div>
     <div class="">
         {% for comment in comments %}
-            <div class="">
-                <p>{{ comment.name }}</p>
-                <p>{{ comment.body }}</p>
-                <p>{{ comment.created | jformat:'%Y/%m/%d | %H:%M' }}</p>
-            </div>
+            {% if comment.active %} 
+                <div class="">
+                    <p>{{ comment.name }}</p>
+                    <p>{{ comment.body }}</p>
+                    <p>{{ comment.created | jformat:'%Y/%m/%d | %H:%M' }}</p>
+                </div>
+            {% endif %}
         {% endfor %}
         <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده نظرات بیشتر</a>
     </div>
