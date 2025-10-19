@@ -3,6 +3,9 @@
 {% block title %}
 	report list
 {% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'parent/forms.css' %}">
+{% endblock %}
 {% block body %}
 	<h1>report list</h1>
     <form method="post" action="" enctype="multipart/form-data">

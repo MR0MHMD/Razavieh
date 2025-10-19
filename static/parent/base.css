@@ -1,0 +1,138 @@
+/* -------------------------------
+   Base CSS - Mosque Project
+   Author: آقاجون
+   Style: Modern Islamic Glassmorphism
+-------------------------------- */
+
+/* 🌗 Theme Variables */
+:root {
+  /* 🌞 Light theme */
+  --color-bg: #f8f9fa;
+  --color-surface: rgba(255, 255, 255, 0.8);
+  --color-text: #222;
+  --color-accent: #00796b;
+  --color-gold: #bfa15e;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+
+  --radius: 20px;
+  --transition: 0.3s ease;
+  --blur: 15px;
+}
+
+/* 🌙 Dark theme */
+[data-theme="dark"] {
+  --color-bg: #0b0f14;
+  --color-surface: rgba(30, 35, 40, 0.6);
+  --color-text: #f3f3f3;
+  --color-accent: #00bfa5;
+  --color-gold: #d4af37;
+  --color-shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* -------------------------------
+   🌍 Global Reset & Layout
+-------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", "Vazirmatn", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* -------------------------------
+   🧭 Containers & Cards
+-------------------------------- */
+.container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.card {
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px var(--color-shadow);
+  padding: 1.5rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 6px 25px var(--color-accent);
+}
+
+/* -------------------------------
+   🕌 Typography
+-------------------------------- */
+h1, h2, h3, h4 {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* -------------------------------
+   🔘 Buttons
+-------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition);
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+}
+
+.btn:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  box-shadow: 0 0 15px var(--color-accent);
+}
+
+/* -------------------------------
+   🌙 Theme Toggle (optional)
+-------------------------------- */
+.theme-toggle {
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  box-shadow: 0 2px 10px var(--color-shadow);
+  transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px var(--color-accent);
+}
+
+/* -------------------------------
+   🦶 Footer
+-------------------------------- */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--color-text);
+  opacity: 0.8;
+  font-size: 0.9rem;
+}

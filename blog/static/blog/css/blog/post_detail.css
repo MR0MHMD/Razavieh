@@ -1,0 +1,100 @@
+/* ---------------------------------
+   📰 Post Detail Page Styling
+   Follows the Glassmorphism theme
+---------------------------------- */
+.post-detail {
+  text-align: center;
+}
+
+.post-title {
+  font-size: 2rem;
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
+}
+
+.post-image-wrapper {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 25px var(--color-shadow);
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  transition: transform var(--transition);
+}
+
+.post-image:hover {
+  transform: scale(1.05);
+}
+
+.post-content {
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: justify;
+}
+
+.post-description {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.post-date {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ------------------------------
+   💬 Comments Section
+------------------------------ */
+.comments-section {
+  margin-top: 3rem;
+  text-align: right;
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.comments-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.comment {
+  padding: 1rem 1.5rem;
+  text-align: right;
+}
+
+.comment-name {
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.comment-body {
+  margin-bottom: 0.5rem;
+}
+
+.comment-date {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.no-comments {
+  text-align: center;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.btn-outline{
+  margin: 20px auto;
+  text-align: center;
+}

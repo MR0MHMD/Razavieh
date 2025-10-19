@@ -8,7 +8,7 @@ from django.db import models
 class Report(models.Model):
     title = models.CharField(max_length=200, verbose_name='عنوان مراسم')
     description = models.TextField(verbose_name='توضیحات')
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     date = jmodels.jDateField(default=None, verbose_name="تاریخ مراسم")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
 
@@ -17,13 +17,13 @@ class Report(models.Model):
         verbose_name = 'گزارش روز'
         verbose_name_plural = 'گزارشات روز'
 
-    def get_absolute_url(self):
-        return reverse('report:report_detail', args=[self.slug])
-
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(str(self.title))
-        super(Report, self).save(*args, **kwargs)
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('report:report_detail', args=[self.slug])
 
     def __str__(self):
         return self.title
@@ -31,7 +31,7 @@ class Report(models.Model):
 
 class ReportImage(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='images')
-    image = ResizedImageField(upload_to='reports/%Y/%m/%d/', size=(500, 500),
+    image = ResizedImageField(upload_to='reports/%Y/%m/%d/', size=(1920, 1080),
                               quality=100, crop=['middle', 'center'], verbose_name='تصویر')
 
     class Meta:

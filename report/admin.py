@@ -18,6 +18,7 @@ class inlines:
 class ReportAdmin(admin.ModelAdmin):
     list_display = ['title']
     inlines = [inlines.ImageInline, inlines.CommentInline]
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(ReportImage)

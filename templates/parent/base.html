@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
+{% load static %}
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}{% endblock %}</title>
-    {% block head %}{% endblock %}
+
+    <!-- 🧱 Base Styles -->
+    <link rel="stylesheet" href="{% static 'parent/base.css' %}">
+
+    <!-- 📦 Block for extra page-specific styles -->
+    {% block extra_css %}{% endblock %}
+
+    <!-- 🌗 Optional: JS for theme switch -->
+{#    <script defer src="{% static 'parent/theme.js' %}"></script>#}
+
 </head>
-<body>
-    {% block body %}{% endblock %}
+
+<body data-theme="light">
+    <!-- 🕌 Header (optional include later) -->
+    {% include 'partials/header.html' %}
+
+    <!-- 📜 Main content -->
+    <main class="container">
+        {% block body %}{% endblock %}
+    </main>
+
+    <!-- 🦶 Footer -->
+    {% include 'partials/footer.html' %}
+
+    <!-- 🔧 Page-specific scripts -->
+    {% block scripts %}{% endblock %}
 </body>
 </html>

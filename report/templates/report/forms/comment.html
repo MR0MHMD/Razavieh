@@ -3,6 +3,9 @@
 {% block title %}
 	comment
 {% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'parent/forms.css' %}">
+{% endblock %}
 {% block body %}
     {% if comment %}
     	<p>کامنت شما ثبت شد!</p>

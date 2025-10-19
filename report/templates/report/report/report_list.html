@@ -1,16 +1,38 @@
 {% extends 'parent/base.html' %}
 {% load static %}
-{% block title %}
-	report list
+{% load jformat %}
+
+{% block title %}گزارشات روز{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"  href="{% static 'report/css/report/report_list.css' %}">
 {% endblock %}
+
 {% block body %}
-	<h1>report list</h1>
-    {% for report in reports %}
-        <div>
+    <h1>لیست گزارشات مسجد</h1>
+<div class="container reports-container">
+    {% if reports %}
+    <div class="reports-grid">
+        {% for report in reports %}
+        <div class="report-card">
+            <!-- تصویر گزارش -->
             <img src="{{ report.images.first.image.url }}" alt="">
-            <p><a href="{{ report.get_absolute_url }}">{{ report.title }}</a></p>
-            <p>{{ report.description }}</p>
+            <!-- متن گزارش -->
+            <div class="report-body">
+                <h2 class="report-title">{{ report.title }}</h2>
+                <p class="report-description">{{ report.description|truncatewords:20 }}</p>
+            </div>
+
+            <!-- متا و دکمه -->
+            <div class="report-footer">
+                <span class="report-date">{{ report.date|jformat:"%Y/%m/%d" }}</span>
+                <a href="{{ report.get_absolute_url }}" class="btn btn-primary">مشاهده</a>
+            </div>
         </div>
-    {% endfor %}
-    
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-report">هنوز گزارشی ثبت نشده است.</p>
+    {% endif %}
+</div>
 {% endblock %}

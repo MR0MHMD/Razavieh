@@ -37,4 +37,4 @@ def post_comment_list(request, slug):
         'post': post,
         'comments': comments,
     }
-    return render(request, 'report/report/comment_list.html', context)
+    return render(request, 'blog/blog/comment_list.html', context)
