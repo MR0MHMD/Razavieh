@@ -11,6 +11,8 @@ class Report(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True)
     date = jmodels.jDateField(default=None, verbose_name="تاریخ مراسم")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
+    views = models.PositiveIntegerField(default=0, verbose_name='تعداد بازدید')
 
     class Meta:
         ordering = ['-date']
@@ -27,6 +29,17 @@ class Report(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ReportLike(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='likes_rel')
+    session_key = models.CharField(max_length=40)
+
+    class Meta:
+        unique_together = ('report', 'session_key')
+
+    def __str__(self):
+        return f"Like for {self.report.title} by session {self.session_key}"
 
 
 class ReportImage(models.Model):
@@ -56,3 +69,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.name} : {self.report}"
+

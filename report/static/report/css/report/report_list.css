@@ -32,8 +32,8 @@ h1 {
 
 /* کارت خودش همچنان افکت داره */
 .report-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 6px 25px var(--color-accent);
 }
 
 /* اما فقط وقتی خود عکس hover شد زوم کن */
@@ -99,4 +99,332 @@ h1 {
     .report-card img {
         height: 160px;
     }
+}
+
+.like-section {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.like-btn {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.like-btn:hover {
+  background: #ffeded;
+  transform: scale(1.05);
+}
+
+.like-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===== Fix for thumbnails & image sizing ===== */
+
+/* Reset امن برای تصاویر (اجتناب از کشیدگی تصادفی) */
+.report-card img,
+.report-thumb,
+.report-image img,
+.post-image img,
+img.report-thumb {
+  display: block;          /* حذف فاصلهٔ خط پایین img */
+  width: 100%;             /* همیشه حداکثر عرض کانتینر */
+  height: auto;            /* حفظ نسبت اصلی به صورت پیش‌فرض */
+  object-fit: cover;       /* کراپ هوشمند برای پوشش کامل فضا */
+  object-position: center; /* مرکز عکس نمایش داده شود */
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+/* برای کارت‌هایی که می‌خواهیم اندازهٔ ثابت بصری داشته باشند */
+.report-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;      /* نسبت استاندارد برای تصاویر شاخص */
+  height: auto;            /* اجازه می‌دهد مرورگر با aspect-ratio ترکیب کند */
+  overflow: hidden;
+}
+
+/* حالت fallback برای مرورگرهای قدیمی که aspect-ratio ندارند */
+@supports not (aspect-ratio: 16/9) {
+  .report-thumb {
+    height: 190px;         /* ارتفاع قابل اعتماد برای مرورگرهای قدیمی */
+  }
+  .report-thumb img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.like-btn .heart-icon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.like-btn:hover .heart-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 3px #ff8fa3);
+    background-color: transparent;
+}
+
+.like-btn .like-count {
+  font-size: 0.9rem;
+  color: #e63946;
+  font-weight: 600;
+}
+
+.like-btn.liked .heart-icon {
+  filter: drop-shadow(0 0 4px #ff4d6d);
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.like-btn img {
+  width: 24px;
+  transition: filter 0.3s ease;
+  filter: grayscale(1) opacity(0.6);
+}
+
+.like-btn.liked img {
+  filter: none;
+}
+
+.report-footer {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  border-radius: 0 0 var(--radius) var(--radius);
+  border-top: 1px solid var(--color-border, rgba(0,0,0,0.1));
+  overflow: hidden;
+}
+
+.report-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.1));
+}
+
+.report-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.report-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.like-btn:hover {
+  transform: scale(1.15);
+}
+
+.heart-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.view-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--color-border, rgba(0,0,0,0.1));
+  padding: 0.9rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 600;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.view-btn:hover {
+  background: var(--color-gold);
+  transform: scale(1.02);
+}
+
+.report-footer {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  border-radius: 0 0 var(--radius) var(--radius);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.report-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  padding: 0.8rem 0.5rem;
+  background: rgba(255,255,255,0.05);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stat-icon,
+.heart-icon {
+  width: 22px;
+  height: 22px;
+  cursor: default;
+  opacity: 0.9;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.like-btn:hover {
+  transform: scale(1.15);
+}
+
+.stat-count {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.view-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.9rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.view-btn:hover {
+  background: var(--color-gold);
+}
+
+.report-footer {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border, #ddd);
+  padding-top: 0.5rem;
+  margin-top: auto;
+}
+
+.report-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-muted, #666);
+}
+
+.meta-item .icon {
+  width: 22px;
+  height: 22px;
+  margin-bottom: 2px;
+  transition: transform 0.2s ease;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.like-btn:hover .icon {
+  transform: scale(1.2);
+}
+
+.like-btn.liked .icon path,
+.like-btn.liked .icon {
+  fill: #ff4d4f;
+  stroke: #ff4d4f;
+}
+
+.count {
+  font-size: 0.75rem;
+}
+
+.full-width-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.3rem;
+}
+
+.report-meta {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  text-align: center;
+  gap: 1rem; /* فاصله بین آیتم‌ها */
+  margin-bottom: 0.8rem;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-muted, #666);
+  min-width: 60px; /* عرض پایه تا بهم نچسبن */
+}
+
+.like-btn img.icon {
+  filter: none !important;
+  opacity: 1 !important;
 }

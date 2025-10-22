@@ -1,7 +1,7 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 {% load jformat %}
-
+{% load report_tags %}
 {% block title %}{{ report.title }}{% endblock %}
 
 {% block extra_css %}
@@ -15,12 +15,10 @@
     <header class="report-header">
         <h1 class="report-title">{{ report.title }}</h1>
         <div class="report-meta">
-            <span class="report-date">
-                {{ report.date|jformat:"%Y/%m/%d" }}
-            </span>
-            {% if report.author %}
-            <span class="report-author">نویسنده: {{ report.author }}</span>
-            {% endif %}
+            <span class="report-date">{{ report.date|jformat:"%Y/%m/%d" }}</span>
+            <button class="like-btn large" data-report-id="{{ report.id }}">
+                ❤️ <span class="like-count">{{ report.likes.count }}</span>
+            </button>
         </div>
     </header>
 
@@ -36,40 +34,23 @@
     {% endif %}
 
     <!-- متن گزارش -->
-    <article class="report-content">
+    <article class="report-content card">
         {{ report.description|linebreaks }}
     </article>
 
     <!-- بخش نظرات -->
+    <!-- بخش نظرات -->
     <section class="comments-section">
         <h2>نظرات</h2>
-
+    
         <!-- فرم ثبت نظر -->
         <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
-
-        <!-- لیست نظرات -->
-        <div class="comments-list">
-            {% if comments %}
-                {% for comment in comments %}
-                    {% if comment.active %}
-                        <div class="comment-card">
-                            <div class="comment-header">
-                                <strong>{{ comment.name }}</strong>
-                                <span class="comment-date">{{ comment.created |jformat:"%Y/%m/%d" }}</span>
-                            </div>
-                            <p class="comment-body">{{ comment.body }}</p>
-                        </div>
-                    {% else %}
-                        <p class="no-comments">هنوز نظری ثبت نشده است.</p>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <p class="no-comments">هنوز نظری ثبت نشده است.</p>
-            {% endif %}
-        </div>
+    
+        {% latest_comments 3 %}
+    
         {% if comments.count > 3 %}
-            <div class="">
-                <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت ها</a>
+            <div class="more-comments">
+                <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
             </div>
         {% endif %}
     </section>
@@ -81,5 +62,7 @@
     <img class="lightbox-img" src="" alt="">
 </div>
 
-<script src="{% static 'report/js/lightbox.js' %}"></script>
+{% endblock %}
+{% block scripts %}
+	<script src="{% static 'report/js/lightbox.js' %}"></script>
 {% endblock %}

@@ -54,8 +54,11 @@ WSGI_APPLICATION = 'Razavieh.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Razavieh_db',
+        'USER': 'razavieh_user',
+        'PASSWORD': 'H0jat12(Ali):soon',
+        'PORT': 5432,
     }
 }
 

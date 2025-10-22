@@ -5,34 +5,73 @@
 {% block title %}گزارشات روز{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet"  href="{% static 'report/css/report/report_list.css' %}">
+<link rel="stylesheet" href="{% static 'report/css/report/report_list.css' %}">
 {% endblock %}
 
 {% block body %}
-    <h1>لیست گزارشات مسجد</h1>
+<h1 class="page-title">📜 گزارشات روز مسجد</h1>
+
 <div class="container reports-container">
     {% if reports %}
     <div class="reports-grid">
         {% for report in reports %}
         <div class="report-card">
-            <!-- تصویر گزارش -->
-            <img src="{{ report.images.first.image.url }}" alt="">
-            <!-- متن گزارش -->
+            <!-- تصویر -->
+            <div class="report-thumb">
+                {% if report.images.first %}
+                    <img src="{{ report.images.first.image.url }}" alt="{{ report.title }}">
+                {% else %}
+                    <img src="{% static 'report/img/no-image.svg' %}" alt="بدون تصویر">
+                {% endif %}
+            </div>
+
+            <!-- بدنه کارت -->
             <div class="report-body">
                 <h2 class="report-title">{{ report.title }}</h2>
                 <p class="report-description">{{ report.description|truncatewords:20 }}</p>
             </div>
 
-            <!-- متا و دکمه -->
+            <!-- فوتر -->
             <div class="report-footer">
-                <span class="report-date">{{ report.date|jformat:"%Y/%m/%d" }}</span>
-                <a href="{{ report.get_absolute_url }}" class="btn btn-primary">مشاهده</a>
+                <div class="report-meta">
+                    <div class="meta-item like">
+                        <button class="like-btn" data-id="{{ report.id }}">
+                            {% if report.id in liked_reports %}
+                                <img src="{% static 'report/icons/heart_full.svg' %}" alt="liked" class="icon">
+                            {% else %}
+                                <img src="{% static 'report/icons/heart_empty.svg' %}" alt="like" class="icon">
+                            {% endif %}
+                        </button>
+                        <span class="count like-count">{{ report.likes_rel.count }}</span>
+                    </div>
+            
+                    <div class="meta-item">
+                        <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
+                        <span class="count">{{ report.views }}</span>
+                    </div>
+            
+                    <div class="meta-item">
+                        <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                        <span class="count">{{ report.comments.count }}</span>
+                    </div>
+            
+                    <div class="meta-item">
+                        <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
+                        <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
+                    </div>
+                </div>
+            
+                <a href="{{ report.get_absolute_url }}" class="btn btn-primary full-width-btn">مشاهده</a>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="no-report">هنوز گزارشی ثبت نشده است.</p>
+    <p class="no-report">هنوز گزارشی ثبت نشده است 😔</p>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'report/js/report_likes.js' %}"></script>
 {% endblock %}

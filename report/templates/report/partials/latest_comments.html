@@ -1,0 +1,16 @@
+{% if latest_comments %}
+{% load jformat %}
+    <div class="comments-list">
+        {% for comment in latest_comments %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <strong>{{ comment.name }}</strong>
+                    <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
+                </div>
+                <p class="comment-body">{{ comment.body }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-comments">هنوز نظری ثبت نشده است.</p>
+{% endif %}
