@@ -114,13 +114,11 @@ def react_comment(request):
         comment_id = data.get('comment_id')
         reaction_type = data.get('reaction_type')  # 'like' یا 'dislike'
 
-        # ساختن session_key اگه وجود نداره
         session_key = request.session.session_key
         if not session_key:
             request.session.create()
             session_key = request.session.session_key
 
-        # دریافت لیست واکنش‌های ذخیره‌شده در session
         reacted_comments = request.session.get('reacted_comments', {})
 
         try:
@@ -129,29 +127,33 @@ def react_comment(request):
             return JsonResponse({'success': False, 'error': 'Comment not found'})
 
         previous_reaction = reacted_comments.get(str(comment_id))
+        user_reaction = None  # برای بازگرداندن وضعیت نهایی به کاربر
 
-        # اگر از قبل واکنش داده بود
+        # کاربر همان واکنش را دوباره زده → حذف واکنش
         if previous_reaction == reaction_type:
-            # همان واکنش را دوباره زده → حذف واکنش
             if reaction_type == 'like':
                 comment.like_count = max(comment.like_count - 1, 0)
             else:
                 comment.dislike_count = max(comment.dislike_count - 1, 0)
-            del reacted_comments[str(comment_id)]
+            reacted_comments.pop(str(comment_id), None)
+            user_reaction = None
+
         else:
-            # اگر قبلاً واکنش متفاوت داده بود → جابجا می‌کنیم
+            # اگر واکنش متفاوت داده بود → جابجا کنیم
             if previous_reaction == 'like':
                 comment.like_count = max(comment.like_count - 1, 0)
             elif previous_reaction == 'dislike':
                 comment.dislike_count = max(comment.dislike_count - 1, 0)
 
-            # ثبت واکنش جدید
+            # واکنش جدید
             if reaction_type == 'like':
                 comment.like_count += 1
-            else:
+                user_reaction = 'like'
+            elif reaction_type == 'dislike':
                 comment.dislike_count += 1
+                user_reaction = 'dislike'
 
-            reacted_comments[str(comment_id)] = reaction_type
+            reacted_comments[str(comment_id)] = user_reaction
 
         comment.save()
         request.session['reacted_comments'] = reacted_comments
@@ -160,7 +162,8 @@ def react_comment(request):
         return JsonResponse({
             'success': True,
             'likes': comment.like_count,
-            'dislikes': comment.dislike_count
+            'dislikes': comment.dislike_count,
+            'user_reaction': user_reaction  # وضعیت نهایی رو به JS بفرست
         })
 
     return JsonResponse({'success': False, 'error': 'Invalid request'})

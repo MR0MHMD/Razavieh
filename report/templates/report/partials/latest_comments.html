@@ -1,9 +1,9 @@
 {% load jformat %}
-{% load static %}
+
 {% if latest_comments %}
     <div class="comments-list">
         {% for comment in latest_comments %}
-            <div class="comment-card" data-id="{{ comment.id }}">
+            <div class="comment-card">
                 <div class="comment-header">
                     <strong>{{ comment.name }}</strong>
                     <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
@@ -12,12 +12,28 @@
 
                 <div class="comment-actions">
                     <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="like">
-                        👍
+                        <img 
+                            src="{% if comment.user_reaction == 'like' %}
+                                    /static/report/icons/selected_like.svg
+                                 {% else %}
+                                    /static/report/icons/like.svg
+                                 {% endif %}" 
+                            alt="Like" 
+                            width="20"
+                        >
                         <span class="like-count">{{ comment.like_count }}</span>
                     </button>
 
                     <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="dislike">
-                        👎
+                        <img 
+                            src="{% if comment.user_reaction == 'dislike' %}
+                                    /static/report/icons/selected_dislike.svg
+                                 {% else %}
+                                    /static/report/icons/dislike.svg
+                                 {% endif %}" 
+                            alt="Dislike" 
+                            width="20"
+                        >
                         <span class="dislike-count">{{ comment.dislike_count }}</span>
                     </button>
                 </div>

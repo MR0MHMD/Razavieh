@@ -4,7 +4,15 @@ from report.models import Comment
 register = template.Library()
 
 
-@register.inclusion_tag('report/partials/latest_comments.html')
-def latest_comments(count=3):
-    comments = Comment.objects.select_related('report').order_by('-created')[:count]
+@register.inclusion_tag('report/partials/latest_comments.html', takes_context=True)
+def latest_comments(context, count=3):
+    request = context['request']
+    comments = Comment.objects.select_related('report').order_by('-like_count')[:count]
+
+    # واکنش‌های کاربر از سشن
+    reacted_comments = request.session.get('reacted_comments', {})
+
+    for comment in comments:
+        comment.user_reaction = reacted_comments.get(str(comment.id), None)
+
     return {'latest_comments': comments}
