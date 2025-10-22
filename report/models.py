@@ -58,6 +58,8 @@ class Comment(models.Model):
     body = models.TextField(verbose_name="متن نظر")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     active = models.BooleanField(default=False, verbose_name="وضعیت")
+    like_count = models.PositiveIntegerField(default=0, verbose_name="تعداد لایک‌ها")
+    dislike_count = models.PositiveIntegerField(default=0, verbose_name="تعداد دیسلایک‌ها")
 
     class Meta:
         ordering = ['-created']
@@ -70,3 +72,15 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.name} : {self.report}"
 
+
+class CommentReaction(models.Model):
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='reactions')
+    session_key = models.CharField(max_length=40)
+    reaction_type = models.CharField(max_length=10, choices=[('like', 'Like'), ('dislike', 'Dislike')])
+    created = jmodels.jDateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('comment', 'session_key')
+
+    def __str__(self):
+        return f"{self.session_key} - {self.reaction_type} ({self.comment.id})"

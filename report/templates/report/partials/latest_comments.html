@@ -1,13 +1,26 @@
-{% if latest_comments %}
 {% load jformat %}
+{% load static %}
+{% if latest_comments %}
     <div class="comments-list">
         {% for comment in latest_comments %}
-            <div class="comment-card">
+            <div class="comment-card" data-id="{{ comment.id }}">
                 <div class="comment-header">
                     <strong>{{ comment.name }}</strong>
                     <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
                 </div>
                 <p class="comment-body">{{ comment.body }}</p>
+
+                <div class="comment-actions">
+                    <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="like">
+                        👍
+                        <span class="like-count">{{ comment.like_count }}</span>
+                    </button>
+
+                    <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="dislike">
+                        👎
+                        <span class="dislike-count">{{ comment.dislike_count }}</span>
+                    </button>
+                </div>
             </div>
         {% endfor %}
     </div>

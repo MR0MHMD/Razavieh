@@ -45,10 +45,9 @@
     
         <!-- فرم ثبت نظر -->
         <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
-    
         {% latest_comments 3 %}
     
-        {% if comments.count > 3 %}
+        {% if report.comments.count > 3 %}
             <div class="more-comments">
                 <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
             </div>
@@ -65,4 +64,5 @@
 {% endblock %}
 {% block scripts %}
 	<script src="{% static 'report/js/lightbox.js' %}"></script>
+    <script src="{% static 'report/js/comment_react.js' %}"></script>
 {% endblock %}

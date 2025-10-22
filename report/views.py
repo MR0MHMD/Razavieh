@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
@@ -41,10 +40,6 @@ def report_list(request):
     return render(request, 'report/report/report_list.html', context)
 
 
-from django.shortcuts import get_object_or_404
-from .models import Report
-
-
 def report_detail(request, slug):
     report = get_object_or_404(Report, slug=slug)
 
@@ -54,7 +49,6 @@ def report_detail(request, slug):
         request.session.create()
         session_key = request.session.session_key
 
-    # بررسی اینکه آیا این کاربر قبلاً این گزارش را دیده است یا نه
     viewed_key = f"viewed_report_{report.id}"
     if not request.session.get(viewed_key, False):
         report.views += 1
@@ -111,3 +105,62 @@ def like_report(request, report_id):
 
     likes_count = ReportLike.objects.filter(report=report).count()
     return JsonResponse({'liked': liked, 'likes_count': likes_count})
+
+
+@csrf_exempt
+def react_comment(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        comment_id = data.get('comment_id')
+        reaction_type = data.get('reaction_type')  # 'like' یا 'dislike'
+
+        # ساختن session_key اگه وجود نداره
+        session_key = request.session.session_key
+        if not session_key:
+            request.session.create()
+            session_key = request.session.session_key
+
+        # دریافت لیست واکنش‌های ذخیره‌شده در session
+        reacted_comments = request.session.get('reacted_comments', {})
+
+        try:
+            comment = Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Comment not found'})
+
+        previous_reaction = reacted_comments.get(str(comment_id))
+
+        # اگر از قبل واکنش داده بود
+        if previous_reaction == reaction_type:
+            # همان واکنش را دوباره زده → حذف واکنش
+            if reaction_type == 'like':
+                comment.like_count = max(comment.like_count - 1, 0)
+            else:
+                comment.dislike_count = max(comment.dislike_count - 1, 0)
+            del reacted_comments[str(comment_id)]
+        else:
+            # اگر قبلاً واکنش متفاوت داده بود → جابجا می‌کنیم
+            if previous_reaction == 'like':
+                comment.like_count = max(comment.like_count - 1, 0)
+            elif previous_reaction == 'dislike':
+                comment.dislike_count = max(comment.dislike_count - 1, 0)
+
+            # ثبت واکنش جدید
+            if reaction_type == 'like':
+                comment.like_count += 1
+            else:
+                comment.dislike_count += 1
+
+            reacted_comments[str(comment_id)] = reaction_type
+
+        comment.save()
+        request.session['reacted_comments'] = reacted_comments
+        request.session.modified = True
+
+        return JsonResponse({
+            'success': True,
+            'likes': comment.like_count,
+            'dislikes': comment.dislike_count
+        })
+
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
