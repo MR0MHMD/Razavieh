@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
@@ -28,11 +29,13 @@ def create_report(request):
 def report_list(request):
     reports = Report.objects.all()
 
-    if not request.session.session_key:
-        request.session.create()
+    # اگر کاربر لاگین کرده، گزارش‌هایی که لایک کرده رو پیدا کن
+    liked_reports = []
+    if request.user.is_authenticated:
+        liked_reports = ReportLike.objects.filter(
+            user=request.user
+        ).values_list('report_id', flat=True)
 
-    session_key = request.session.session_key
-    liked_reports = ReportLike.objects.filter(session_key=session_key).values_list('report_id', flat=True)
     context = {
         'reports': reports,
         'liked_reports': liked_reports,
@@ -43,25 +46,25 @@ def report_list(request):
 def report_detail(request, slug):
     report = get_object_or_404(Report, slug=slug)
 
-    # اطمینان از وجود session_key
+    # ✅ ثبت بازدید با session (این بخش رو دست نمی‌زنیم)
     if not request.session.session_key:
         request.session.create()
-    session_key = request.session.session_key
-
-    # ثبت بازدید فقط یک‌بار در هر session
     viewed_key = f"viewed_report_{report.id}"
     if not request.session.get(viewed_key, False):
         report.views += 1
         report.save(update_fields=['views'])
         request.session[viewed_key] = True
 
-    # بررسی وضعیت لایک برای این کاربر (session)
-    liked = ReportLike.objects.filter(report=report, session_key=session_key).exists()
+    # ✅ بررسی لایک فقط برای کاربران لاگین‌شده
+    liked = False
+    if request.user.is_authenticated:
+        liked = ReportLike.objects.filter(report=report, user=request.user).exists()
+
     likes_count = ReportLike.objects.filter(report=report).count()
 
     context = {
         'report': report,
-        'liked': liked,  # آیا کاربر فعلاً این گزارش رو لایک کرده؟
+        'liked': liked,          # آیا کاربر فعلاً این گزارش رو لایک کرده؟
         'likes_count': likes_count,  # تعداد کل لایک‌ها
     }
 
@@ -106,34 +109,26 @@ def report_comment_list(request, slug):
     }
     return render(request, 'report/report/comment_list.html', context)
 
+
 def like_report(request, report_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'redirect': '/accounts/login/', 'message': 'برای لایک کردن ابتدا وارد شوید.'}, status=401)
+
     report = get_object_or_404(Report, id=report_id)
+    user = request.user
 
-    # اطمینان از وجود سشن
-    if not request.session.session_key:
-        request.session.create()
-    session_key = request.session.session_key
-
+    existing_like = ReportLike.objects.filter(report=report, user=user)
     liked = False
-
-    # بررسی وجود لایک قبلی برای این سشن و گزارش
-    existing_like = ReportLike.objects.filter(report=report, session_key=session_key)
 
     if existing_like.exists():
         existing_like.delete()
     else:
-        ReportLike.objects.create(report=report, session_key=session_key)
+        ReportLike.objects.create(report=report, user=user)
         liked = True
 
-    # شمارش دقیق تعداد لایک‌ها از دیتابیس
     likes_count = ReportLike.objects.filter(report=report).count()
-
-    # برای اطمینان از هماهنگی بین صفحات، فیلد likes را هم بروز کن
     report.likes = likes_count
     report.save(update_fields=["likes"])
-
-    # رفرش داده از دیتابیس تا کاملاً دقیق برگرده
-    report.refresh_from_db(fields=["likes"])
 
     return JsonResponse({
         'liked': liked,

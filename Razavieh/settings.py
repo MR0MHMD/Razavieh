@@ -10,6 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    "accounts.apps.AccountsConfig",
     "report.apps.ReportConfig",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,7 +21,6 @@ INSTALLED_APPS = [
     'django_jalali',
     'django_cleanup.apps.CleanupConfig',
     "blog.apps.BlogConfig",
-    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [
@@ -99,5 +99,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 180
 SESSION_SAVE_EVERY_REQUEST = True
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/report/report_list'

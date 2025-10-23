@@ -18,7 +18,7 @@
 
 </head>
 
-<body data-theme="light">
+<body data-auth="{{ request.user.is_authenticated|yesno:'true,false' }} " data-theme="light">
     <!-- 🕌 Header (optional include later) -->
     {% include 'partials/header.html' %}
 

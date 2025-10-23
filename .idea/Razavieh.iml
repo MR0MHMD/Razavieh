@@ -26,6 +26,7 @@
         <option value="$MODULE_DIR$/report/templates" />
         <option value="$MODULE_DIR$/templates" />
         <option value="$MODULE_DIR$/blog/templates" />
+        <option value="$MODULE_DIR$/accounts/templates" />
       </list>
     </option>
   </component>

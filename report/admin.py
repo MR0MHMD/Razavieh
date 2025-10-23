@@ -13,11 +13,15 @@ class inlines:
         extra = 0
         readonly_fields = ['name', 'body']
 
+    class LikeInline(admin.TabularInline):
+        model = ReportLike
+        extra = 0
+        readonly_fields = ['report', 'user']
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    inlines = [inlines.ImageInline, inlines.CommentInline]
+    list_display = ['title', 'date', 'views', 'likes']
+    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline]
     prepopulated_fields = {'slug': ('title',)}
 
 
@@ -32,3 +36,10 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('active', ('created', JDateFieldListFilter))
     search_fields = ('name', 'body')
     list_editable = ['active']
+
+
+@admin.register(ReportLike)
+class ReportLikeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'report', 'user')
+    list_filter = ('report',)
+    search_fields = ('report__title', 'user__username')

@@ -1,5 +1,6 @@
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
+from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
@@ -33,13 +34,15 @@ class Report(models.Model):
 
 class ReportLike(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='likes_rel')
-    session_key = models.CharField(max_length=40)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='report_likes')
 
     class Meta:
-        unique_together = ('report', 'session_key')
+        unique_together = ('report', 'user')
+        verbose_name = 'لایک گزارش'
+        verbose_name_plural = 'لایک‌های گزارش'
 
     def __str__(self):
-        return f"Like for {self.report.title} by session {self.session_key}"
+        return f"Like for {self.report.title} by {self.user.username}"
 
 
 class ReportImage(models.Model):

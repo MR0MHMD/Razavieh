@@ -1,0 +1,50 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'partials/footer.css' %}">
+<footer class="main-footer">
+  <div class="footer-container">
+
+    <!-- ستون ۱: لوگو و توضیح کوتاه -->
+    <div class="footer-col">
+      <h3 class="footer-logo">📊 گزارش‌یار</h3>
+      <p class="footer-desc">
+        گزارش‌یار بستری برای انتشار و مشاهده گزارش‌های مردمی است.  
+        با ما در شفاف‌تر کردن جامعه سهیم باشید.
+      </p>
+    </div>
+
+    <!-- ستون ۲: لینک‌های مفید -->
+    <div class="footer-col">
+      <h4>لینک‌های سریع</h4>
+      <ul>
+        <li><a href="#">صفحه اصلی</a></li>
+        <li><a href="#">گزارشات</a></li>
+        <li><a href="#">درباره ما</a></li>
+        <li><a href="#">تماس با ما</a></li>
+      </ul>
+    </div>
+
+    <!-- ستون ۳: شبکه‌های اجتماعی -->
+    <div class="footer-col">
+      <h4>ما را دنبال کنید</h4>
+      <div class="social-links">
+        <a href="#"><img src="#" alt="تلگرام"></a>
+        <a href="#"><img src="#" alt="اینستاگرام"></a>
+        <a href="#"><img src="#" alt="توییتر"></a>
+      </div>
+    </div>
+
+    <!-- ستون ۴: خبرنامه -->
+    <div class="footer-col">
+      <h4>عضویت در خبرنامه</h4>
+      <form class="newsletter-form" method="post" action="#">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="ایمیل شما..." required>
+        <button type="submit">عضویت</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© {{ now|date:"Y" }} گزارش‌یار - همه حقوق محفوظ است.</p>
+  </div>
+</footer>

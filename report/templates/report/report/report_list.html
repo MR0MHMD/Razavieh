@@ -42,25 +42,25 @@
                                 <img src="{% static 'report/icons/heart_empty.svg' %}" alt="like" class="icon">
                             {% endif %}
                         </button>
-                        <span class="count like-count">{{ report.likes_rel.count }}</span>
+                        <span class="count like-count">{{ report.likes }}</span>
                     </div>
-            
+
                     <div class="meta-item">
                         <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
                         <span class="count">{{ report.views }}</span>
                     </div>
-            
+
                     <div class="meta-item">
                         <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
                         <span class="count">{{ report.comments.count }}</span>
                     </div>
-            
+
                     <div class="meta-item">
                         <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
                         <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
                     </div>
                 </div>
-            
+
                 <a href="{{ report.get_absolute_url }}" class="btn btn-primary full-width-btn">مشاهده</a>
             </div>
         </div>
