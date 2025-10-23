@@ -61,8 +61,8 @@ def report_detail(request, slug):
 
     context = {
         'report': report,
-        'liked': liked,               # آیا کاربر فعلاً این گزارش رو لایک کرده؟
-        'likes_count': likes_count,   # تعداد کل لایک‌ها
+        'liked': liked,  # آیا کاربر فعلاً این گزارش رو لایک کرده؟
+        'likes_count': likes_count,  # تعداد کل لایک‌ها
     }
 
     return render(request, 'report/report/report_detail.html', context)
@@ -86,13 +86,25 @@ def report_comment(request, slug):
 
 def report_comment_list(request, slug):
     report = get_object_or_404(Report, slug=slug)
-    comments = report.comments.filter(active=True)
+    comments = report.comments.filter(active=True).order_by('-like_count', '-created')
+
+    # اطمینان از وجود session
+    if not request.session.session_key:
+        request.session.create()
+    session_key = request.session.session_key
+
+    # واکنش‌های کاربر از session (فرمت: {'<comment_id>': 'like'/'dislike', ...})
+    reacted_comments = request.session.get('reacted_comments', {})
+
+    # افزودن فیلد مجازی user_reaction به هر comment برای استفاده در تمپلیت
+    for c in comments:
+        c.user_reaction = reacted_comments.get(str(c.id))  # ممکن است None, 'like' یا 'dislike'
+
     context = {
         'report': report,
         'comments': comments,
     }
     return render(request, 'report/report/comment_list.html', context)
-
 
 def like_report(request, report_id):
     report = get_object_or_404(Report, id=report_id)
@@ -127,6 +139,7 @@ def like_report(request, report_id):
         'liked': liked,
         'likes_count': report.likes
     })
+
 
 @csrf_exempt
 def react_comment(request):
