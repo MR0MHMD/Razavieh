@@ -33,6 +33,7 @@ body {
   font-size: 2rem;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
+    text-align: center !important;
 }
 
 .report-meta {
@@ -339,4 +340,51 @@ body {
 .reaction-btn img.animate {
     transform: scale(1.3);
     filter: brightness(1.3);
+}
+
+.report-meta {
+    margin: 1rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.report-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #333;
+    text-align: right;
+}
+
+.report-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    color: #555;
+    background-color: #f9f9f9;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.stat-item:hover {
+    background: #f0f0f0;
+}
+
+.stat-item img {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    opacity: 0.8;
 }

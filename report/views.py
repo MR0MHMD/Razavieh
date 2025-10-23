@@ -43,21 +43,28 @@ def report_list(request):
 def report_detail(request, slug):
     report = get_object_or_404(Report, slug=slug)
 
-    # بررسی وجود session_key
-    session_key = request.session.session_key
-    if not session_key:
+    # اطمینان از وجود session_key
+    if not request.session.session_key:
         request.session.create()
-        session_key = request.session.session_key
+    session_key = request.session.session_key
 
+    # ثبت بازدید فقط یک‌بار در هر session
     viewed_key = f"viewed_report_{report.id}"
     if not request.session.get(viewed_key, False):
         report.views += 1
         report.save(update_fields=['views'])
         request.session[viewed_key] = True
 
+    # بررسی وضعیت لایک برای این کاربر (session)
+    liked = ReportLike.objects.filter(report=report, session_key=session_key).exists()
+    likes_count = ReportLike.objects.filter(report=report).count()
+
     context = {
         'report': report,
+        'liked': liked,               # آیا کاربر فعلاً این گزارش رو لایک کرده؟
+        'likes_count': likes_count,   # تعداد کل لایک‌ها
     }
+
     return render(request, 'report/report/report_detail.html', context)
 
 
@@ -90,22 +97,36 @@ def report_comment_list(request, slug):
 def like_report(request, report_id):
     report = get_object_or_404(Report, id=report_id)
 
+    # اطمینان از وجود سشن
     if not request.session.session_key:
         request.session.create()
-
     session_key = request.session.session_key
+
     liked = False
 
+    # بررسی وجود لایک قبلی برای این سشن و گزارش
     existing_like = ReportLike.objects.filter(report=report, session_key=session_key)
+
     if existing_like.exists():
         existing_like.delete()
     else:
         ReportLike.objects.create(report=report, session_key=session_key)
         liked = True
 
+    # شمارش دقیق تعداد لایک‌ها از دیتابیس
     likes_count = ReportLike.objects.filter(report=report).count()
-    return JsonResponse({'liked': liked, 'likes_count': likes_count})
 
+    # برای اطمینان از هماهنگی بین صفحات، فیلد likes را هم بروز کن
+    report.likes = likes_count
+    report.save(update_fields=["likes"])
+
+    # رفرش داده از دیتابیس تا کاملاً دقیق برگرده
+    report.refresh_from_db(fields=["likes"])
+
+    return JsonResponse({
+        'liked': liked,
+        'likes_count': report.likes
+    })
 
 @csrf_exempt
 def react_comment(request):
