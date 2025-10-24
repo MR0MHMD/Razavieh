@@ -1,185 +1,245 @@
-/* -------------------------------
-   Base CSS - Mosque Project
-   Author: آقاجون
-   Style: Modern Islamic Glassmorphism
--------------------------------- */
+/* =============================
+   base.css — مسجد رضویه (اصلاح‌شده)
+   - دارای متغیرهای تم (light/dark)
+   - دکمه‌ها با کنتراست درست در hover
+   - پشتیبانی RTL و transitions
+   ============================= */
 
-/* 🌗 Theme Variables */
-:root {
-  /* 🌞 Light theme */
-  --color-bg: #f8f9fa;
-  --color-surface: rgba(255, 255, 255, 0.8);
-  --color-card-bg: #ffffff; /* پس‌زمینه‌ی کارت‌ها */
-  --color-border: rgba(0, 0, 0, 0.15); /* رنگ خط دور */
-  --color-text: #222;
-  --color-accent: #00796b;
-  --color-gold: #bfa15e;
-  --color-shadow: rgba(0, 0, 0, 0.1);
+/* ====== متغیرها ====== */
+:root{
+  /* پایه */
+  --bg: #f7fafc;
+  --card-bg: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #ffffff;
 
-  --radius: 20px;
-  --transition: 0.3s ease;
-  --blur: 15px;
+  /* تاکیدی (accent) */
+  --accent: #2c6e49;           /* رنگ اصلی دکمه‌ها */
+  --accent-hover: #255b3f;     /* رنگ هاور دکمه */
+  --accent-foreground: #ffffff;/* متن روی دکمه تاکیدی */
+
+  /* ثروت/زینگ (gold) */
+  --gold: #d4af37;
+
+  --radius: 12px;
+  --shadow: 0 6px 20px rgba(15,23,42,0.08);
+  --transition: 220ms ease;
+  --blur: 12px;
 }
 
-/* 🌙 Dark theme */
-[data-theme="dark"] {
-  --color-bg: #0b0f14;
-  --color-surface: rgba(30, 35, 40, 0.6);
-  --color-card-bg: rgba(20, 25, 30, 0.8); /* رنگ کارت در دارک مود */
-  --color-border: rgba(255, 255, 255, 0.1); /* خط دور ملایم در تاریکی */
-  --color-text: #f3f3f3;
-  --color-accent: #00bfa5;
-  --color-gold: #d4af37;
-  --color-shadow: rgba(0, 0, 0, 0.6);
+/* ====== حالت دارک ====== */
+[data-theme="dark"]{
+  --bg: #0b0f14;
+  --card-bg: rgba(26,30,36,0.7);
+  --text: #e6eef8;
+  --muted: #bfc9d6;
+  --border: rgba(255,255,255,0.06);
+
+  --accent: #00bfa5;
+  --accent-hover: #00a68f;
+  --accent-foreground: #021212;
+
+  --gold: #f3c96a;
+
+  --shadow: 0 6px 30px rgba(0,0,0,0.6);
 }
 
-/* -------------------------------
-   🌍 Global Reset & Layout
--------------------------------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: "Poppins", "Vazirmatn", sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.7;
+/* ====== جهانی ====== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Vazirmatn", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
   transition: background var(--transition), color var(--transition);
+  direction: rtl; /* RTL پیش‌فرض */
 }
 
-/* -------------------------------
-   🧭 Containers & Cards
--------------------------------- */
-.container {
-  width: min(1200px, 90%);
-  margin: 0 auto;
-  padding: 2rem 0;
+/* ====== کانتینر استاندارد ====== */
+.container{
+  width:min(1200px, 92%);
+  margin:0 auto;
 }
 
-.card {
-  background: var(--color-surface);
-  backdrop-filter: blur(var(--blur));
-  border-radius: var(--radius);
-  box-shadow: 0 4px 20px var(--color-shadow);
-  padding: 1.5rem;
-  transition: transform var(--transition), box-shadow var(--transition);
+/* ====== لینک‌ها ====== */
+a{
+  color:var(--accent);
+  text-decoration:none;
+  transition: color var(--transition), opacity var(--transition);
+}
+a:hover{
+  color:var(--accent-hover);
+  text-decoration:underline;
 }
 
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 6px 25px var(--color-accent);
+/* ====== کارت ====== */
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:1rem;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
-/* -------------------------------
-   🕌 Typography
--------------------------------- */
-h1, h2, h3, h4 {
-  color: var(--color-accent);
-  font-weight: 600;
-  margin-bottom: 0.6rem;
+/* ====== تایپوگرافی اصلی ====== */
+h1,h2,h3,h4{margin:0 0 .6rem;color:var(--accent)}
+p{margin:0 0 1rem;color:var(--text)}
+
+/* ====== دکمه‌ها — استاندارد و دسترسی محور ====== */
+
+/* پایه دکمه */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.55rem 1rem;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+  border:1px solid transparent;
+  text-decoration:none;
+  user-select:none;
 }
 
-p {
-  margin-bottom: 1rem;
+/* دکمه تاکیدی — پر */
+.btn-primary{
+  background:var(--accent);
+  color:var(--accent-foreground);
+  border-color:transparent;
+  box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.btn-primary:hover,
+.btn-primary:focus{
+  background:var(--accent-hover);
+  color:var(--accent-foreground);
+  transform: translateY(-2px);
+  outline: none;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--accent-hover) 18%, transparent);
 }
 
-/* -------------------------------
-   🔘 Buttons
--------------------------------- */
-.btn {
-  display: inline-block;
-  padding: 0.7rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all var(--transition);
-  border: 2px solid var(--color-accent);
-  color: var(--color-accent);
+/* دکمه لینک-استایل (transparent but with border) */
+.btn-outline{
   background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.btn-outline:hover{
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent-hover);
 }
 
-.btn:hover {
-  background: var(--color-accent);
-  color: var(--color-bg);
-  box-shadow: 0 0 15px var(--color-accent);
-}
-
-/* -------------------------------
-   🌙 Theme Toggle (optional)
--------------------------------- */
-.theme-toggle {
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  border-radius: 10px;
-  background: var(--color-surface);
-  backdrop-filter: blur(var(--blur));
-  box-shadow: 0 2px 10px var(--color-shadow);
-  transition: all var(--transition);
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 15px var(--color-accent);
-}
-
-/* -------------------------------
-   🦶 Footer
--------------------------------- */
-footer {
-  text-align: center;
-  padding: 2rem 0;
-  color: var(--color-text);
-  opacity: 0.8;
-  font-size: 0.9rem;
-}
-
-/* -------------------------------
-   ❤️ Like Button
--------------------------------- */
-.like-btn {
+/* دکمه ثانویه (نیمه تکیه‌گاهی) */
+.btn-secondary{
   background: transparent;
-  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
-  /*color: var(--color-accent);*/
-  font-size: 0.95rem;
-  border-radius: 50px;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: all var(--transition);
+  color: var(--text);
+  border:1px solid var(--border);
+}
+.btn-secondary:hover{
+  background: rgba(0,0,0,0.04);
+  color: var(--text);
+}
+
+/* دکمه غیرفعال */
+.btn[disabled],
+.btn.disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+
+/* ====== فرم‌ها و ورودی‌ها ====== */
+input, textarea, select{
+  width:100%;
+  padding:.6rem .8rem;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--card-bg);
+  color:var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+input:focus, textarea:focus, select:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* خطوط نازک برای ورودی‌ها (طبق خواسته) */
+.input-outline{
+  border:1px solid var(--border);
+}
+
+/* ====== دکمه آیکون (مثلاً قلب) ====== */
+.icon-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:transparent;
+  border:1px solid var(--border);
+  transition:transform var(--transition), background var(--transition), border-color var(--transition), filter var(--transition);
+}
+.icon-btn img, .icon-btn svg{
+  width:20px;
+  height:20px;
+  display:block;
+  filter: grayscale(1) opacity(.75);
+  transition:filter var(--transition), transform var(--transition);
+}
+.icon-btn:hover{
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.icon-btn.active{
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.icon-btn.active img, .icon-btn.active svg{
+  filter: none;
+  transform: scale(1.06);
+  color: var(--accent-foreground);
+}
+
+/* ====== ناوبری/هدر ====== */
+.site-header{
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
   backdrop-filter: blur(var(--blur));
-  user-select: none;
+  padding:.6rem 0;
+  position:sticky;
+  top:0;
+  z-index:900;
+  border-bottom:1px solid var(--border);
 }
 
-.like-btn:hover {
-  background: var(--color-accent);
-  color: var(--color-bg);
-  box-shadow: 0 0 10px var(--color-accent);
-  transform: scale(1.05);
+/* ====== پایا (Footer) ====== */
+.main-footer{
+  background:var(--card-bg);
+  color:var(--text);
+  border-top:1px solid var(--border);
+  padding:2.5rem 0 1rem;
 }
 
-.like-btn.liked {
-  color: var(--color-bg);
+/* ====== rwd ====== */
+@media (max-width:768px){
+  .container{width:95%}
+  .btn{padding:.5rem .8rem}
+  .icon-btn{width:38px;height:38px}
 }
 
-.like-btn.large {
-  font-size: 1.1rem;
-  padding: 0.5rem 1rem;
-  border-width: 2px;
-}
-
-.report-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.7rem;
-}
+/* ====== Helpers ====== */
+.text-muted{color:var(--muted)}
+.center{display:flex;align-items:center;justify-content:center}
+.mt-1{margin-top:.5rem}
+.mb-1{margin-bottom:.5rem}

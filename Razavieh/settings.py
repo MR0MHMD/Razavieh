@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django_jalali',
     'django_cleanup.apps.CleanupConfig',
     "blog.apps.BlogConfig",
+    "main.apps.MainConfig"
 ]
 
 MIDDLEWARE = [

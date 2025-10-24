@@ -1,0 +1,17 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% load report_tags %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block body %}
+    <h1>مسجد رضویه افسریه</h1>
+    {% top_liked_reports 3 %}
+    {% top_commented_reports 3 %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

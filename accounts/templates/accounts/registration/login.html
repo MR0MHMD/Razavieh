@@ -14,6 +14,7 @@
             <input type="hidden" name="next" value="{{ next }}">
             <input style="margin-top: 20px" type="submit" value="ورود">
         </form>
+        <p>اگر حسابی ندارید <a href="{% url 'accounts:register' %}">ثبت نام</a> کنید  </p>
         <p style="text-align: center"><a href="{% url 'accounts:password_reset' %}">فراموشی رمز ورود</a></p>
     </div>
     
