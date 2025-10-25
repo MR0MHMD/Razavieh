@@ -1,10 +1,13 @@
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
+from django.db.models.functions import Greatest
 from django.http import JsonResponse
 from taggit.models import Tag
+from rapidfuzz import fuzz
 from .forms import *
 import json
+import re
 
 
 def create_report(request):
@@ -211,3 +214,59 @@ def report_by_tag(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
     reports = Report.objects.filter(tags__in=[tag])
     return render(request, 'report/report/report_by_tag.html', {'tag': tag, 'reports': reports})
+
+
+def normalize_farsi(text):
+    if not text:
+        return ''
+    text = text.strip().lower()
+    text = text.replace("ي", "ی").replace("ك", "ک")
+    text = re.sub(r"[‌\u200c\s]+", " ", text)
+    text = re.sub(r"[^\w\s\u0600-\u06FF]", "", text)
+    return text
+
+
+def report_search(request):
+    query = normalize_farsi(request.GET.get('q', '').strip())
+    results = []
+
+    if query:
+        reports = (
+            Report.objects
+            .annotate(
+                similarity=Greatest(
+                    TrigramSimilarity('title', query),
+                    TrigramSimilarity('description', query),
+                )
+            )
+            .filter(similarity__gt=0.1)
+            .order_by('-similarity')
+            .distinct()
+        )
+
+        tag_results = Report.objects.filter(
+            tags__name__icontains=query
+        )
+
+        combined = set(list(reports) + list(tag_results))
+
+        scored_results = []
+        for r in combined:
+            title_norm = normalize_farsi(r.title)
+            desc_norm = normalize_farsi(r.description)
+            tags_norm = normalize_farsi(" ".join(t.name for t in r.tags.all()))
+
+            title_score = fuzz.token_sort_ratio(query, title_norm)
+            desc_score = fuzz.partial_ratio(query, desc_norm)
+            tag_score = fuzz.partial_ratio(query, tags_norm)
+            final_score = max(title_score, desc_score, tag_score)
+
+            if final_score > 40:
+                scored_results.append((r, final_score))
+
+        results = [r for r, _ in sorted(scored_results, key=lambda x: x[1], reverse=True)]
+
+    return render(request, 'report/report/search_results.html', {
+        'query': query,
+        'results': results
+    })

@@ -205,3 +205,34 @@
     display: none;
   }
 }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.search-bar button {
+  background: var(--primary-color, #2b7a78);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-bar button:hover {
+  background: #205e5c;
+}

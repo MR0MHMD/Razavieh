@@ -1,17 +1,26 @@
 {% load static %}
 <header class="main-header">
-    <link rel="stylesheet" href="{% static 'partials/header.css' %}">
+  <link rel="stylesheet" href="{% static 'partials/header.css' %}">
   <div class="container header-content">
+
     <!-- لوگو -->
     <a href="{% url 'main:index' %}" class="logo">
       <img src="{% static 'icons/logo.png' %}" alt="مسجد رضویه" class="logo-img">
       <span class="logo-text">مسجد رضویه</span>
     </a>
-    <!-- نوار جستجو -->
-    <div class="search-bar">
-      <input type="text" placeholder="جستجو در سایت..." id="searchInput">
-      <button id="searchBtn"><i class="fas fa-search"></i></button>
-    </div>
+
+    <!-- ✅ نوار جستجو -->
+    <form class="search-bar" method="get" action="{% url 'report:report_search' %}">
+      <input 
+        type="text" 
+        name="q" 
+        placeholder="جستجو در گزارش‌ها..."
+        value="{{ request.GET.q|default:'' }}"
+      >
+      <button type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
 
     <!-- منوی اصلی -->
     <nav class="nav-menu">
@@ -26,13 +35,12 @@
     <div class="user-actions">
       {% if user.is_authenticated %}
           {% if request.resolver_match.url_name == 'profile' %}
-            <a href="{% url 'accounts:logout' %}" class="profile-btn">خروچ</a>
+            <a href="{% url 'accounts:logout' %}" class="profile-btn">خروج</a>
           {% else %}
             <a href="{% url 'accounts:profile' %}" class="profile-btn">{{ request.user.username }}</a>
-          {% endif %} 
+          {% endif %}
       {% else %}
         <a href="{% url 'accounts:login' %}" class="login-btn">ورود</a>
-{#        <a href="#" class="signup-btn">ثبت‌نام</a>#}
       {% endif %}
     </div>
 
