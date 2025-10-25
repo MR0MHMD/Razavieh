@@ -5,9 +5,16 @@
         {% for comment in latest_comments %}
             <div class="comment-card">
                 <div class="comment-header">
-                    <strong>{{ comment.name }}</strong>
+                    <strong>
+                        {% if comment.name.get_full_name %}
+                            {{ comment.name.get_full_name }}
+                        {% else %}
+                            {{ comment.name.username }}
+                        {% endif %}
+                    </strong>
                     <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
                 </div>
+
                 <p class="comment-body">{{ comment.body }}</p>
 
                 <div class="comment-actions">
@@ -18,7 +25,7 @@
                                  {% else %}
                                     /static/report/icons/like.svg
                                  {% endif %}" 
-                            alt="Like" 
+                            alt="Like"
                             width="20"
                         >
                         <span class="like-count">{{ comment.like_count }}</span>
@@ -31,7 +38,7 @@
                                  {% else %}
                                     /static/report/icons/dislike.svg
                                  {% endif %}" 
-                            alt="Dislike" 
+                            alt="Dislike"
                             width="20"
                         >
                         <span class="dislike-count">{{ comment.dislike_count }}</span>

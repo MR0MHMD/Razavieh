@@ -20,29 +20,37 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        commentCard.querySelector('.like-count').textContent = data.likes;
-                        commentCard.querySelector('.dislike-count').textContent = data.dislikes;
-
-                        const likeBtn = commentCard.querySelector('.reaction-btn[data-reaction="like"] img');
-                        const dislikeBtn = commentCard.querySelector('.reaction-btn[data-reaction="dislike"] img');
-
-                        // بازگرداندن آیکون‌ها به حالت عادی
-                        likeBtn.src = '/static/report/icons/like.svg';
-                        dislikeBtn.src = '/static/report/icons/dislike.svg';
-
-                        // اگر واکنش جدیدی وجود داشت → تغییر آیکون
-                        if (data.user_reaction === 'like') {
-                            likeBtn.src = '/static/report/icons/selected_like.svg';
-                        } else if (data.user_reaction === 'dislike') {
-                            dislikeBtn.src = '/static/report/icons/selected_dislike.svg';
+                    if (!data.success) {
+                        if (data.error === 'login_required') {
+                            alert("برای ثبت واکنش باید وارد حساب کاربری شوید.");
                         }
+                        return;
+                    }
+
+                    // ✅ بروزرسانی شمارنده‌ها
+                    commentCard.querySelector('.like-count').textContent = data.likes;
+                    commentCard.querySelector('.dislike-count').textContent = data.dislikes;
+
+                    // ✅ دکمه‌ها
+                    const likeImg = commentCard.querySelector('.reaction-btn[data-reaction="like"] img');
+                    const dislikeImg = commentCard.querySelector('.reaction-btn[data-reaction="dislike"] img');
+
+                    // بازگرداندن آیکون‌ها به حالت عادی
+                    likeImg.src = '/static/report/icons/like.svg';
+                    dislikeImg.src = '/static/report/icons/dislike.svg';
+
+                    // اگر واکنش فعال است، آیکون مربوطه را تغییر بده
+                    if (data.user_reaction === 'like') {
+                        likeImg.src = '/static/report/icons/selected_like.svg';
+                    } else if (data.user_reaction === 'dislike') {
+                        dislikeImg.src = '/static/report/icons/selected_dislike.svg';
                     }
                 })
                 .catch(error => console.error('Error:', error));
         });
     });
 
+    // گرفتن csrf token از کوکی‌ها
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {

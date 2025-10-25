@@ -29,16 +29,18 @@ def create_report(request):
 def report_list(request):
     reports = Report.objects.all()
 
-    # اگر کاربر لاگین کرده، گزارش‌هایی که لایک کرده رو پیدا کن
     liked_reports = []
     if request.user.is_authenticated:
         liked_reports = ReportLike.objects.filter(
             user=request.user
         ).values_list('report_id', flat=True)
 
+    active_comments_count = Comment.objects.filter(active=True).count()
+
     context = {
         'reports': reports,
         'liked_reports': liked_reports,
+        'active_comments_count': active_comments_count
     }
     return render(request, 'report/report/report_list.html', context)
 
@@ -46,7 +48,7 @@ def report_list(request):
 def report_detail(request, slug):
     report = get_object_or_404(Report, slug=slug)
 
-    # ✅ ثبت بازدید با session (این بخش رو دست نمی‌زنیم)
+    # ✅ ثبت بازدید با session
     if not request.session.session_key:
         request.session.create()
     viewed_key = f"viewed_report_{report.id}"
@@ -55,30 +57,50 @@ def report_detail(request, slug):
         report.save(update_fields=['views'])
         request.session[viewed_key] = True
 
-    # ✅ بررسی لایک فقط برای کاربران لاگین‌شده
+    # ✅ بررسی لایک گزارش (فقط برای کاربران لاگین‌شده)
     liked = False
     if request.user.is_authenticated:
         liked = ReportLike.objects.filter(report=report, user=request.user).exists()
 
     likes_count = ReportLike.objects.filter(report=report).count()
+    active_comments_count = Comment.objects.filter(active=True).count()
+
+    comments = report.comments.select_related('name').order_by('-created')
+
+    if request.user.is_authenticated:
+        user_reactions = dict(
+            CommentReaction.objects.filter(user=request.user, comment__in=comments)
+            .values_list('comment_id', 'reaction_type')
+        )
+    else:
+        user_reactions = {}
 
     context = {
         'report': report,
-        'liked': liked,          # آیا کاربر فعلاً این گزارش رو لایک کرده؟
-        'likes_count': likes_count,  # تعداد کل لایک‌ها
+        'liked': liked,
+        'likes_count': likes_count,
+        'active_comments_count': active_comments_count,
     }
 
     return render(request, 'report/report/report_detail.html', context)
 
 
+@login_required
 def report_comment(request, slug):
     report = get_object_or_404(Report, slug=slug)
     comment = None
-    form = CommentForm(data=request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.report = report
-        comment.save()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.report = report
+            comment.user = request.user
+            if request.user.is_authenticated:
+                comment.name = request.user
+            comment.save()
+            return redirect(report.get_absolute_url())
+    else:
+        form = CommentForm()
     context = {
         'report': report,
         'form': form,
@@ -89,19 +111,19 @@ def report_comment(request, slug):
 
 def report_comment_list(request, slug):
     report = get_object_or_404(Report, slug=slug)
-    comments = report.comments.filter(active=True).order_by('-like_count', '-created')
+    comments = report.comments.filter(active=True).select_related('name').order_by('-like_count', '-created')
 
-    # اطمینان از وجود session
-    if not request.session.session_key:
-        request.session.create()
-    session_key = request.session.session_key
+    # ✅ اگر کاربر لاگین کرده، واکنش‌هایش را برای هر کامنت پیدا کن
+    user_reactions = {}
+    if request.user.is_authenticated:
+        user_reactions = dict(
+            CommentReaction.objects.filter(user=request.user, comment__in=comments)
+            .values_list('comment_id', 'reaction_type')
+        )
 
-    # واکنش‌های کاربر از session (فرمت: {'<comment_id>': 'like'/'dislike', ...})
-    reacted_comments = request.session.get('reacted_comments', {})
-
-    # افزودن فیلد مجازی user_reaction به هر comment برای استفاده در تمپلیت
+    # ✅ افزودن واکنش کاربر به هر کامنت برای استفاده در تمپلیت
     for c in comments:
-        c.user_reaction = reacted_comments.get(str(c.id))  # ممکن است None, 'like' یا 'dislike'
+        c.user_reaction = user_reactions.get(c.id)
 
     context = {
         'report': report,
@@ -136,63 +158,49 @@ def like_report(request, report_id):
     })
 
 
-@csrf_exempt
+@login_required
 def react_comment(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        comment_id = data.get('comment_id')
-        reaction_type = data.get('reaction_type')  # 'like' یا 'dislike'
-
-        session_key = request.session.session_key
-        if not session_key:
-            request.session.create()
-            session_key = request.session.session_key
-
-        reacted_comments = request.session.get('reacted_comments', {})
-
         try:
+            data = json.loads(request.body)
+            comment_id = data.get('comment_id')
+            reaction_type = data.get('reaction_type')  # 'like' یا 'dislike'
+
+            # پیدا کردن کامنت
             comment = Comment.objects.get(id=comment_id)
+
+            # بررسی اینکه آیا قبلاً واکنش داده یا نه
+            reaction, created = CommentReaction.objects.get_or_create(
+                comment=comment,
+                user=request.user,
+                defaults={'reaction_type': reaction_type}
+            )
+
+            if not created:
+                # اگر همون واکنش رو دوباره زده بود، حذفش کن
+                if reaction.reaction_type == reaction_type:
+                    reaction.delete()
+                else:
+                    # اگه تغییر داده، نوع واکنش رو عوض کن
+                    reaction.reaction_type = reaction_type
+                    reaction.save()
+
+            # شمارش مجدد لایک و دیسلایک
+            comment.like_count = comment.reactions.filter(reaction_type='like').count()
+            comment.dislike_count = comment.reactions.filter(reaction_type='dislike').count()
+            comment.save(update_fields=['like_count', 'dislike_count'])
+
+            return JsonResponse({
+                'success': True,
+                'likes': comment.like_count,
+                'dislikes': comment.dislike_count,
+                'user_reaction': reaction_type
+                if CommentReaction.objects.filter(comment=comment, user=request.user,
+                                                  reaction_type=reaction_type).exists()
+                else None
+            })
+
         except Comment.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Comment not found'})
-
-        previous_reaction = reacted_comments.get(str(comment_id))
-        user_reaction = None  # برای بازگرداندن وضعیت نهایی به کاربر
-
-        # کاربر همان واکنش را دوباره زده → حذف واکنش
-        if previous_reaction == reaction_type:
-            if reaction_type == 'like':
-                comment.like_count = max(comment.like_count - 1, 0)
-            else:
-                comment.dislike_count = max(comment.dislike_count - 1, 0)
-            reacted_comments.pop(str(comment_id), None)
-            user_reaction = None
-
-        else:
-            # اگر واکنش متفاوت داده بود → جابجا کنیم
-            if previous_reaction == 'like':
-                comment.like_count = max(comment.like_count - 1, 0)
-            elif previous_reaction == 'dislike':
-                comment.dislike_count = max(comment.dislike_count - 1, 0)
-
-            # واکنش جدید
-            if reaction_type == 'like':
-                comment.like_count += 1
-                user_reaction = 'like'
-            elif reaction_type == 'dislike':
-                comment.dislike_count += 1
-                user_reaction = 'dislike'
-
-            reacted_comments[str(comment_id)] = user_reaction
-
-        comment.save()
-        request.session['reacted_comments'] = reacted_comments
-        request.session.modified = True
-
-        return JsonResponse({
-            'success': True,
-            'likes': comment.like_count,
-            'dislikes': comment.dislike_count,
-            'user_reaction': user_reaction  # وضعیت نهایی رو به JS بفرست
-        })
 
     return JsonResponse({'success': False, 'error': 'Invalid request'})

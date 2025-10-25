@@ -34,7 +34,7 @@
 
             <div class="stat-item">
                 <img src="{% static 'report/icons/comment.svg' %}" alt="comments">
-                <span>{{ report.comments.count }}</span>
+                <span>{{ active_comments_count }}</span>
             </div>
 
             <div class="stat-item">
@@ -62,7 +62,7 @@
         <h2>نظرات</h2>
         <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
         {% latest_comments 3 %}
-        {% if report.comments.count > 3 %}
+        {% if active_comments_count > 3 %}
         <div class="more-comments">
             <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
         </div>

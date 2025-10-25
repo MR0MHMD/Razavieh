@@ -17,17 +17,13 @@ class ReportImageForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name', 'body',)
+        fields = ('body',)
         widgets = {
             'body': forms.Textarea(attrs={
-                'placeholder': 'متن نظر'
+                'placeholder': 'متن نظر',
+                'rows': 4,
             }),
-            'name': forms.TextInput(attrs={
-                'placeholder': 'نام و نام خانوادگی'
-            })
         }
         labels = {
-            'name': "",
             'body': ''
         }
-

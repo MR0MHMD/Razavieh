@@ -55,8 +55,8 @@ class ReportImage(models.Model):
 
 
 class Comment(models.Model):
-    report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=250, verbose_name='نام')
+    report = models.ForeignKey('Report', on_delete=models.CASCADE, related_name='comments')
+    name = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     body = models.TextField(verbose_name="متن نظر")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     active = models.BooleanField(default=False, verbose_name="وضعیت")
@@ -72,17 +72,18 @@ class Comment(models.Model):
         verbose_name_plural = "نظرات"
 
     def __str__(self):
-        return f"{self.name} : {self.report}"
+        # نمایش راحت در admin
+        return f"{self.name.get_full_name() or self.name.username} : {self.report}"
 
 
 class CommentReaction(models.Model):
     comment = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='reactions')
-    session_key = models.CharField(max_length=40)
+    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE, related_name='comment_reactions')
     reaction_type = models.CharField(max_length=10, choices=[('like', 'Like'), ('dislike', 'Dislike')])
     created = jmodels.jDateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('comment', 'session_key')
+        unique_together = ('comment', 'user')
 
     def __str__(self):
-        return f"{self.session_key} - {self.reaction_type} ({self.comment.id})"
+        return f"{self.user.username} - {self.reaction_type} ({self.comment.id})"

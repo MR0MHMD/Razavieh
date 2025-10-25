@@ -1,20 +1,38 @@
-from report.models import Comment, Report
+from report.models import Comment, Report, CommentReaction
 from django.db import models
 from django import template
 
 register = template.Library()
 
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+
 @register.inclusion_tag('report/partials/latest_comments.html', takes_context=True)
 def latest_comments(context, count=3):
+    """
+    آخرین کامنت‌های مربوط به گزارش فعلی را نمایش می‌دهد،
+    به همراه واکنش‌های کاربر (like/dislike) اگر لاگین کرده باشد.
+    """
     request = context['request']
-    comments = Comment.objects.filter(report=context['report'], active=True).order_by('-like_count')[:count]
+    report = context.get('report')
 
-    # واکنش‌های کاربر از سشن
-    reacted_comments = request.session.get('reacted_comments', {})
+    # فقط کامنت‌های فعال همین گزارش
+    comments = Comment.objects.filter(report=report, active=True).select_related('name').order_by('-like_count', '-created')[:count]
 
+    # بررسی واکنش‌های کاربر
+    user_reactions = {}
+    if request.user.is_authenticated:
+        user_reactions = dict(
+            CommentReaction.objects.filter(user=request.user, comment__in=comments)
+            .values_list('comment_id', 'reaction_type')
+        )
+
+    # افزودن واکنش به هر کامنت
     for comment in comments:
-        comment.user_reaction = reacted_comments.get(str(comment.id), None)
+        comment.user_reaction = user_reactions.get(comment.id)
 
     return {'latest_comments': comments}
 
