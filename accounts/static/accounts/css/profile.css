@@ -1,0 +1,128 @@
+.profile-wrapper {
+  max-width: 950px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: var(--color-card-bg, #fff);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* هدر پروفایل */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent, #007bff);
+}
+
+.profile-info h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.profile-info .bio {
+  color: #555;
+  margin-bottom: 0.4rem;
+}
+
+.edit-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent, #007bff);
+  color: white;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+.edit-btn:hover {
+  background: #0056b3;
+}
+
+/* تب‌ها */
+.tabs {
+  margin-top: 1rem;
+}
+
+.tab-buttons {
+  display: flex;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  padding: 0.7rem;
+  cursor: pointer;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.tab-btn.active {
+  border-bottom: 3px solid var(--color-accent, #007bff);
+  color: var(--color-accent, #007bff);
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* لیست گزارش‌های لایک‌شده */
+.liked-item {
+  background: rgba(0, 123, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.liked-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  padding: 0.8rem 1rem;
+}
+
+.liked-item:hover {
+  background: rgba(0, 123, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.like-icon {
+  font-size: 1.1rem;
+  color: #e63946;
+}
+
+/* حالت تاریک */
+[data-theme="dark"] .card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+[data-theme="dark"] .tab-btn.active {
+  border-color: #00bcd4;
+  color: #00bcd4;
+}

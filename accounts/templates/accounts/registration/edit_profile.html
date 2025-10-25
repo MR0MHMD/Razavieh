@@ -1,0 +1,112 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'accounts/css/edit_profile.css' %}">
+  <!-- فایل‌های لازم برای تقویم شمسی -->
+  {{ form.media }}
+{% endblock %}
+
+{% block body %}
+<div class="edit-profile container">
+  <h1>ویرایش اطلاعات کاربری</h1>
+
+  <form method="post" enctype="multipart/form-data" class="edit-form">
+    {% csrf_token %}
+
+    <!-- 🔹 بخش عکس پروفایل -->
+    <div class="avatar-row">
+      <div class="current-avatar">
+        {% if user.photo %}
+          <img id="avatar-preview" src="{{ user.photo.url }}" alt="{{ user.username }}">
+          <button type="button" id="remove-photo-btn">حذف عکس</button>
+        {% else %}
+          <img id="avatar-preview" src="{% static 'accounts/img/default.png' %}" alt="بدون تصویر">
+        {% endif %}
+      </div>
+
+      <div class="photo-input">
+        <label for="{{ form.photo.id_for_label }}">تغییر عکس پروفایل</label>
+        {{ form.photo }}
+      </div>
+    </div>
+
+    <!-- 🔹 فیلدهای اطلاعات کاربر -->
+    <div class="form-row">
+      <label for="{{ form.first_name.id_for_label }}">نام</label>
+      {{ form.first_name }}
+    </div>
+
+    <div class="form-row">
+      <label for="{{ form.last_name.id_for_label }}">نام خانوادگی</label>
+      {{ form.last_name }}
+    </div>
+
+    <div class="form-row">
+      <label for="{{ form.email.id_for_label }}">ایمیل</label>
+      {{ form.email }}
+    </div>
+
+    <div class="form-row">
+      <label for="{{ form.date_of_birth.id_for_label }}">تاریخ تولد (شمسی)</label>
+      {{ form.date_of_birth }}
+    </div>
+
+    <div class="form-row">
+      <label for="{{ form.bio.id_for_label }}">بیو</label>
+      {{ form.bio }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+      <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">بازگشت</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('{{ form.photo.id_for_label }}');
+    const previewImg = document.getElementById('avatar-preview');
+    const removeBtn = document.getElementById('remove-photo-btn');
+
+    // ✅ پیش‌نمایش زنده عکس جدید
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            previewImg.src = event.target.result;
+            previewImg.alt = "پیش‌نمایش تصویر جدید";
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // ❌ حذف عکس فعلی و جایگزینی با پیش‌فرض
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => {
+        if (fileInput) fileInput.value = '';
+        previewImg.src = "{% static 'default.png' %}";
+        previewImg.alt = "بدون تصویر";
+
+        let removeInput = document.getElementById('remove_photo_field');
+        if (!removeInput) {
+          removeInput = document.createElement('input');
+          removeInput.type = 'hidden';
+          removeInput.name = 'remove_photo';
+          removeInput.id = 'remove_photo_field';
+          removeInput.value = '1';
+          document.querySelector('form.edit-form').appendChild(removeInput);
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

@@ -25,7 +25,7 @@
     <!-- دکمه ورود / حساب کاربری -->
     <div class="user-actions">
       {% if user.is_authenticated %}
-        <a href="#" class="profile-btn"><i class="fas fa-user-circle"></i>{{ request.user.username }}</a>
+        <a href="{% url 'accounts:profile' %}" class="profile-btn"><i class="fas fa-user-circle"></i>{{ request.user.username }}</a>
       {% else %}
         <a href="{% url 'accounts:login' %}" class="login-btn">ورود</a>
 {#        <a href="#" class="signup-btn">ثبت‌نام</a>#}

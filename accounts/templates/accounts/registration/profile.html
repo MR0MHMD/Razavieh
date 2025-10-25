@@ -1,0 +1,79 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}پروفایل کاربری{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="profile-wrapper container">
+  
+  <!-- هدر -->
+  <div class="profile-header card">
+    <div class="profile-avatar">
+      {% if user.photo %}
+        <img src="{{ user.photo.url }}" alt="{{ user.username }}">
+      {% else %}
+        <img src="{% static 'default.png' %}" alt="بدون تصویر">
+      {% endif %}
+    </div>
+    <div class="profile-info">
+      <h2>{{ user.get_full_name|default:user.username }}</h2>
+      <p class="bio">{{ user.bio|default:"کاربر مسجد رضویه 🌙" }}</p>
+      <p class="join-date">عضو شده در {{ user.joined_jalali|date:"Y/m/d" }}</p>
+      <a href="{% url 'accounts:edit_profile' %}" class="edit-btn">ویرایش پروفایل ✏️</a>
+    </div>
+  </div>
+
+  <!-- تب‌ها -->
+  <div class="tabs card">
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="info">اطلاعات کاربر</button>
+      <button class="tab-btn" data-tab="liked">گزارش‌های لایک‌شده</button>
+    </div>
+
+    <div class="tab-content active" id="info">
+      <ul class="info-list">
+        <li><strong>نام کاربری:</strong> {{ user.username }}</li>
+        <li><strong>ایمیل:</strong> {{ user.email }}</li>
+        <li><strong>تاریخ تولد:</strong> {{ user.date_of_birth|default:"ثبت نشده" }}</li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="liked">
+      {% if liked_reports %}
+        <ul class="liked-list">
+          {% for item in liked_reports %}
+            <li class="liked-item">
+              <a href="{{ item.report.get_absolute_url }}">
+                <span>{{ item.report.title }}</span>
+                <span class="like-icon">❤️</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="no-likes">گزارشی را لایک نکرده‌اید.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const buttons = document.querySelectorAll('.tab-btn');
+  const tabs = document.querySelectorAll('.tab-content');
+  
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+});
+</script>
+{% endblock %}
