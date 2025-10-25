@@ -1,6 +1,5 @@
 from django_jalali.admin.filters import JDateFieldListFilter
 from django.contrib import admin
-from taggit.models import Tag
 from report.models import *
 
 
@@ -18,13 +17,6 @@ class inlines:
         model = ReportLike
         extra = 0
         readonly_fields = ['report', 'user']
-
-
-# @admin.register(Report)
-# class ReportAdmin(admin.ModelAdmin):
-#     list_display = ['title', 'date', 'views', 'likes']
-#     inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline]
-#     prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(ReportImage)

@@ -1,10 +1,6 @@
 from django import forms
 from .models import *
 
-# forms.py
-from django import forms
-from .models import Report
-
 
 class ReportForm(forms.ModelForm):
     class Meta:

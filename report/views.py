@@ -1,10 +1,11 @@
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
+from django.contrib.postgres.search import TrigramSimilarity
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Greatest
 from django.http import JsonResponse
 from taggit.models import Tag
 from rapidfuzz import fuzz
+from typing import Any
 from .forms import *
 import json
 import re
@@ -52,7 +53,6 @@ def report_list(request):
 def report_detail(request, slug):
     report = get_object_or_404(Report, slug=slug)
 
-    # ✅ ثبت بازدید با session
     if not request.session.session_key:
         request.session.create()
     viewed_key = f"viewed_report_{report.id}"
@@ -61,7 +61,6 @@ def report_detail(request, slug):
         report.save(update_fields=['views'])
         request.session[viewed_key] = True
 
-    # ✅ بررسی لایک گزارش (فقط برای کاربران لاگین‌شده)
     liked = False
     if request.user.is_authenticated:
         liked = ReportLike.objects.filter(report=report, user=request.user).exists()
@@ -72,7 +71,7 @@ def report_detail(request, slug):
     comments = report.comments.select_related('name').order_by('-created')
 
     if request.user.is_authenticated:
-        user_reactions = dict(
+        user_reactions: dict[Any, Any] = dict(
             CommentReaction.objects.filter(user=request.user, comment__in=comments)
             .values_list('comment_id', 'reaction_type')
         )
@@ -117,7 +116,6 @@ def report_comment_list(request, slug):
     report = get_object_or_404(Report, slug=slug)
     comments = report.comments.filter(active=True).select_related('name').order_by('-like_count', '-created')
 
-    # ✅ اگر کاربر لاگین کرده، واکنش‌هایش را برای هر کامنت پیدا کن
     user_reactions = {}
     if request.user.is_authenticated:
         user_reactions = dict(
@@ -125,7 +123,6 @@ def report_comment_list(request, slug):
             .values_list('comment_id', 'reaction_type')
         )
 
-    # ✅ افزودن واکنش کاربر به هر کامنت برای استفاده در تمپلیت
     for c in comments:
         c.user_reaction = user_reactions.get(c.id)
 
@@ -168,12 +165,10 @@ def react_comment(request):
         try:
             data = json.loads(request.body)
             comment_id = data.get('comment_id')
-            reaction_type = data.get('reaction_type')  # 'like' یا 'dislike'
+            reaction_type = data.get('reaction_type')
 
-            # پیدا کردن کامنت
             comment = Comment.objects.get(id=comment_id)
 
-            # بررسی اینکه آیا قبلاً واکنش داده یا نه
             reaction, created = CommentReaction.objects.get_or_create(
                 comment=comment,
                 user=request.user,
@@ -181,15 +176,12 @@ def react_comment(request):
             )
 
             if not created:
-                # اگر همون واکنش رو دوباره زده بود، حذفش کن
                 if reaction.reaction_type == reaction_type:
                     reaction.delete()
                 else:
-                    # اگه تغییر داده، نوع واکنش رو عوض کن
                     reaction.reaction_type = reaction_type
                     reaction.save()
 
-            # شمارش مجدد لایک و دیسلایک
             comment.like_count = comment.reactions.filter(reaction_type='like').count()
             comment.dislike_count = comment.reactions.filter(reaction_type='dislike').count()
             comment.save(update_fields=['like_count', 'dislike_count'])
