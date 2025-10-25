@@ -1,6 +1,6 @@
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
@@ -34,7 +34,7 @@ class Report(models.Model):
 
 class ReportLike(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='likes_rel')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='report_likes')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='report_likes')
 
     class Meta:
         unique_together = ('report', 'user')
@@ -47,8 +47,7 @@ class ReportLike(models.Model):
 
 class ReportImage(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='images')
-    image = ResizedImageField(upload_to='reports/%Y/%m/%d/', size=(1920, 1080),
-                              quality=100, crop=['middle', 'center'], verbose_name='تصویر')
+    image = ResizedImageField(upload_to='reports/%Y/%m/%d/', quality=100, verbose_name='تصویر')
 
     class Meta:
         verbose_name = 'تصویر گزارشات'

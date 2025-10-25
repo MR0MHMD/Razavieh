@@ -1,14 +1,16 @@
 from django import forms
-from django.contrib.auth.models import User
+from .models import *
 
 
-class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(max_length=20, required=True, label='', widget=forms.PasswordInput(attrs={}))
-    password2 = forms.CharField(max_length=20, required=True, label='', widget=forms.PasswordInput(attrs={}))
+class CustomUserRegisterForm(forms.ModelForm):
+    password = forms.CharField(max_length=20, required=True, label='', widget=forms.PasswordInput(attrs={
+    }))
+    password2 = forms.CharField(max_length=20, required=True, label='', widget=forms.PasswordInput(attrs={
+    }))
 
     class Meta:
-        model = User
-        fields = ('username', "first_name", "last_name", 'email')
+        model = CustomUser
+        fields = ('username', "first_name", "last_name", 'bio', 'date_of_birth', 'photo')
 
     def clean_password2(self):
         cd = self.cleaned_data

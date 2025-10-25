@@ -1,7 +1,6 @@
-from django import template
 from report.models import Comment, Report
 from django.db import models
-
+from django import template
 
 register = template.Library()
 
@@ -22,14 +21,18 @@ def latest_comments(context, count=3):
 
 @register.inclusion_tag('main/partials/popular_reports.html')
 def top_liked_reports(count=3):
-    """برگرداندن چند گزارش با بیشترین لایک"""
     reports = Report.objects.order_by('-likes', '-created')[:count]
     return {'reports': reports}
 
 
 @register.inclusion_tag('main/partials/top_commented_reports.html')
 def top_commented_reports(count=3):
-    """نمایش چند گزارش با بیشترین کامنت"""
-    from report.models import Report  # تا خطاهای import حلقه‌ای پیش نیاد
-    reports = Report.objects.annotate(comment_count=models.Count('comments')).order_by('-comment_count', '-created')[:count]
+    reports = Report.objects.annotate(comment_count=models.Count('comments')).order_by('-comment_count', '-created')[
+              :count]
+    return {'reports': reports}
+
+
+@register.inclusion_tag('main/partials/last_reports.html')
+def last_reports(count=3):
+    reports = Report.objects.order_by('-date')[:count]
     return {'reports': reports}

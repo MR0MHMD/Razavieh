@@ -4,7 +4,7 @@
 {% block body %}
     <h1>ثبت نام</h1>
     <p>لطفا اطلاعات خود را وارد کنید</p>
-    <form class="form" method="post">
+    <form class="form" method="post" enctype="multipart/form-data">
         <fieldset class="fieldset">
             <legend>ثبت نام</legend>
             {% csrf_token %}

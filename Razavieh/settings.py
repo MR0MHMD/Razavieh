@@ -101,3 +101,5 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 180
 SESSION_SAVE_EVERY_REQUEST = True
 
 LOGIN_REDIRECT_URL = '/report/report_list'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
