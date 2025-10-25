@@ -291,3 +291,39 @@ body {
     transform: scale(1);
   }
 }
+
+.report-tags {
+    margin-top: 1.5rem;
+    background: #f9f9f9;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.report-tags h4 {
+    margin-bottom: 0.8rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-item {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.tag-item:hover {
+    background: #bae6fd;
+    transform: translateY(-2px);
+}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from taggit.models import Tag
 from .forms import *
 import json
 
@@ -204,3 +205,9 @@ def react_comment(request):
             return JsonResponse({'success': False, 'error': 'Comment not found'})
 
     return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+
+def report_by_tag(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    reports = Report.objects.filter(tags__in=[tag])
+    return render(request, 'report/report/report_by_tag.html', {'tag': tag, 'reports': reports})

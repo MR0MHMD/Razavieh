@@ -1,5 +1,6 @@
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
+from taggit.managers import TaggableManager
 from accounts.models import CustomUser
 from django.utils.text import slugify
 from django.urls import reverse
@@ -14,6 +15,7 @@ class Report(models.Model):
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
     views = models.PositiveIntegerField(default=0, verbose_name='تعداد بازدید')
+    tags = TaggableManager(verbose_name="برچسب‌ها", help_text="برچسب‌ها را با کاما جدا کنید")
 
     class Meta:
         ordering = ['-date']

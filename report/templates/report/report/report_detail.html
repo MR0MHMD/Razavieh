@@ -57,6 +57,18 @@
     <article class="report-content card">
         {{ report.description|linebreaks }}
     </article>
+    {% if report.tags.all %}
+        <div class="report-tags">
+            <h4>برچسب‌ها:</h4>
+            <ul class="tag-list">
+                {% for tag in report.tags.all %}
+                    <li>
+                        <a href="{% url 'report:report_by_tag' tag.slug %}" class="tag-item">#{{ tag.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     <section class="comments-section">
         <h2>نظرات</h2>

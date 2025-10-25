@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     "main.apps.MainConfig",
     'jalali_date',
+    "taggit",
 ]
 
 MIDDLEWARE = [

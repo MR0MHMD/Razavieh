@@ -1,11 +1,40 @@
 from django import forms
 from .models import *
 
+# forms.py
+from django import forms
+from .models import Report
+
 
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
-        fields = ['title', 'description', 'date']
+        fields = ['title', 'description', 'date', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'عنوان گزارش را وارد کنید'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'توضیحات گزارش را بنویسید'
+            }),
+            'date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+            'tags': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'تگ‌ها را با کاما جدا کنید'
+            }),
+        }
+        labels = {
+            'title': 'عنوان گزارش',
+            'description': 'توضیحات',
+            'date': 'تاریخ مراسم',
+            'tags': 'تگ‌ها',
+        }
 
 
 class ReportImageForm(forms.ModelForm):

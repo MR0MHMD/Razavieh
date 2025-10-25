@@ -11,4 +11,6 @@ urlpatterns = [
     path('repoers/<str:slug>/comment_list/', views.report_comment_list, name='report_comment_list'),
     path('like/<int:report_id>/', views.like_report, name='like_report'),
     path('react-comment/', views.react_comment, name='react_comment'),
+    path(r'^tag/(?P<slug>[-\w\u0600-\u06FF]+)/$', views.report_by_tag, name='report_by_tag'),
+    path('<slug:slug>/', views.report_detail, name='report_detail'),
 ]
