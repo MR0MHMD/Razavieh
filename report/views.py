@@ -231,7 +231,7 @@ def report_search(request):
                     TrigramSimilarity('description', query),
                 )
             )
-            .filter(similarity__gt=0.1)
+            .filter(similarity__gt=0.0)
             .order_by('-similarity')
             .distinct()
         )
