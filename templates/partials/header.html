@@ -28,7 +28,21 @@
       <a href="{% url 'report:report_list' %}">گزارش‌ها</a>
       <a href="#">درباره ما</a>
       <a href="#">تماس با ما</a>
-      <a href="#">رویدادها</a>
+      <div class="categories-dropdown">
+          <button class="dropdown-btn">
+              دسته‌بندی‌ها
+              <span class="arrow">▼</span>
+          </button>
+          <div class="dropdown-content">
+              <a href="{% url 'report:report_list_category' 'عزاداری' %}">عزاداری</a>
+              <a href="{% url 'report:report_list_category' 'جشن' %}">جشن</a>
+              <a href="{% url 'report:report_list_category' 'موکب' %}">موکب</a>
+              <a href="{% url 'report:report_list_category' 'مناسبت های مذهبی' %}">مناسبت های مذهبی</a>
+              <a href="{% url 'report:report_list_category' 'مناسبت های ملی' %}">مناسبت های ملی</a>
+              <a href="{% url 'report:report_list_category' 'جشن خیابانی' %}">جشن خیابانی</a>
+              <a href="{% url 'report:report_list_category' 'هیئت' %}">هیئت</a>
+          </div>
+      </div>
     </nav>
 
     <!-- دکمه ورود / حساب کاربری -->

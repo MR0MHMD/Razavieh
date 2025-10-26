@@ -7,6 +7,27 @@ from django.urls import reverse
 from django.db import models
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, verbose_name='نام دسته')
+    slug = models.SlugField(max_length=120, unique=True, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'دسته'
+        verbose_name_plural = 'دسته‌ها'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('report:report_by_category', args=[self.slug])
+
+
 class Report(models.Model):
     title = models.CharField(max_length=200, verbose_name='عنوان مراسم')
     description = models.TextField(verbose_name='توضیحات')
@@ -16,6 +37,7 @@ class Report(models.Model):
     likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
     views = models.PositiveIntegerField(default=0, verbose_name='تعداد بازدید')
     tags = TaggableManager(verbose_name="برچسب‌ها", help_text="برچسب‌ها را با کاما جدا کنید")
+    categories = models.ManyToManyField(Category, related_name='reports', blank=True, verbose_name='دسته‌ها')
 
     class Meta:
         ordering = ['-date']
@@ -74,7 +96,6 @@ class Comment(models.Model):
         verbose_name_plural = "نظرات"
 
     def __str__(self):
-        # نمایش راحت در admin
         return f"{self.name.get_full_name() or self.name.username} : {self.report}"
 
 

@@ -31,9 +31,13 @@ def create_report(request):
     return render(request, 'report/forms/create_report.html', context)
 
 
-def report_list(request):
-    reports = Report.objects.all()
-
+def report_list(request, category=None, tag=None):
+    if category is not None:
+        reports = Report.objects.filter(categories__name=category)
+    elif tag is not None:
+        reports = Report.objects.filter(tags__slug=tag)
+    else:
+        reports = Report.objects.all()
     liked_reports = []
     if request.user.is_authenticated:
         liked_reports = ReportLike.objects.filter(
@@ -45,7 +49,9 @@ def report_list(request):
     context = {
         'reports': reports,
         'liked_reports': liked_reports,
-        'active_comments_count': active_comments_count
+        'active_comments_count': active_comments_count,
+        'category': category,
+        'tag': tag,
     }
     return render(request, 'report/report/report_list.html', context)
 

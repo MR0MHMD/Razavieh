@@ -39,16 +39,21 @@ class ReportLikeAdmin(admin.ModelAdmin):
     search_fields = ('report__title', 'user__username')
 
 
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ('name',)
+
+
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'likes', 'views')
+    list_display = ('title', 'date', 'views', 'likes')
     search_fields = ('title', 'description')
-    list_filter = ('date',)
-    ordering = ('-date',)
-    filter_horizontal = ()  # برای رابط ساده‌تر
-
-    # اضافه کردن تگ‌ها به فرم ادمین
+    list_filter = ('date', 'categories')
+    prepopulated_fields = {'slug': ('title',)}
+    filter_horizontal = ('categories',)
     fieldsets = (
         ('اطلاعات کلی', {'fields': ('title', 'slug', 'description', 'date')}),
-        ('تگ‌ها و آمار', {'fields': ('tags', 'likes', 'views')}),
+        ('تگ‌ها و آمار', {'fields': ('tags', 'likes', 'views', 'categories')}),
     )
