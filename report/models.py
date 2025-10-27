@@ -71,7 +71,9 @@ class ReportLike(models.Model):
 
 class ReportImage(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='images')
-    image = ResizedImageField(upload_to='reports/%Y/%m/%d/', quality=100, verbose_name='تصویر')
+    image = ResizedImageField(upload_to='reports/%Y/%m/%d/',
+                              quality=85, verbose_name='تصویر',
+                              size=[800, 600], keep_meta=False)
 
     class Meta:
         verbose_name = 'تصویر گزارشات'

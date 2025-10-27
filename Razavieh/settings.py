@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "main.apps.MainConfig",
     'jalali_date',
     "taggit",
+    "inventory.apps.InventoryConfig"
 ]
 
 MIDDLEWARE = [
