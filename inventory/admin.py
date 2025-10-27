@@ -1,3 +1,21 @@
 from django.contrib import admin
+from inventory.models import *
 
-# Register your models here.
+
+@admin.register(Scrotter)
+class ScrotterAdmin(admin.ModelAdmin):
+    list_display = ('text', 'category', 'quantity', 'width')
+    list_filter = ('category', 'width')
+    search_fields = ('text', 'category')
+
+
+@admin.register(LED)
+class LEDAdmin(admin.ModelAdmin):
+    list_display = ('color', 'quantity',)
+    list_filter = ('quantity', 'color')
+
+
+@admin.register(Decorative)
+class DecorativeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'quantity')
+    search_fields = ('name', 'description')
