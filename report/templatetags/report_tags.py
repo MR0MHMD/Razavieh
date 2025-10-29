@@ -1,3 +1,5 @@
+from django.db.models import Q, Count
+
 from report.models import Comment, Report, CommentReaction
 from django.db import models
 from django import template
@@ -45,8 +47,8 @@ def top_liked_reports(count=3):
 
 @register.inclusion_tag('main/partials/top_commented_reports.html')
 def top_commented_reports(count=3):
-    reports = Report.objects.annotate(comment_count=models.Count('comments')).order_by('-comment_count', '-created')[
-              :count]
+    reports = Report.objects.all().annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-comments_count', '-date')[:count]
     return {'reports': reports}
 
 

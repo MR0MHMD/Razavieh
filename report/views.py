@@ -1,5 +1,6 @@
 from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Greatest
@@ -34,12 +35,16 @@ def create_report(request):
 
 def report_list(request, category=None, tag=None):
     if category is not None:
-        reports = Report.objects.filter(categories__name=category)
+        reports = Report.objects.filter(categories__name=category).annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
     elif tag is not None:
-        reports = Report.objects.filter(tags__slug=tag)
+        reports = Report.objects.filter(tags__slug=tag).annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
     else:
-        reports = Report.objects.all()
+        reports = Report.objects.all().annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
     liked_reports = []
+
     if request.user.is_authenticated:
         liked_reports = ReportLike.objects.filter(
             user=request.user
@@ -54,12 +59,9 @@ def report_list(request, category=None, tag=None):
     except PageNotAnInteger:
         reports = paginator.page(1)
 
-    active_comments_count = Comment.objects.filter(active=True).count()
-
     context = {
         'reports': reports,
         'liked_reports': liked_reports,
-        'active_comments_count': active_comments_count,
         'category': category,
         'tag': tag,
     }

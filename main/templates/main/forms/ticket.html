@@ -1,0 +1,15 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block title %}ticket form{% endblock %}
+{% block extra_css %}
+{% endblock %}
+{% block body %}
+    <div class="form-container">
+        <h2>ارسال تیکت</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="ارسال">
+        </form>
+    </div> 
+{% endblock %}

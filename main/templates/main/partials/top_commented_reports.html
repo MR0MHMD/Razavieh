@@ -13,7 +13,7 @@
         {% if report.images.first %}
           <img src="{{ report.images.first.image.url }}" alt="{{ report.title }}">
         {% else %}
-          <img src="{% static 'report/img/no-image.svg' %}" alt="بدون تصویر">
+          <img src="#" alt="بدون تصویر">
         {% endif %}
       </div>
 
@@ -28,7 +28,7 @@
         <div class="report-meta">
           <div class="meta-item comment">
             <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
-            <span class="count">{{ report.comments.count }}</span>
+            <span class="count">{{ report.comments_count }}</span>
           </div>
 
           <div class="meta-item">
