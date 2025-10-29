@@ -1,77 +1,117 @@
 .comments-page {
-    padding: 2rem 0;
+  padding: 2rem 0;
 }
 
 .comments-title {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
 .comment-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: .5rem;
+.comment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
+/* بخش کاربر */
+.comment-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.comment-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.comment-info strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* بدنه‌ی کامنت */
 .comment-body {
-    margin-bottom: 0.8rem;
-    line-height: 1.7;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0.6rem 0 0.8rem;
 }
 
+/* واکنش‌ها */
 .comment-actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .reaction-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: .4rem;
-    transition: 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: transform var(--transition), filter var(--transition);
 }
 
-.reaction-btn:hover img {
-    transform: scale(1.1);
+.reaction-btn:hover {
+  transform: translateY(-2px);
 }
 
 .reaction-btn img {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .like-count,
 .dislike-count {
-    font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
+.reaction-btn.selected img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+/* بازگشت */
 .back-btn-container {
-    text-align: center;
-    margin-top: 2rem;
+  margin-top: 2rem;
+  text-align: center;
 }
 
-.btn-secondary {
-    background: #eee;
-    border-radius: 8px;
-    padding: .6rem 1.2rem;
-    text-decoration: none;
-    color: #333;
-    transition: 0.3s;
-}
-
-.btn-secondary:hover {
-    background: #ddd;
+.no-comments {
+  text-align: center;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2rem;
 }

@@ -76,6 +76,8 @@
     <p class="no-report">هنوز گزارشی ثبت نشده است 😔</p>
     {% endif %}
 </div>
+        {% include 'partials/pagination.html' with page=reports %}
+
 {% endblock %}
 
 {% block scripts %}

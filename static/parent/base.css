@@ -1,29 +1,24 @@
 /* =============================
-   base.css — مسجد رضویه (اصلاح‌شده)
-   - دارای متغیرهای تم (light/dark)
-   - دکمه‌ها با کنتراست درست در hover
-   - پشتیبانی RTL و transitions
-   ============================= */
+   base.css — نسخه نهایی و اصلاح‌شده
+   با سایه سبز طبیعی و پشتیبانی کامل مرورگرها
+============================= */
 
 /* ====== متغیرها ====== */
 :root{
-  /* پایه */
   --bg: #f7fafc;
   --card-bg: #ffffff;
   --text: #0f172a;
   --muted: #6b7280;
-  --border: #ffffff;
+  --border: #e2e8f0;
 
-  /* تاکیدی (accent) */
-  --accent: #2c6e49;           /* رنگ اصلی دکمه‌ها */
-  --accent-hover: #255b3f;     /* رنگ هاور دکمه */
-  --accent-foreground: #ffffff;/* متن روی دکمه تاکیدی */
-
-  /* ثروت/زینگ (gold) */
+  --accent: #2c6e49;           /* سبز تاکیدی */
+  --accent-hover: #255b3f;
+  --accent-foreground: #ffffff;
   --gold: #d4af37;
 
-  --radius: 12px;
-  --shadow: 0 6px 20px rgba(15,23,42,0.08);
+  --radius: 20px;
+  --shadow: 0 4px 12px rgba(44, 110, 73, 0.38);
+  --hover-shadow: 0 10px 26px rgba(9, 139, 66, 0.86);
   --transition: 220ms ease;
   --blur: 12px;
 }
@@ -34,18 +29,17 @@
   --card-bg: rgba(26,30,36,0.7);
   --text: #e6eef8;
   --muted: #bfc9d6;
-  --border: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.08);
 
   --accent: #00bfa5;
   --accent-hover: #00a68f;
   --accent-foreground: #021212;
-
   --gold: #f3c96a;
 
   --shadow: 0 6px 30px rgba(0,0,0,0.6);
 }
 
-/* ====== جهانی ====== */
+/* ====== عمومی ====== */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -53,14 +47,12 @@ body{
   font-family: "Vazirmatn", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background:var(--bg);
   color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   line-height:1.6;
+  direction: rtl;
   transition: background var(--transition), color var(--transition);
-  direction: rtl; /* RTL پیش‌فرض */
 }
 
-/* ====== کانتینر استاندارد ====== */
+/* ====== کانتینر ====== */
 .container{
   width:min(1200px, 92%);
   margin:0 auto;
@@ -82,18 +74,20 @@ a:hover{
   background:var(--card-bg);
   border:1px solid var(--border);
   border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  box-shadow:0 4px 16px rgba(44,110,73,0.12);
   padding:1rem;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(44,110,73,0.25);
 }
 
-/* ====== تایپوگرافی اصلی ====== */
+/* ====== تایپوگرافی ====== */
 h1,h2,h3,h4{margin:0 0 .6rem;color:var(--accent)}
 p{margin:0 0 1rem;color:var(--text)}
 
-/* ====== دکمه‌ها — استاندارد و دسترسی محور ====== */
-
-/* پایه دکمه */
+/* ====== دکمه‌ها ====== */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -105,59 +99,49 @@ p{margin:0 0 1rem;color:var(--text)}
   cursor:pointer;
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
   border:1px solid transparent;
-  text-decoration:none;
   user-select:none;
 }
 
-/* دکمه تاکیدی — پر */
+.like-btn{
+  border: none;
+}
+
+/* پر (primary) */
 .btn-primary{
   background:var(--accent);
   color:var(--accent-foreground);
-  border-color:transparent;
-  box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow:0 6px 14px rgba(44,110,73,0.22);
 }
-.btn-primary:hover,
-.btn-primary:focus{
+.btn-primary:hover{
   background:var(--accent-hover);
-  color:var(--accent-foreground);
-  transform: translateY(-2px);
-  outline: none;
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--accent-hover) 18%, transparent);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(44,110,73,0.35);
 }
 
-/* دکمه لینک-استایل (transparent but with border) */
+/* شفاف با بوردر (outline) */
 .btn-outline{
   background: transparent;
   color: var(--accent);
   border: 1px solid var(--accent);
+  box-shadow: none;
 }
 .btn-outline:hover{
   background: var(--accent);
   color: var(--accent-foreground);
-  border-color: var(--accent-hover);
+  box-shadow: 0 6px 14px rgba(44,110,73,0.3);
 }
 
-/* دکمه ثانویه (نیمه تکیه‌گاهی) */
+/* ثانویه */
 .btn-secondary{
   background: transparent;
   color: var(--text);
   border:1px solid var(--border);
 }
 .btn-secondary:hover{
-  background: rgba(0,0,0,0.04);
-  color: var(--text);
+  background: rgba(0,0,0,0.05);
 }
 
-/* دکمه غیرفعال */
-.btn[disabled],
-.btn.disabled{
-  opacity:.5;
-  cursor:not-allowed;
-  transform:none;
-  box-shadow:none;
-}
-
-/* ====== فرم‌ها و ورودی‌ها ====== */
+/* ====== ورودی‌ها ====== */
 input, textarea, select{
   width:100%;
   padding:.6rem .8rem;
@@ -165,20 +149,15 @@ input, textarea, select{
   border:1px solid var(--border);
   background:var(--card-bg);
   color:var(--text);
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition:border-color var(--transition), box-shadow var(--transition);
 }
 input:focus, textarea:focus, select:focus{
   outline:none;
   border-color:var(--accent);
-  box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow:0 0 0 4px rgba(44,110,73,0.15);
 }
 
-/* خطوط نازک برای ورودی‌ها (طبق خواسته) */
-.input-outline{
-  border:1px solid var(--border);
-}
-
-/* ====== دکمه آیکون (مثلاً قلب) ====== */
+/* ====== دکمه آیکون ====== */
 .icon-btn{
   display:inline-flex;
   align-items:center;
@@ -188,31 +167,32 @@ input:focus, textarea:focus, select:focus{
   border-radius:10px;
   background:transparent;
   border:1px solid var(--border);
-  transition:transform var(--transition), background var(--transition), border-color var(--transition), filter var(--transition);
+  transition:transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 .icon-btn img, .icon-btn svg{
   width:20px;
   height:20px;
-  display:block;
-  filter: grayscale(1) opacity(.75);
+  filter:grayscale(1) opacity(.75);
   transition:filter var(--transition), transform var(--transition);
 }
 .icon-btn:hover{
-  transform: translateY(-3px);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  transform:translateY(-3px);
+  border-color:var(--accent);
+  background:rgba(44,110,73,0.08);
+  box-shadow:0 4px 10px rgba(44,110,73,0.25);
 }
 .icon-btn.active{
-  background: var(--accent);
-  border-color: var(--accent);
+  background:var(--accent);
+  border-color:var(--accent);
+  box-shadow:0 6px 16px rgba(44,110,73,0.35);
 }
 .icon-btn.active img, .icon-btn.active svg{
-  filter: none;
-  transform: scale(1.06);
-  color: var(--accent-foreground);
+  filter:none;
+  transform:scale(1.06);
+  color:var(--accent-foreground);
 }
 
-/* ====== ناوبری/هدر ====== */
+/* ====== هدر ====== */
 .site-header{
   background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
   backdrop-filter: blur(var(--blur));
@@ -223,7 +203,7 @@ input:focus, textarea:focus, select:focus{
   border-bottom:1px solid var(--border);
 }
 
-/* ====== پایا (Footer) ====== */
+/* ====== فوتر ====== */
 .main-footer{
   background:var(--card-bg);
   color:var(--text);
@@ -231,11 +211,10 @@ input:focus, textarea:focus, select:focus{
   padding:2.5rem 0 1rem;
 }
 
-ul, li{
-  list-style: none;
-}
+/* ====== Reset ====== */
+ul, li{list-style:none;margin:0;padding:0}
 
-/* ====== rwd ====== */
+/* ====== واکنش‌گرا ====== */
 @media (max-width:768px){
   .container{width:95%}
   .btn{padding:.5rem .8rem}

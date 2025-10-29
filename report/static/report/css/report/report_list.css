@@ -1,9 +1,9 @@
 /* ==============================
-   📁 report_list.css
-   تمیز، سبک، واکنش‌گرا
+   📁 report_list.css (Optimized)
+   هماهنگ با base.css
+   دارای سایه سبز واقعی و هاور نرم
 ============================== */
 
-/* ========== Layout ========== */
 .reports-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,49 +13,52 @@
 h1 {
   text-align: center;
   font-size: 1.9rem;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
+  color: var(--accent);
+
 }
 
-/* ========== Grid ========== */
+/* 🔹 شبکه کارت‌ها */
 .reports-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
-  justify-content: center; /* آیتم‌ها وسط می‌مانند */
-  justify-items: center;   /* اگر فقط یکی باشه، وسط صفحه میاد */
+  justify-items: center;
 }
 
-/* ========== Report Card ========== */
+/* 🔹 کارت گزارش */
 .report-card {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  backdrop-filter: blur(var(--blur));
-  max-width: 350px; /* 👈 کارت‌ها اندازه‌ی ثابت دارند */
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+  max-width: 350px;
   width: 100%;
 }
 
 .report-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: var(--hover-shadow);
+  background: color-mix(in srgb, var(--accent) 4%, var(--card-bg));
 }
 
-/* ========== Image ========== */
+/* 🔸 تصویر */
 .report-card img {
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.report-card img:hover {
-  transform: scale(1.04);
+.report-card:hover img {
+  transform: scale(1.03);
 }
 
-/* ========== Body ========== */
+/* 🔸 بدنه کارت */
 .report-body {
   padding: 1rem 1.2rem;
 }
@@ -63,22 +66,20 @@ h1 {
 .report-title {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  color: var(--text);
 }
 
 .report-description {
   font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--muted);
   line-height: 1.6;
 }
 
-[data-theme="dark"] .report-description {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* ========== Footer & Stats ========== */
+/* 🔸 فوتر و اطلاعات */
 .report-footer {
   margin-top: auto;
+  border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
 }
@@ -87,7 +88,7 @@ h1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0.7rem;
+  padding: 0.8rem;
   font-size: 0.85rem;
 }
 
@@ -96,122 +97,102 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 0.3rem;
+  color: var(--muted);
 }
 
 .meta-item .icon {
   width: 20px;
   height: 20px;
-  transition: transform 0.2s ease;
+  opacity: 0.8;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .meta-item:hover .icon {
   transform: scale(1.15);
+  filter: brightness(1.3);
 }
 
-/* ========== Like Button ========== */
+/* 🔸 دکمه لایک */
 .like-btn {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  transition: transform 0.2s ease;
-}
-
-.like-btn:hover {
-  background-color: transparent;
-  border: none;
 }
 
 .like-btn img {
   width: 22px;
   height: 22px;
-  transition: filter 0.3s ease, transform 0.2s ease;
-}
-
-.like-btn.liked img {
-  filter: none;
+  transition: filter 0.25s ease, transform 0.2s ease;
 }
 
 .like-btn:hover img {
   transform: scale(1.15);
 }
 
+.like-btn.liked img {
+  filter: none;
+  transform: scale(1.05);
+}
+
 .like-count {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #e63946;
+  color: var(--accent);
 }
 
-/* ========== View Button ========== */
-.view-btn {
-  width: 100%;
-  border: none;
-  border-top: 1px solid var(--color-border);
-  background: var(--color-accent);
-  color: var(--color-bg);
-  padding: 0.9rem;
+/* 🔸 دکمه مشاهده */
+.full-width-btn {
+  display: block;
   text-align: center;
+  width: 75%;
+  margin: 10px auto 1rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.7rem 0;
+  border-radius: var(--radius);
+  background: transparent;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    text-shadow var(--transition),
+    box-shadow var(--transition);
 }
 
-.view-btn:hover {
-  background: var(--color-gold);
-  transform: scale(1.02);
+.full-width-btn:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-2px);
+  text-decoration: none;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 18px rgba(255, 255, 255, 0.5);
 }
 
-/* ========== Empty State ========== */
+/* 🔸 حالت بدون گزارش */
 .no-report {
   text-align: center;
   padding: 2rem;
   font-style: italic;
-  opacity: 0.6;
+  color: var(--muted);
 }
 
-.btn {
-  text-align: center;
-  margin: 20px;
-}
-
-/* ========== Responsive ========== */
+/* 🔸 واکنش‌گرا */
 @media (max-width: 768px) {
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
-
-  .report-card img {
-    aspect-ratio: 16/10;
+  .report-card {
+    max-width: 100%;
   }
-
   .report-meta {
     flex-wrap: wrap;
     gap: 0.6rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .reports-container {
-    padding: 1rem;
-  }
-
-  .report-body {
-    padding: 0.8rem;
-  }
-
-  .report-title {
-    font-size: 1rem;
-  }
-
-  .report-description {
-    font-size: 0.85rem;
-  }
-
-  .report-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
   }
 }

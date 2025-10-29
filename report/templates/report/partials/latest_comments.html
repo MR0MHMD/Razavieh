@@ -1,52 +1,63 @@
+{% load static %}
 {% load jformat %}
 
 {% if latest_comments %}
-    <div class="comments-list">
-        {% for comment in latest_comments %}
-            <div class="comment-card">
-                <div class="comment-header">
-                    <strong>
-                        {% if comment.name.get_full_name %}
-                            {{ comment.name.get_full_name }}
-                        {% else %}
-                            {{ comment.name.username }}
-                        {% endif %}
-                    </strong>
-                    <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
-                </div>
+<div class="comments-list">
+    {% for comment in latest_comments %}
+        <div class="comment-card">
+            <div class="comment-header">
+                <div class="comment-user">
+                    {% if comment.name.photo %}
+                        <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}" class="comment-avatar">
+                    {% else %}
+                        <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
+                    {% endif %}
 
-                <p class="comment-body">{{ comment.body }}</p>
-
-                <div class="comment-actions">
-                    <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="like">
-                        <img 
-                            src="{% if comment.user_reaction == 'like' %}
-                                    /static/report/icons/selected_like.svg
-                                 {% else %}
-                                    /static/report/icons/like.svg
-                                 {% endif %}" 
-                            alt="Like"
-                            width="20"
-                        >
-                        <span class="like-count">{{ comment.like_count }}</span>
-                    </button>
-
-                    <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="dislike">
-                        <img 
-                            src="{% if comment.user_reaction == 'dislike' %}
-                                    /static/report/icons/selected_dislike.svg
-                                 {% else %}
-                                    /static/report/icons/dislike.svg
-                                 {% endif %}" 
-                            alt="Dislike"
-                            width="20"
-                        >
-                        <span class="dislike-count">{{ comment.dislike_count }}</span>
-                    </button>
+                    <div class="comment-info">
+                        <strong>
+                            {% if comment.name.get_full_name %}
+                                {{ comment.name.get_full_name }}
+                            {% else %}
+                                {{ comment.name.username }}
+                            {% endif %}
+                        </strong>
+                        <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+
+            <p class="comment-body">{{ comment.body }}</p>
+
+            <div class="comment-actions">
+                <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="like">
+                    <img 
+                        src="{% if comment.user_reaction == 'like' %}
+                                /static/report/icons/selected_like.svg
+                             {% else %}
+                                /static/report/icons/like.svg
+                             {% endif %}" 
+                        alt="Like"
+                        width="20"
+                    >
+                    <span class="like-count">{{ comment.like_count }}</span>
+                </button>
+
+                <button class="reaction-btn" data-id="{{ comment.id }}" data-reaction="dislike">
+                    <img 
+                        src="{% if comment.user_reaction == 'dislike' %}
+                                /static/report/icons/selected_dislike.svg
+                             {% else %}
+                                /static/report/icons/dislike.svg
+                             {% endif %}" 
+                        alt="Dislike"
+                        width="20"
+                    >
+                    <span class="dislike-count">{{ comment.dislike_count }}</span>
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% else %}
     <p class="no-comments">هنوز نظری ثبت نشده است.</p>
 {% endif %}

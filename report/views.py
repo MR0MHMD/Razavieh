@@ -1,4 +1,5 @@
 from django.contrib.postgres.search import TrigramSimilarity
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Greatest
@@ -44,6 +45,15 @@ def report_list(request, category=None, tag=None):
             user=request.user
         ).values_list('report_id', flat=True)
 
+    paginator = Paginator(reports, 9)
+    page_number = request.GET.get('page', 1)
+    try:
+        reports = paginator.page(page_number)
+    except EmptyPage:
+        reports = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        reports = paginator.page(1)
+
     active_comments_count = Comment.objects.filter(active=True).count()
 
     context = {
@@ -72,7 +82,7 @@ def report_detail(request, slug):
         liked = ReportLike.objects.filter(report=report, user=request.user).exists()
 
     likes_count = ReportLike.objects.filter(report=report).count()
-    active_comments_count = Comment.objects.filter(active=True).count()
+    active_comments_count = Comment.objects.filter(active=True, report=report).count()
 
     comments = report.comments.select_related('name').order_by('-created')
 
@@ -237,7 +247,7 @@ def report_search(request):
                     TrigramSimilarity('description', query),
                 )
             )
-            .filter(similarity__gt=0.0)
+            .filter(similarity__gt=0.05)
             .order_by('-similarity')
             .distinct()
         )
