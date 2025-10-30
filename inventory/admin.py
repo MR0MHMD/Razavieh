@@ -9,12 +9,6 @@ class ScrotterAdmin(admin.ModelAdmin):
     search_fields = ('text', 'category')
 
 
-@admin.register(LED)
-class LEDAdmin(admin.ModelAdmin):
-    list_display = ('color', 'quantity',)
-    list_filter = ('quantity', 'color')
-
-
 @admin.register(Decorative)
 class DecorativeAdmin(admin.ModelAdmin):
     list_display = ('name', 'quantity')

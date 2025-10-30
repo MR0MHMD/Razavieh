@@ -9,7 +9,7 @@
   --card-bg: #ffffff;
   --text: #0f172a;
   --muted: #6b7280;
-  --border: #e2e8f0;
+  --border: rgba(64, 78, 87, 0.56);
 
   --accent: #2c6e49;           /* سبز تاکیدی */
   --accent-hover: #255b3f;
@@ -29,7 +29,7 @@
   --card-bg: rgba(26,30,36,0.7);
   --text: #e6eef8;
   --muted: #bfc9d6;
-  --border: rgba(255,255,255,0.08);
+  --border: rgba(255, 255, 255, 0.07);
 
   --accent: #00bfa5;
   --accent-hover: #00a68f;

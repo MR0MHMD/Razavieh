@@ -1,5 +1,5 @@
 /* ===== post_list.css ===== */
-@import url('/static/parent/base.css');
+@import url('/static/css/parent/base.css');
 
 .posts-container {
   max-width: 1200px;

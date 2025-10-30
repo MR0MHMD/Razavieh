@@ -1,35 +1,40 @@
+from jalali_date.widgets import AdminJalaliDateWidget
+from jalali_date.fields import JalaliDateField
 from django import forms
 from .models import *
 
 
 class ReportForm(forms.ModelForm):
+    date = JalaliDateField(
+        label='تاریخ مراسم',
+        widget=AdminJalaliDateWidget,
+        required=False
+    )
+
     class Meta:
         model = Report
-        fields = ['title', 'description', 'date', 'tags', 'categories']
+        fields = ['title', 'description', 'date', 'categories', 'tags']
         widgets = {
             'title': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'input-outline',
                 'placeholder': 'عنوان گزارش را وارد کنید'
             }),
             'description': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 5,
-                'placeholder': 'توضیحات گزارش را بنویسید'
+                'class': 'input-outline',
+                'placeholder': 'توضیحات گزارش...'
             }),
-            'date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'type': 'date'
+            'date': forms.TextInput(attrs={
+                'class': 'jalali-date input-outline',
+                'placeholder': 'تاریخ گزارش را انتخاب کنید'
             }),
+            'category': forms.Select(attrs={'class': 'input-outline'}),
             'tags': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'تگ‌ها را با کاما جدا کنید'
+                'class': 'input-outline',
+                'placeholder': 'برچسب‌ها (جداشده با کاما)'
             }),
         }
-        labels = {
-            'title': 'عنوان گزارش',
-            'description': 'توضیحات',
-            'date': 'تاریخ مراسم',
-            'tags': 'تگ‌ها',
+        help_texts = {
+            "tags": ""
         }
 
 

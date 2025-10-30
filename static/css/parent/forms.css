@@ -1,0 +1,168 @@
+/* =====================================
+   🎨 forms.css – فرم ایجاد گزارش جدید
+   هماهنگ با base.css پروژه مسجد رضویه
+===================================== */
+
+:root {
+  --accent: #2c6e49;
+  --accent-hover: #255b3f;
+  --border: rgba(0, 0, 0, 0.08);
+  --bg: #f9fafb;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --radius: 16px;
+  --transition: 0.25s ease;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* فرم کلی */
+.form-container {
+  max-width: 650px;
+  margin: 3rem auto;
+  background: var(--card-bg);
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.form-container:hover {
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 20%, transparent);
+  transform: translateY(-3px);
+}
+
+/* عنوان فرم */
+.form-title {
+  text-align: center;
+  font-size: 1.7rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* فیلدهای داخل form.as_div */
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.4rem;
+}
+
+form div label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+/* فیلدهای متنی، عددی و انتخابی */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="date"],
+form textarea,
+form select {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: "Vazirmatn", sans-serif;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* textarea */
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* فیلد آپلود فایل */
+input[type="file"] {
+  width: 100%;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 4%, #fff);
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+input[type="file"]:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, #fff);
+  color: var(--accent);
+}
+
+/* توضیحات راهنما */
+.helptext,
+form small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* پیام خطا */
+.errorlist {
+  margin: 0.3rem 0 0;
+  list-style: none;
+  color: #d32f2f;
+  font-size: 0.85rem;
+}
+
+/* بخش دکمه ارسال */
+.form-actions {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.8rem;
+}
+
+/* دکمه اصلی */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* ✨ افکت نئونی ملایم */
+}
+
+/* ریسپانسیو */
+@media (max-width: 480px) {
+  .form-container {
+    width: 92%;
+    padding: 1.8rem;
+  }
+  .form-title {
+    font-size: 1.4rem;
+  }
+}

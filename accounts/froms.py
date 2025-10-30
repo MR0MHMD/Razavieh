@@ -30,6 +30,16 @@ class CustomUserRegisterForm(forms.ModelForm):
             'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
         }
 
+        labels = {
+            'first_name': 'نام',
+            'last_name': 'نام خانوادگی',
+            'username': 'نام کاربری'
+        }
+
+        help_texts = {
+            'username': None,
+        }
+
     def clean_password2(self):
         cd = self.cleaned_data
         if cd.get('password') != cd.get('password2'):
@@ -53,4 +63,14 @@ class UserEditForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'ایمیل'}),
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'درباره خودتان بنویسید...'}),
             'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
+        }
+
+        labels = {
+            'first_name': 'نام',
+            'last_name': 'نام خانوادگی',
+            'username': 'نام کاربری'
+        }
+
+        help_texts = {
+            'username': None,
         }

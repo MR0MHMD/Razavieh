@@ -314,3 +314,158 @@
     color: var(--accent);
     padding-right: 1.5rem;
 }
+
+/* ===============================
+   🔍 Search Bar — modern glass style
+   =============================== */
+
+.search-bar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 ;
+  width: 300px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--card-bg) 60%, transparent);
+  backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  /*padding: 0.4rem 0.5rem;*/
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
+  width: min(300px, 95%);
+}
+
+.search-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 0.7rem 1rem;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+  transition: color 0.3s ease;
+}
+
+.search-input:focus::placeholder {
+  color: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.3rem;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.search-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.search-btn i {
+  font-size: 1rem;
+}
+
+/* ✨ Focus effect */
+.search-form:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* ✅ Responsive */
+@media (max-width: 600px) {
+  .search-btn span {
+    display: none;
+  }
+  .search-btn {
+    padding: 0.7rem 0.9rem;
+  }
+}
+
+/* ==== زیرمنو اصلی ==== */
+.submenu {
+  position: relative;
+}
+
+/* لینک‌هایی که زیرمنو دارن */
+.has-submenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* فلش زیرمنو */
+.has-submenu .arrow {
+  font-size: 0.7rem;
+  transform: rotate(0);
+  transition: transform 0.25s ease;
+}
+
+/* محتوای زیرمنو */
+.submenu-content {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all var(--transition);
+  z-index: 1001;
+}
+
+/* نمایش زیرمنو وقتی روش میری */
+.submenu:hover .submenu-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-5px);
+}
+
+/* چرخش فلش */
+.submenu:hover .arrow {
+  transform: rotate(-90deg);
+}
+
+/* لینک‌های زیرمنو */
+.submenu-content a {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.submenu-content a:hover {
+  background: rgba(44, 110, 73, 0.05);
+  color: var(--accent);
+  padding-right: 1.5rem;
+}

@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
 from django.db import models
@@ -26,33 +27,11 @@ class Scrotter(models.Model):
         verbose_name_plural = "پارچه ها"
         ordering = ['category', 'text']
 
+    def get_absolute_url(self):
+        return reverse('inventory:scrotter_detail', args=[self.id])
+
     def __str__(self):
         return f"{self.text}"
-
-
-class LED(models.Model):
-    COLOR_CHOICES = [
-        ('red', 'قرمز'),
-        ('green', 'سبز'),
-        ('blue', 'آبی'),
-        ('white', 'سفید'),
-    ]
-
-    color = models.CharField(choices=COLOR_CHOICES, verbose_name="رنگ")
-    quantity = models.PositiveIntegerField(default=1, verbose_name="تعداد")
-    location = models.CharField(max_length=500, verbose_name="محل نگهداری")
-    last_used = jmodels.jDateField(verbose_name="آخرین استفاده", null=True, blank=True)
-    image = ResizedImageField(upload_to=f"inventory", size=[800, 600],
-                              null=True, blank=True, quality=70)
-
-    class Meta:
-        ordering = ['color', 'quantity']
-        indexes = [models.Index(fields=['color', 'quantity'])]
-        verbose_name = 'لامپ'
-        verbose_name_plural = "لامپ ها"
-
-    def __str__(self):
-        return f"لامپ {self.color}"
 
 
 class Decorative(models.Model):
@@ -69,6 +48,9 @@ class Decorative(models.Model):
         indexes = [models.Index(fields=['name'])]
         verbose_name = "دکوری"
         verbose_name_plural = "دکوری ها"
+
+    def get_absolute_url(self):
+        return reverse('inventory:decorative_detail', args=[self.id])
 
     def __str__(self):
         return f"{self.name}"

@@ -1,17 +1,21 @@
 {% extends 'parent/base.html' %}
 {% load static %}
-{% block title %}
-	report list
-{% endblock %}
+
+{% block title %}ایجاد گزارش جدید{% endblock %}
+
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'parent/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
+    {{ form.media }}
 {% endblock %}
+
 {% block body %}
-	<h1>report list</h1>
-    <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="file" name="image" multiple>
-        <input type="submit">
-    </form>
+        <h1 class="form-title">ایجاد گزارش جدید</h1>
+        <form method="post" enctype="multipart/form-data" class="form-container">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <input type="file" name="image" multiple style="margin-top: 2rem">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">ثبت گزارش</button>
+            </div>
+        </form>
 {% endblock %}

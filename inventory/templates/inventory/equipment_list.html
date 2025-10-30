@@ -1,0 +1,39 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}مشخصات{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'report/css/report/report_list.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% if posts %}
+        <div style="margin: 100px auto 100px" class="reports-grid">
+            {% for post in posts %}
+                <div class="report-card">
+                    <!-- تصویر -->
+                    <div class="report-thumb">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.text }}">
+                        {% endif %}
+                    </div>
+
+                    <!-- بدنه کارت -->
+                    <div class="report-body">
+                        {% if post.name %}
+                            <h2 class="report-title">{{ post.name }}</h2>
+                        {% elif post.text %}
+                            <h2 class="report-title">{{ post.text }}</h2>
+                        {% endif %}
+                        <p class="report-description">{{ post.description|truncatewords:20 }}</p>
+                    </div>
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary full-width-btn">مشاهده</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-report">هنوز گزارشی ثبت نشده است 😔</p>
+    {% endif %}
+
+{% endblock %}

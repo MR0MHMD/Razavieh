@@ -4,7 +4,7 @@
 	comment
 {% endblock %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'parent/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
 {% block body %}
     {% if comment %}
@@ -13,10 +13,10 @@
     {% else %}
         <div class="form-container">
             <h2>ارسال فرم</h2>
-            <form method="post" enctype="multipart/form-data" action="{% url 'report:report_comment' report.slug %}">
+            <form method="post" enctype="multipart/form-data" class="styled-form">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="ارسال">
+                {{ form.as_div }}
+                <button type="submit" class="btn btn-primary">ارسال نظر</button>
             </form>
         </div> 
     {% endif %}

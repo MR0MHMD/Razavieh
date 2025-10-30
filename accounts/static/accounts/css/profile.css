@@ -126,3 +126,12 @@
   border-color: #00bcd4;
   color: #00bcd4;
 }
+
+.btn-primary{
+  margin: 20px auto;
+}
+
+.btn-primary:hover{
+  color: white;
+  text-decoration: none;
+}
