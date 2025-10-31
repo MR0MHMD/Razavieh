@@ -140,7 +140,7 @@
 
 /* حالت دارک */
 [data-theme="dark"] .report-tags {
-  background: color-mix(in srgb, var(--card-bg) 90%, #000 10%);
+  background: var(--card-bg);
   box-shadow: var(--shadow);
 }
 

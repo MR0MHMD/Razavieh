@@ -179,7 +179,7 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    background: var(--card-bg);
+    /*background: var(--card-bg);*/
     border-bottom: 1px solid var(--border);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     padding: 1rem 0;
@@ -225,7 +225,7 @@
 }
 
 .search-bar button {
-  background: var(--primary-color, #2b7a78);
+  background: #2b7a78;
   color: #fff;
   border: none;
   padding: 0.5rem 0.9rem;
@@ -275,7 +275,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--card-bg);
+    background: var(--bg);
     backdrop-filter: blur(var(--blur));
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -429,7 +429,7 @@
   position: absolute;
   top: 0;
   right: 100%;
-  background: var(--card-bg);
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
