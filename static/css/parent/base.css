@@ -24,19 +24,19 @@
 }
 
 /* ====== حالت دارک ====== */
-[data-theme="dark"]{
-  --bg: #0b0f14;
-  --card-bg: rgba(26,30,36,0.7);
-  --text: #e6eef8;
-  --muted: #bfc9d6;
-  --border: rgba(255, 255, 255, 0.07);
+[data-theme="dark"] {
+  --bg: #0e141b;
+  --card-bg: #1a202c;
+  --text: #e2e8f0;
+  --muted: #a0aec0;
+  --border: rgba(255,255,255,0.08);
 
   --accent: #00bfa5;
   --accent-hover: #00a68f;
   --accent-foreground: #021212;
-  --gold: #f3c96a;
 
-  --shadow: 0 6px 30px rgba(0,0,0,0.6);
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
+  --hover-shadow: 0 0 18px rgba(0, 191, 165, 0.35);
 }
 
 /* ====== عمومی ====== */
@@ -123,6 +123,7 @@ p{margin:0 0 1rem;color:var(--text)}
   background: transparent;
   color: var(--accent);
   border: 1px solid var(--accent);
+  border-radius: 30px;
   box-shadow: none;
 }
 .btn-outline:hover{

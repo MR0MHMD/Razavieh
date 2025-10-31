@@ -29,8 +29,9 @@
         <!-- منوی اصلی -->
         <nav class="nav-menu">
             <a href="{% url 'main:index' %}">خانه</a>
-            <a href="{% url 'report:report_list' %}">گزارش‌ها</a>
             <a href="{% url 'main:ticket' %}">تماس با ما</a>
+            <a href="{% url 'notification:notification_list' %}">اطلاع رسانی</a>
+            <a href="{% url 'blog:post_list' %}">مجله خبری</a>
             {% if request.user.is_superuser %}
                 <div class="categories-dropdown">
 
@@ -56,17 +57,18 @@
             {% endif %}
 
             <div class="categories-dropdown">
-                <button class="dropdown-btn">
-                    دسته‌بندی‌ها
+                <a href="{% url 'report:report_list' %}" class="dropdown-btn">
+                    گزارشات
                     <span class="arrow">▼</span>
-                </button>
+                </a>
                 <div class="dropdown-content">
+                    <a href="{% url 'report:report_list_category' 'همه' %}">همه</a>
                     <a href="{% url 'report:report_list_category' 'عزاداری' %}">عزاداری</a>
                     <a href="{% url 'report:report_list_category' 'جشن' %}">جشن</a>
                     <a href="{% url 'report:report_list_category' 'موکب' %}">موکب</a>
                     <a href="{% url 'report:report_list_category' 'مناسبت های مذهبی' %}">مناسبت های مذهبی</a>
                     <a href="{% url 'report:report_list_category' 'مناسبت های ملی' %}">مناسبت های ملی</a>
-                    <a href="{% url 'report:report_list_category' 'جشن خیابانی' %}">جشن خیابانی</a>
+                    <a href="{% url 'report:report_list_category' 'چهارشنبه های امام رضایی' %}">چهارشنبه های امام رضایی</a>
                     <a href="{% url 'report:report_list_category' 'هیئت' %}">هیئت</a>
                 </div>
             </div>
@@ -88,6 +90,10 @@
         <!-- منوی موبایل -->
         <button class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
+        </button>
+
+        <button id="themeToggle" class="theme-toggle" aria-label="تغییر تم">
+            🌙
         </button>
     </div>
 </header>

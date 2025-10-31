@@ -2,17 +2,103 @@
 {% load static %}
 {% load jformat %}
 {% load report_tags %}
-{% block title %}Home{% endblock %}
+{% load blog_tags %}
+{% block title %}مسجد رضویه افسریه{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'main/css/index/hero.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/index/about.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/index/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/index/news.css' %}">
 {% endblock %}
 
 {% block body %}
-    <h1>مسجد رضویه افسریه</h1>
-    {% last_reports 3 %}
-    {% top_liked_reports 3 %}
-    {% top_commented_reports 3 %}
+    <!-- 🎬 Hero Section -->
+    <section class="hero-section container" id="hero">
+        <div class="hero-section">
+            <div class="hero-content container">
+                <div class="hero-image">
+                    <img src="{% static 'main/img/hero-1.jpg' %}" class="slide active" alt="hero">
+                    <img src="{% static 'main/img/hero-2.jpg' %}" class="slide" alt="hero">
+                    <img src="{% static 'main/img/hero-3.jpg' %}" class="slide" alt="hero">
+                </div>
+                <div class="hero-text">
+                    <h1 class="hero-title">مسجد رضویه افسریه <span>محل رشد فرهنگی و معنوی</span></h1>
+                    <p class="hero-subtitle">در مسیر ایمان، خدمت و رشد در کنار هم.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary glow">گزارش‌ها</a>
+                        <a href="#" class="btn btn-secondary">درباره ما</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🕌 About Section -->
+    <section class="about-section">
+        <div class="about-container container">
+            <div class="about-image">
+                <img src="{% static 'main/img/logo.png' %}" alt="مسجد رضویه">
+            </div>
+            <div class="about-content">
+                <h2 class="about-title">درباره مسجد رضویه افسریه</h2>
+                <p class="about-text">
+                    مسجد رضویه، از فعال‌ترین مساجد منطقه افسریه است که علاوه بر برگزاری نماز جماعت،
+                    به‌عنوان مرکز فرهنگی و اجتماعی نیز فعالیت می‌کند. این مجموعه با برگزاری
+                    برنامه‌های آموزشی، مذهبی، فرهنگی و خیریه، بستری برای رشد معنوی و اجتماعی
+                    اهالی محل فراهم کرده است.
+                </p>
+                <p class="about-text">
+                    هدف ما ایجاد محیطی پویا، گرم و الهام‌بخش برای تمام اقشار جامعه است؛
+                    جایی برای عبادت، آموزش و همکاری در مسیر ایمان و انسانیت.
+                </p>
+                <a href="#" class="btn btn-primary glow">بیشتر بدانید</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📢 اطلاع‌رسانی‌ها -->
+    {% include 'notification/partials/notification_preview.html' %}
+    
+    <section class="home-section">
+        {% last_posts 3 %}
+        <a href="{% url 'blog:post_list' %}" class="btn btn-outline">مشاهده همه</a>
+    </section>
+
+
+    <!-- 📄 آخرین گزارشات -->
+    <section class="home-section">
+        {% last_reports 3 %}
+        <a href="{% url 'report:report_list' %}" class="btn btn-outline">مشاهده همه</a>
+    </section>
+
+    <!-- ❤️ پرلایک‌ترین گزارشات -->
+    <section class="home-section">
+        {% top_liked_reports 3 %}
+        <a href="{% url 'report:report_list' %}?sort=likes" class="btnbtn-outline">مشاهده همه</a>
+    </section>
+
+    <!-- 💬 پر‌بحث‌ترین گزارشات -->
+    <section class="home-section">
+        {% top_commented_reports 3 %}
+        <a href="{% url 'report:report_list' %}?sort=comments" class="btn btn-outline">مشاهده همه</a>
+    </section>
+
+    <!-- 💚 CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card card">
+            <h3>💚 با ما در پویش‌های خیریه همراه شوید</h3>
+            <p>همت کنیم تا دست نیازمندان محله را بگیریم.</p>
+            <a href="#" class="btn btn-primary">شرکت در پویش</a>
+        </div>
+    </section>
+    <section class="contact-cta container">
+        <h2>📩 ارتباط با ما</h2>
+        <p>سؤالی دارید یا می‌خواهید با ما در تماس باشید؟</p>
+        <a href="{% url 'main:ticket' %}" class="contact-btn">ارتباط با ما</a>
+    </section>
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'main/js/home.js' %}"></script>
 {% endblock %}

@@ -1,445 +1,404 @@
 /* ===============================
-   📄 Report Detail Page - Optimized
-   Author: ChatGPT Refactor
+   📄 report_detail.css
+   سبک اختصاصی برای صفحه جزئیات گزارش
+   بدون تکرار کدهای base.css
    =============================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap');
-
-:root {
-    --bg-color: #f8f9fa;
-    --text-color: #222;
-    --primary-color: #2b7a78;
-    --secondary-color: #def2f1;
-    --color-accent: #ff5555;
-    --border-radius: 12px;
-    --transition: 0.3s ease;
+/* ===== لایه‌بندی ===== */
+.report-detail-container {
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 0 1.2rem;
 }
 
-/* ===== Base ===== */
-body {
-    font-family: "Vazirmatn", sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.8;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 3rem auto;
-    padding: 0 1.2rem;
-}
-
-/* ===== Report Meta ===== */
+/* ===== متادیتا ===== */
 .report-meta {
-    margin: 1rem 0;
-    padding: 1rem 1.5rem;
-    border-radius: var(--border-radius);
-    background: #fff;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .report-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
 }
 
 .report-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .stat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.95rem;
-    color: #555;
-    background: #f9f9f9;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--accent) 5%, var(--card-bg));
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.95rem;
+  transition: var(--transition);
 }
 
 .stat-item:hover {
-    background: #f0f0f0;
+  background: color-mix(in srgb, var(--accent) 15%, var(--card-bg));
+  transform: translateY(-2px);
 }
 
 .stat-item img {
-    width: 18px;
-    height: 18px;
-    opacity: 0.8;
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
 }
 
-/* ===== Gallery ===== */
+/* ===== گالری تصاویر ===== */
 .report-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.2rem;
+  margin: 2rem 0;
 }
 
 .gallery-item {
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-    transition: transform var(--transition);
-    position: relative;
-    background: #fff;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
 .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    image-orientation: from-image;
-    transition: transform var(--transition);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  transition: transform 0.35s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
-/* ===== Report Content ===== */
+/* ===== محتوای گزارش ===== */
 .report-content {
-    background: #fff;
-    padding: 1.8rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    font-size: 1rem;
-    margin-bottom: 3rem;
-    line-height: 1.8;
+  padding: 1.8rem;
+  line-height: 1.9;
+  font-size: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* ===== Comments Section ===== */
+/* ===== برچسب‌ها ===== */
+/* 🎯 Report Tags Section (Restored & Optimized) */
+.report-tags {
+  margin-top: 1.8rem;
+  background: var(--card-bg);
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.report-tags h4 {
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag-item {
+  display: inline-block;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.tag-item:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* حالت دارک */
+[data-theme="dark"] .report-tags {
+  background: color-mix(in srgb, var(--card-bg) 90%, #000 10%);
+  box-shadow: var(--shadow);
+}
+
+[data-theme="dark"] .tag-item {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+[data-theme="dark"] .tag-item:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ===== بخش نظرات ===== */
 .comments-section {
-    background: #fff;
-    padding: 1.8rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    margin-top: 2rem;
+  padding: 1.8rem;
+  margin-top: 2rem;
 }
 
 .comments-section h2 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
-/* Comment Card */
-.comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
+/* ===== کارت نظرات ===== */
 .comment-card {
-    background: #f6e5e9;
-    border: 1px solid #e5e7eb;
-    border-radius: var(--border-radius);
-    padding: 1rem 1.25rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 1.2rem;
+  transition: var(--transition);
 }
 
 .comment-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
+.comment-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
-.comment-header strong {
-    font-weight: 600;
-    color: #111;
+.comment-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.comment-info strong {
+  font-weight: 600;
 }
 
 .comment-date {
-    font-size: 0.875rem;
-    color: #6b7280;
+  font-size: 0.8rem;
+  display: block;
+  margin-top: 0.2rem;
 }
 
 .comment-body {
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
 }
 
-/* ===== Comment Reactions ===== */
 .comment-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
-.reaction-btn {
-    border: none;
-    background: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+.comment-actions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: var(--transition);
 }
 
-.reaction-btn img {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease, filter 0.3s ease;
+.comment-actions button:hover {
+  transform: translateY(-2px);
 }
 
-.reaction-btn:hover img {
-    transform: scale(1.15);
-    filter: brightness(1.2);
-}
-
-.reaction-btn.selected img {
-    filter: drop-shadow(0 0 5px rgba(33, 150, 243, 0.7));
-}
-
-.reaction-btn[data-reaction="dislike"].selected img {
-    filter: drop-shadow(0 0 5px rgba(244, 67, 54, 0.7));
-}
-
-.like-count,
-.dislike-count {
-    font-size: 14px;
-    color: #555;
-}
-
-/* ===== Lightbox ===== */
+/* ===== لایت‌باکس ===== */
 .lightbox {
-    position: fixed;
-    inset: 0;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    transition: opacity 0.3s ease;
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  transition: opacity 0.3s ease;
 }
 
 .lightbox.active {
-    display: flex;
+  display: flex;
 }
 
 .lightbox-img {
-    max-width: 90%;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: var(--border-radius);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    animation: fadeIn 0.4s ease;
+  max-width: 90%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Lightbox Controls */
 .lightbox .close,
-.lightbox .next,
-.lightbox .prev {
-    position: absolute;
-    color: #fff;
-    font-size: 2.2rem;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.3s ease;
-}
-
-.lightbox .close {
-    top: 25px;
-    right: 35px;
-}
-
+.lightbox .prev,
 .lightbox .next {
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+  position: absolute;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition);
 }
 
-.lightbox .prev {
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-}
+.lightbox .close { top: 25px; right: 35px; }
+.lightbox .next { right: 25px; top: 50%; transform: translateY(-50%); }
+.lightbox .prev { left: 25px; top: 50%; transform: translateY(-50%); }
 
 .lightbox .close:hover,
 .lightbox .next:hover,
 .lightbox .prev:hover {
-    color: var(--color-accent);
+  color: var(--accent);
 }
 
-/* ===== Animations ===== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* ===== واکنش‌گرا ===== */
+@media (max-width: 768px) {
+  .report-title { font-size: 1.5rem; }
+  .report-gallery { grid-template-columns: 1fr; }
 }
 
-.report-tags {
-    margin-top: 1.5rem;
-    background: #f9f9f9;
-    padding: 1rem 1.2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.comments-page {
+  padding: 2rem 0;
 }
 
-.report-tags h4 {
-    margin-bottom: 0.8rem;
-    color: #333;
-    font-weight: 600;
-}
-
-.tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.tag-item {
-    display: inline-block;
-    background: #e0f2fe;
-    color: #0369a1;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.tag-item:hover {
-    background: #bae6fd;
-    transform: translateY(-2px);
-}
-
-.btn-primary {
-    display: block;
-    text-align: center;
-    width: 30%;
-    margin: 0 auto 50px;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 0.7rem 0;
-    border-radius: var(--radius);
-    background: transparent;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: none;
-    transition: background var(--transition),
-    color var(--transition),
-    transform var(--transition),
-    text-shadow var(--transition),
-    box-shadow var(--transition);
-}
-
-.btn-primary:hover {
-    background: var(--accent);
-    color: var(--accent-foreground);
-    transform: translateY(-2px);
-    text-decoration: none;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7),
-    0 0 18px rgba(255, 255, 255, 0.5);
-}
-
-.no-comments {
-    margin-top: 30px;
-    text-align: center;
+.comments-title {
+  text-align: center;
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
 .comment-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem 1.2rem;
-    box-shadow: var(--shadow);
-    transition: transform var(--transition), box-shadow var(--transition);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .comment-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--hover-shadow);
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
+/* بخش کاربر */
 .comment-user {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
 .comment-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .comment-info strong {
-    color: var(--text);
-    font-weight: 600;
+  color: var(--text);
+  font-weight: 600;
 }
 
 .comment-date {
-    font-size: 0.8rem;
-    color: var(--muted);
-    display: block;
-    margin-top: 0.2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 0.2rem;
 }
 
+/* بدنه‌ی کامنت */
 .comment-body {
-    font-size: 0.95rem;
-    color: var(--text);
-    line-height: 1.6;
-    margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0.6rem 0 0.8rem;
 }
 
+/* واکنش‌ها */
 .comment-actions {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
-.comment-actions button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: transform var(--transition);
+.reaction-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: transform var(--transition), filter var(--transition);
 }
 
-.comment-actions button:hover {
-    transform: translateY(-2px);
+.reaction-btn:hover {
+  transform: translateY(-2px);
 }
 
-.more-comments {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 20px;
+.reaction-btn img {
+  width: 20px;
+  height: 20px;
 }
 
+.like-btn{
+  background: transparent;
+}
+
+.like-count,
+.dislike-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.reaction-btn.selected img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+/* بازگشت */
+.back-btn-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.no-comments {
+  text-align: center;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2rem;
+}
+
+.btn-primary{
+  margin-bottom: 2rem;
+}

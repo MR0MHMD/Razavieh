@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     "main.apps.MainConfig",
     'jalali_date',
     "taggit",
-    "inventory.apps.InventoryConfig"
+    "inventory.apps.InventoryConfig",
+    "notification.apps.NotificationConfig"
 ]
 
 MIDDLEWARE = [
@@ -35,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'inventory.middleware.InventorySuperuserOnlyMiddleware'
 ]
 
 ROOT_URLCONF = "Razavieh.urls"

@@ -9,6 +9,7 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace='blog')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('inventory/', include('inventory.urls', namespace='inventory')),
+    path('notification/', include('notification.urls', namespace='notification')),
     path('', include('main.urls', namespace='main')),
 ]
 

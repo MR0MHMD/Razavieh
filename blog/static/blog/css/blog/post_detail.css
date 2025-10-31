@@ -1,100 +1,282 @@
-/* ---------------------------------
-   📰 Post Detail Page Styling
-   Follows the Glassmorphism theme
----------------------------------- */
+/* =============================
+   📰 Blog Post Detail - Elegant Design
+============================= */
+
 .post-detail {
-  text-align: center;
+  max-width: 850px;
+  margin: 3rem auto;
+  padding: 0 1rem;
 }
 
+/* ===== عنوان ===== */
 .post-title {
-  font-size: 2rem;
-  color: var(--color-accent);
-  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 1.8rem;
+  line-height: 1.4;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* ===== تصویر ===== */
 .post-image-wrapper {
-  max-width: 800px;
-  margin: 0 auto 2rem;
-  overflow: hidden;
   border-radius: var(--radius);
-  box-shadow: 0 6px 25px var(--color-shadow);
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
 }
 
 .post-image {
   width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  transition: transform var(--transition);
+  height: 480px;
+  object-fit: cover;
+  transition: transform 0.8s ease;
 }
 
 .post-image:hover {
   transform: scale(1.05);
 }
 
+/* ===== محتوا ===== */
 .post-content {
-  margin: 2rem auto;
+  background: var(--card-bg);
   padding: 2rem;
-  text-align: justify;
+  border-radius: var(--radius);
+  line-height: 1.9;
+  font-size: 1.05rem;
+  color: var(--text);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
 }
 
 .post-description {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: var(--color-text);
+  margin-bottom: 1.2rem;
 }
 
 .post-date {
+  display: block;
+  text-align: left;
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-/* ------------------------------
+/* =============================
    💬 Comments Section
------------------------------- */
+============================= */
 .comments-section {
-  margin-top: 3rem;
-  text-align: right;
+  margin-top: 4rem;
 }
 
 .comments-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 
-.comments-list {
-  display: grid;
-  gap: 1.5rem;
+.comments-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
 }
 
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* ===== کارت هر نظر ===== */
 .comment {
-  padding: 1rem 1.5rem;
-  text-align: right;
+  background: var(--card-bg);
+  padding: 1.4rem 1.6rem;
+  border-radius: var(--radius);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.4s ease;
+  animation: fadeUp 0.7s ease both;
+}
+
+.comment:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .comment-name {
-  font-weight: 600;
-  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
 .comment-body {
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 0.6rem;
 }
 
 .comment-date {
   font-size: 0.85rem;
-  opacity: 0.7;
+  opacity: 0.6;
+  text-align: left;
+  display: block;
+}
+
+/* ===== بدون نظر ===== */
+.no-comments {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 2rem 0;
+}
+
+/* ===== لینک مشاهده همه ===== */
+.comments-section .btn-outline {
+  display: block;
+  width: fit-content;
+  margin: 1.5rem auto 0;
+}
+
+/* ===== انیمیشن ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== حالت تاریک ===== */
+[data-theme="dark"] .comment {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .comment:hover {
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.08);
+}
+
+.comments-page {
+  padding: 2rem 0;
+}
+
+.comments-title {
+  text-align: center;
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.comment-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.comment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
+}
+
+/* بخش کاربر */
+.comment-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.comment-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.comment-info strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* بدنه‌ی کامنت */
+.comment-body {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0.6rem 0 0.8rem;
+}
+
+/* واکنش‌ها */
+.comment-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reaction-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: transform var(--transition), filter var(--transition);
+}
+
+.reaction-btn:hover {
+  transform: translateY(-2px);
+}
+
+.reaction-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.like-count,
+.dislike-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.reaction-btn.selected img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+/* بازگشت */
+.back-btn-container {
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .no-comments {
   text-align: center;
-  opacity: 0.8;
+  color: var(--muted);
   font-style: italic;
-}
-
-.btn-outline{
-  margin: 20px auto;
-  text-align: center;
+  margin-top: 2rem;
 }

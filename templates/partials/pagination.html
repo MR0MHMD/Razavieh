@@ -1,64 +1,95 @@
 {% load static %}
 
-    <style>
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 8px;
-            font-family: Arial, sans-serif;
-        }
+<style>
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+}
 
-        .pagination a, .pagination span {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.2s ease-in-out;
-        }
+/* حالت عادی */
+.pagination a,
+.pagination span {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+}
 
-        .pagination .active {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-            border-color: #007bff;
-        }
+/* فعال */
+.pagination .active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-color: #007bff;
+}
 
-        .pagination a:hover {
-            background-color: #f0f0f0;
-            border-color: #999;
-        }
+/* هاور */
+.pagination a:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
 
-        .pagination .disabled {
-            color: #aaa;
-            background-color: #f0f0f0;
-            border-color: #eee;
-            pointer-events: none;
-        }
-    </style>
-<body>
+/* غیرفعال */
+.pagination .disabled {
+    color: #aaa;
+    background-color: #f0f0f0;
+    border-color: #eee;
+    pointer-events: none;
+}
 
-    <div class="pagination">
-        {% if reports.has_previous %}
-            <a href="?page={{ reports.previous_page_number }}">&#171; قبلی</a>
-        {% else %}
-            <span class="disabled">&#171; قبلی</span>
-        {% endif %}
+/* =============================
+   🌙 حالت دارک مود (Dark Mode)
+   ============================= */
+[data-theme="dark"] .pagination a,
+[data-theme="dark"] .pagination span {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.05);
+}
 
-        {% for num in reports.paginator.page_range %}
-            {% if num >= reports.number|add:'-2' and num <= reports.number|add:'2' %}
-                {% if reports.number == num %}
-                    <span class="active">{{ num }}</span>
-                {% else %}
-                    <a href="?page={{ num }}">{{ num }}</a>
-                {% endif %}
+[data-theme="dark"] .pagination a:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] .pagination .active {
+    background-color: var(--accent, #00bfa5);
+    border-color: var(--accent, #00bfa5);
+    color: var(--accent-foreground, #021212);
+}
+
+[data-theme="dark"] .pagination .disabled {
+    color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+</style>
+
+<div class="pagination">
+    {% if reports.has_previous %}
+        <a href="?page={{ reports.previous_page_number }}">&#171; قبلی</a>
+    {% else %}
+        <span class="disabled">&#171; قبلی</span>
+    {% endif %}
+
+    {% for num in reports.paginator.page_range %}
+        {% if num >= reports.number|add:'-2' and num <= reports.number|add:'2' %}
+            {% if reports.number == num %}
+                <span class="active">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
             {% endif %}
-        {% endfor %}
-
-        {% if reports.has_next %}
-            <a href="?page={{ reports.next_page_number }}">بعدی &#187;</a>
-        {% else %}
-            <span class="disabled">بعدی &#187;</span>
         {% endif %}
-    </div>
+    {% endfor %}
+
+    {% if reports.has_next %}
+        <a href="?page={{ reports.next_page_number }}">بعدی &#187;</a>
+    {% else %}
+        <span class="disabled">بعدی &#187;</span>
+    {% endif %}
+</div> 

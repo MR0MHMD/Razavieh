@@ -1,7 +1,6 @@
 from django.db.models import Q, Count
 
 from report.models import Comment, Report, CommentReaction
-from django.db import models
 from django import template
 
 register = template.Library()
@@ -14,10 +13,7 @@ def get_item(dictionary, key):
 
 @register.inclusion_tag('report/partials/latest_comments.html', takes_context=True)
 def latest_comments(context, count=3):
-    """
-    آخرین کامنت‌های مربوط به گزارش فعلی را نمایش می‌دهد،
-    به همراه واکنش‌های کاربر (like/dislike) اگر لاگین کرده باشد.
-    """
+
     request = context['request']
     report = context.get('report')
 

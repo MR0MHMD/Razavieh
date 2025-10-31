@@ -1,4 +1,5 @@
 from django_jalali.db import models as jmodels
+from accounts.models import CustomUser
 from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
@@ -34,7 +35,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', verbose_name='نظر')
-    name = models.CharField(max_length=250, verbose_name='نام')
+    name = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='blog_comments', null=True, blank=True)
     body = models.TextField(verbose_name="متن نظر")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated = jmodels.jDateTimeField(auto_now=True, verbose_name="آخرین ویرایش")

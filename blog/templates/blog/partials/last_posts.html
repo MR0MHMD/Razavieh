@@ -1,0 +1,13 @@
+{% load jformat static %}
+<div class="news-grid">
+    {% for post in posts %}
+    <a href="{{ post.get_absolute_url }}" class="news-card card">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        <div class="news-info">
+            <h3 class="news-title">{{ post.title }}</h3>
+            <p class="news-desc">{{ post.description|truncatechars:100 }}</p>
+            <span class="news-date">{{ post.created|jformat:"%Y/%m/%d" }}</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>

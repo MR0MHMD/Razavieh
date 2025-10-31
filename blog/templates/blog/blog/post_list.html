@@ -2,39 +2,54 @@
 {% load static %}
 {% load jformat %}
 
-{% block title %}مجله خبری مسجد{% endblock %}
+{% block title %}مجله خبری مسجد رضویه{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'blog/css/blog/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/blog/post_list.css' %}">
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-title">مجله خبری مسجد</h1>
+<section class="blog-list container">
 
-    <div class="container posts-container">
-        {% if posts %}
-            <div class="posts-grid">
-                {% for post in posts %}
-                    <div class="post-card">
-                        <!-- تصویر -->
-                        <div class="post-image">
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
-                        </div>
+  <!-- 🎬 هدر صفحه -->
+  <header class="blog-header">
+    <h2 class="section-title">مجله خبری رضویه</h2>
+    <p class="section-subtitle">اخبار، گزارش‌ها و تحلیل‌های فرهنگی و اجتماعی مسجد رضویه</p>
+  </header>
 
-                        <!-- بدنه -->
-                        <div class="post-body">
-                            <h2 class="post-title">
-                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                            </h2>
-                            <p class="post-date">
-                                {{ post.created|jformat:'%Y/%m/%d | %H:%M' }}
-                            </p>
-                        </div>
-                    </div>
-                {% endfor %}
+  {% if posts %}
+    <div class="posts-grid">
+      {% for post in posts %}
+        <article class="post-card">
+          <div class="post-image">
+            <a href="{{ post.get_absolute_url }}">
+              {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+              {% else %}
+                <img src="#" alt="default">
+              {% endif %}
+            </a>
+            <div class="post-overlay"></div>
+            <div class="post-date-badge">
+              {{ post.created|jformat:"%Y/%M/%d" }}
             </div>
-        {% else %}
-            <p class="no-posts">هنوز پستی منتشر نشده است.</p>
-        {% endif %}
+          </div>
+
+          <div class="post-info">
+            <h3 class="post-title">
+              <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h3>
+            <p class="post-desc">{{ post.description|truncatechars:130 }}</p>
+
+            <div class="post-footer">
+              <a href="{{ post.get_absolute_url }}" class="btn btn-glow">مطالعه خبر</a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
     </div>
+  {% else %}
+    <p class="no-posts">📭 هنوز خبری ثبت نشده است.</p>
+  {% endif %}
+</section>
 {% endblock %}

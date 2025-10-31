@@ -29,3 +29,4 @@ class TicketForm(forms.Form):
                 raise forms.ValidationError("شماره تلفن درست نیست!")
             else:
                 return phone
+

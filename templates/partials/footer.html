@@ -1,50 +1,71 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/partials/footer.css' %}">
 <footer class="main-footer">
-  <div class="container footer-content">
-    <!-- درباره -->
-    <div class="footer-section about">
-      <h3>درباره مسجد رضویه</h3>
-      <p>
-        مسجد رضویه، محلی برای رشد معنوی، فرهنگی و اجتماعی. از شما دعوت می‌کنیم در برنامه‌ها و فعالیت‌های ما شرکت کنید.
-      </p>
+    <div class="container footer-content">
+        <!-- درباره -->
+        <div class="footer-section about">
+            <h3>درباره مسجد رضویه</h3>
+            <p>
+                مسجد رضویه، محلی برای رشد معنوی، فرهنگی و اجتماعی. از شما دعوت می‌کنیم در برنامه‌ها و فعالیت‌های ما شرکت
+                کنید.
+            </p>
+        </div>
+
+        <!-- لینک‌های سریع -->
+        <div class="footer-section links">
+            <h3>لینک‌های سریع</h3>
+            <ul>
+                <li><a href="{% url 'main:index' %}">خانه</a></li>
+                <li><a href="#">گزارش‌ها</a></li>
+                <li><a href="#">رویدادها</a></li>
+                <li><a href="#">درباره ما</a></li>
+                <li><a href="#">تماس با ما</a></li>
+            </ul>
+        </div>
+
+        <!-- تماس با ما -->
+        <div class="footer-section contact">
+            <h3>تماس با ما</h3>
+            <ul>
+                <li>📞 ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                <li>📧 info@razaviyeh.ir</li>
+                <li>📍 تهران، افسریه، خیابان 33، مسجد رضویه</li>
+            </ul>
+        </div>
+
+        <!-- شبکه‌های اجتماعی -->
+        <div class="footer-section social">
+            <h3>ما را دنبال کنید</h3>
+            <div class="social-icons">
+                <a href="https://ble.ir/14mersad" aria-label="بله">
+                    <img
+                            src="{% static 'icons/bale-black.svg' %}"
+                            data-light="{% static 'icons/bale-black.svg' %}"
+                            data-dark="{% static 'icons/bale-white.svg' %}"
+                            alt="بله">
+                </a>
+
+                <a href="https://eitaa.com/razaviyehinfo" aria-label="ایتا">
+                    <img
+                            src="{% static 'icons/eitaa-black.svg' %}"
+                            data-light="{% static 'icons/eitaa-black.svg' %}"
+                            data-dark="{% static 'icons/eitaa-white.svg' %}"
+                            alt="ایتا">
+                </a>
+
+                <a href="https://www.instagram.com/razaviyeh.info" aria-label="اینستاگرام">
+                    <img
+                            src="{% static 'icons/instagram-black.svg' %}"
+                            data-light="{% static 'icons/instagram-black.svg' %}"
+                            data-dark="{% static 'icons/instagram-white.svg' %}"
+                            alt="اینستاگرام">
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- لینک‌های سریع -->
-    <div class="footer-section links">
-      <h3>لینک‌های سریع</h3>
-      <ul>
-        <li><a href="{% url 'main:index' %}">خانه</a></li>
-        <li><a href="#">گزارش‌ها</a></li>
-        <li><a href="#">رویدادها</a></li>
-        <li><a href="#">درباره ما</a></li>
-        <li><a href="#">تماس با ما</a></li>
-      </ul>
+    <!-- پایین فوتر -->
+    <div class="footer-bottom">
+        <p>©️ ۲۰۲۵ مسجد رضویه | طراحی شده با ❤️</p>
     </div>
-
-    <!-- تماس با ما -->
-    <div class="footer-section contact">
-      <h3>تماس با ما</h3>
-      <ul>
-        <li>📞 ۰۲۱-۱۲۳۴۵۶۷۸</li>
-        <li>📧 info@razaviyeh.ir</li>
-        <li>📍 تهران، افسریه، خیابان 33، مسجد رضویه</li>
-      </ul>
-    </div>
-
-    <!-- شبکه‌های اجتماعی -->
-    <div class="footer-section social">
-      <h3>ما را دنبال کنید</h3>
-      <div class="social-icons">
-        <a href="https://ble.ir/14mersad" aria-label="بله"><img src="{% static 'icons/bale-black.svg' %}" alt="بله"></a>
-        <a href="https://eitaa.com/razaviyehinfo" aria-label="ایتا"><img src="{% static 'icons/eitaa-icon-black.svg' %}" alt="ایتا"></a>
-        <a href="https://www.instagram.com/razaviyeh.info?igsh=MXNmamc3czc1NDhwaw==" aria-label="اینستاگرام"><img src="{% static 'icons/instagram-alt-svgrepo-com.svg' %}" alt="اینستاگرام"></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- پایین فوتر -->
-  <div class="footer-bottom">
-    <p>©️ ۲۰۲۵ مسجد رضویه | طراحی شده با ❤️</p>
-  </div>
 </footer>

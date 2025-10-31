@@ -1,0 +1,74 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+
+{% block title %}{{ notification.title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'notification/css/notification_detail.css' %}">
+{% endblock %}
+
+{% block body %}
+    <section class="notification-detail container">
+
+        <!-- 📸 تصویر اطلاعیه -->
+        <div class="notification-detail container">
+
+            <!-- 🎬 پوستر اطلاعیه -->
+            <div class="poster-image-box">
+                <img src="{{ notification.image.url }}" alt="{{ notification.title }}">
+            </div>
+
+            <!-- 📋 اطلاعات اطلاعیه -->
+            <div class="poster-info-box">
+
+                <h1 class="poster-title">{{ notification.title }}</h1>
+
+                <div class="poster-meta">
+                    <div class="meta-item">
+                        <img src="{% static 'report/icons/date.svg' %}" alt="date">
+                        <span class="meta-label">تاریخ برگزاری:</span>
+                        <span class="meta-value">{{ notification.date|jformat:"%Y/%m/%d" }}</span>
+                    </div>
+                    {% if notification.location %}
+                        <div class="meta-item">
+                            <img src="{% static 'icons/location.svg' %}" alt="location" class="location">
+                            <span class="meta-label">مکان:</span>
+                            <span class="meta-value">{{ notification.location }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="poster-content">
+                    <h3>توضیحات اطلاعیه</h3>
+                    <p>{{ notification.content|linebreaks }}</p>
+                </div>
+
+                {% if notification.tags.all %}
+                    <div class="poster-tags">
+                        {% for tag in notification.tags.all %}
+                            <a href="{% url 'notification:notification_list_by_tags' tag.slug %}?tag={{ tag.slug }}" class="tag-item">
+                                #{{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <a href="{% url 'notification:notification_list' %}" class="btn btn-outline">بازگشت به اطلاعیه‌ها</a>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener("scroll", () => {
+            const box = document.querySelector(".poster-info-box");
+            if (box) {
+                const scroll = window.scrollY * 0.25;
+                box.style.setProperty("--scroll", `${scroll}px`);
+            }
+        });
+    </script>
+{% endblock %}

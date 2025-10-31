@@ -4,6 +4,7 @@ from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Greatest
+from main.decorators import superuser_required
 from django.http import JsonResponse
 from taggit.models import Tag
 from rapidfuzz import fuzz
@@ -13,6 +14,7 @@ import json
 import re
 
 
+@superuser_required
 def create_report(request):
     if request.method == 'POST':
         form = ReportForm(request.POST, request.FILES)

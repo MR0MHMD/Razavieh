@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect
-from report.models import Report
+from notification.models import Notification
 from .forms import TicketForm
 from .models import *
 
 
 def index(request):
-    report = Report.objects.filter()
-    return render(request, 'main/index.html')
+    notifications = Notification.objects.filter(is_active=True).order_by('-date')[:3]
+
+    context = {
+        "notifications": notifications,
+    }
+    return render(request, "main/index.html", context)
 
 
 def ticket(request):

@@ -1,0 +1,63 @@
+/* =============================
+   💬 Contact CTA Button
+============================= */
+.contact-cta {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, rgba(44, 110, 73, 0.05), rgba(0, 0, 0, 0.02));
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  margin: 4rem auto 2rem;
+  max-width: 800px;
+}
+
+.contact-cta h2 {
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.contact-cta p {
+  color: var(--text);
+  opacity: 0.8;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+/* ===== دکمه اصلی ===== */
+.contact-btn {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.contact-btn:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* ===== حالت دارک ===== */
+[data-theme="dark"] .contact-cta {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .contact-btn {
+  border-color: #ffcc33;
+  color: #ffcc33;
+}
+
+[data-theme="dark"] .contact-btn:hover {
+  background: #ffcc33;
+  color: #111;
+  box-shadow: 0 0 20px rgba(255, 230, 120, 0.5);
+}

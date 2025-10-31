@@ -1,38 +1,82 @@
-/* ===== post_list.css ===== */
-@import url('/static/css/parent/base.css');
+/* =============================
+   📰 Ultra Premium News Grid – Equal Height Edition
+============================= */
 
-.posts-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.blog-list {
+  padding: 5rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg), var(--card-bg));
+  backdrop-filter: blur(8px);
 }
 
+/* ===== هدر ===== */
+.blog-header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 25%, transparent);
+  animation: fadeInDown 1.2s ease;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-top: 0.6rem;
+  opacity: 0.8;
+  animation: fadeIn 1.8s ease;
+}
+
+/* ===== گرید ===== */
 .posts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.8rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  align-items: stretch;
+  padding: 0 1.5rem;
 }
 
-/* کارت پست */
+/* حالت کمتر از 3 کارت */
+.posts-grid:has(.post-card:nth-child(1):last-child) {
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+/* ===== کارت ===== */
 .post-card {
-  background-color: var(--card-bg, #fff);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 360px;
+  min-height: 480px; /* ✅ ارتفاع ثابت */
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1.3rem;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.7s ease;
 }
 
 .post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
 }
 
-/* عکس پست */
+/* ===== تصویر ===== */
 .post-image {
-  width: 100%;
-  aspect-ratio: 16/9;
+  position: relative;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -40,41 +84,117 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 1s ease, filter 1s ease;
+  filter: brightness(0.9);
 }
 
-.post-image:hover img {
-  transform: scale(1.08);
+.post-card:hover img {
+  transform: scale(1.12);
+  filter: brightness(1.1) saturate(1.15);
 }
 
-/* بدنه پست */
-.post-body {
-  padding: 1rem 1.2rem;
+.post-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2), transparent 60%);
+  z-index: 2;
+}
+
+/* ===== محتوا ===== */
+.post-info {
+  flex-grow: 1;
+  padding: 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
 }
 
 .post-title {
-  font-size: 1.25rem;
-  color: #222;
-  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+  line-height: 1.5;
 }
 
 .post-title a {
-  color: inherit;
+  color: var(--text);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .post-title a:hover {
-  color: var(--primary-color, #1565c0);
+  color: var(--accent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
-.post-date {
-  font-size: 0.9rem;
-  color: #777;
+.post-desc {
+  color: var(--text);
+  opacity: 0.85;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* ✅ نمایش فقط ۳ خط توضیح */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* پیام خالی بودن */
-.no-posts {
-  text-align: center;
-  margin-top: 3rem;
-  color: #666;
+/* ===== دکمه ===== */
+.btn-glow {
+  display: inline-block;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: all 0.4s ease;
+  align-self: flex-start;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent);
+  transform: translateY(-3px);
+}
+
+/* ===== تم تاریک ===== */
+[data-theme="dark"] .post-card {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 12px 25px rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .post-date-badge {
+  background: rgba(255, 204, 51, 0.95);
+  color: #111;
+}
+
+/* ===== واکنش‌گرا ===== */
+@media (max-width: 1024px) {
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-card {
+    max-width: 95%;
+  }
+}
+
+/* ===== انیمیشن ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

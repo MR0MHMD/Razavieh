@@ -15,23 +15,75 @@
     {% block extra_css %}{% endblock %}
 
     <!-- 🌗 Optional: JS for theme switch -->
-{#    <script defer src="{% static 'parent/theme.js' %}"></script>#}
+    {#    <script defer src="{% static 'parent/theme.js' %}"></script>#}
 
 </head>
 
 <body data-auth="{{ request.user.is_authenticated|yesno:'true,false' }} " data-theme="light">
-    <!-- 🕌 Header (optional include later) -->
-    {% include 'partials/header.html' %}
+<!-- 🕌 Header (optional include later) -->
+{% include 'partials/header.html' %}
 
-    <!-- 📜 Main content -->
-    <main class="container">
-        {% block body %}{% endblock %}
-    </main>
+<!-- 📜 Main content -->
+<main class="container">
+    {% block body %}{% endblock %}
+</main>
 
-    <!-- 🦶 Footer -->
-    {% include 'partials/footer.html' %}
+<!-- 🦶 Footer -->
+{% include 'partials/footer.html' %}
 
-    <!-- 🔧 Page-specific scripts -->
-    {% block scripts %}{% endblock %}
+<!-- 🔧 Page-specific scripts -->
+{% block scripts %}
+
+{% endblock %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+        const btn = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme) body.setAttribute('data-theme', savedTheme);
+
+        btn.addEventListener('click', () => {
+            const current = body.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            btn.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+
+        // تنظیم آیکون اولیه
+        btn.textContent = body.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const icons = document.querySelectorAll(".social-icons img");
+
+        function updateIconsForTheme(theme) {
+            icons.forEach(icon => {
+                const lightSrc = icon.getAttribute("data-light");
+                const darkSrc = icon.getAttribute("data-dark");
+
+                if (theme === "dark") {
+                    icon.src = darkSrc;
+                } else {
+                    icon.src = lightSrc;
+                }
+            });
+        }
+
+        // اگر سایتت با data-theme روی body کار می‌کنه:
+        const observer = new MutationObserver(() => {
+            const theme = document.body.getAttribute("data-theme") || "light";
+            updateIconsForTheme(theme);
+        });
+
+        observer.observe(document.body, {attributes: true, attributeFilter: ["data-theme"]});
+
+        // اجرای اولیه هنگام بارگذاری صفحه
+        const initialTheme = document.body.getAttribute("data-theme") || "light";
+        updateIconsForTheme(initialTheme);
+    });
+</script>
 </body>
 </html>

@@ -1,56 +1,50 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 {% load jformat %}
+{% load blog_tags %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'blog/css/blog/post_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/blog/post_detail.css' %}">
 {% endblock %}
 
 {% block body %}
-<div class="container post-detail">
-    <!-- عنوان خبر -->
-    <h1 class="post-title">{{ post.title }}</h1>
+    <div class="container post-detail">
+        <!-- عنوان خبر -->
+        <h1 class="post-title">{{ post.title }}</h1>
 
-    <!-- تصویر اصلی -->
-    <div class="post-image-wrapper">
-        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
-    </div>
-
-    <!-- توضیحات و محتوا -->
-    <div class="post-content card">
-        <p class="post-description">{{ post.description }}</p>
-        <span class="post-date">{{ post.created|jformat:"%Y/%m/%d | %H:%M" }}</span>
-    </div>
-
-    <!-- بخش نظرات -->
-    <section class="comments-section">
-        <div class="comments-header">
-            <h2>نظرات کاربران</h2>
-            <a href="{% url 'blog:post_comment' post.slug %}" class="btn btn-primary">ثبت نظر جدید</a>
+        <!-- تصویر اصلی -->
+        <div class="post-image-wrapper">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
         </div>
 
-        {% if post.comments.all %}
-            <div class="comments-list">
-                {% for comment in post.comments.all %}
-                    {% if comment.active %}
-                        <div class="comment card">
-                            <h3 class="comment-name">{{ comment.name }}</h3>
-                            <p class="comment-body">{{ comment.body }}</p>
-                            <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d | %H:%M" }}</span>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+        <!-- توضیحات و محتوا -->
+        <div class="post-content card">
+            <p class="post-description">{{ post.description }}</p>
+            <span class="post-date">{{ post.created|jformat:"%Y/%m/%d | %H:%M" }}</span>
+        </div>
+
+        <!-- بخش نظرات -->
+        <section class="comments-section">
+            <div class="comments-header">
+                <h2>نظرات کاربران</h2>
+                <a href="{% url 'blog:post_comment' post.slug %}" class="btn btn-primary">ثبت نظر جدید</a>
             </div>
-            {% if post.comments.count > 3 %}
-            	<div class="">
-                <a href="{% url 'blog:post_comment_list' post.slug %}" class="btn btn-outline">مشاهده همه نظرات</a>
+
+            {% if post.comments.all %}
+                <div class="sidebar-widget">
+                    {% last_comments post 3 %}
                 </div>
+                {% if post.comments.count > 3 %}
+                    <div class="">
+                        <a href="{% url 'blog:post_comment_list' post.slug %}" class="btn btn-outline">مشاهده همه
+                            نظرات</a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p class="no-comments">هنوز نظری ثبت نشده است.</p>
             {% endif %}
-        {% else %}
-            <p class="no-comments">هنوز نظری ثبت نشده است.</p>
-        {% endif %}
-    </section>
-</div>
+        </section>
+    </div>
 {% endblock %}

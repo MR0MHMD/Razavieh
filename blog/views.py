@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import *
 
 
@@ -14,14 +15,22 @@ def post_detail(request, slug):
     return render(request, 'blog/blog/post_detail.html', context)
 
 
+@login_required
 def post_comment(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comment = None
-    form = CommentForm(data=request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.post = post
-        comment.save()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = request.user
+            if request.user.is_authenticated:
+                comment.name = request.user
+            comment.save()
+            return redirect(post.get_absolute_url())
+    else:
+        form = CommentForm()
     context = {
         'post': post,
         'form': form,

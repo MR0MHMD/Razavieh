@@ -1,0 +1,36 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+
+{% block title %}اطلاع‌رسانی‌ها{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'notification/css/notification_list.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% if tag %}
+        <h1 class="section-title">📢 اطلاع رسانی ها بر اساس برچسب {{ tag }}</h1>
+    {% else %}
+        <h1 class="section-title">📢 اطلاع‌رسانی‌های جدید</h1>
+    {% endif %} 
+    <section class="notifications-section container">
+        <div class="notifications-grid">
+            {% for notification in notifications %}
+                <div class="notification-card">
+                    <img src="{{ notification.image.url }}" alt="{{ notification.title }}">
+                    <div class="notification-overlay"></div>
+                    <div class="notification-info">
+                        <h3 class="notification-title">{{ notification.title }}</h3>
+                        <p class="notification-date">{{ notification.created|jformat:"%Y/%m/%d" }}</p>
+                        <p class="notification-desc">{{ notification.content|truncatechars:30 }}</p>
+                        <a href="{{ notification.get_absolute_url }}" class="notification-btn">مشاهده
+                            جزئیات</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="no-notifications">در حال حاضر اطلاعیه‌ای وجود ندارد.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
