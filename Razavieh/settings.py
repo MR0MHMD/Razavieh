@@ -65,15 +65,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Razavieh.wsgi.application'
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Razavieh_db',
-        'USER': 'razavieh_user',
-        'PASSWORD': 'H0jat12(Ali):soon',
-        'PORT': 5432,
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
+    )
 }
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Razavieh_db',
+#         'USER': 'razavieh_user',
+#         'PASSWORD': 'H0jat12(Ali):soon',
+#         'PORT': 5432,
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
