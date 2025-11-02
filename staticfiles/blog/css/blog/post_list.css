@@ -1,0 +1,257 @@
+/* =============================
+   📰 Ultra Premium News Grid – Equal Height Edition
+   نسخه بهینه‌شده برای وب‌اپ مسجد رضویه
+============================= */
+
+.blog-list {
+  padding: 5rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg), var(--card-bg));
+  backdrop-filter: blur(8px);
+}
+
+/* ===== هدر ===== */
+.blog-header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 25%, transparent);
+  animation: fadeInDown 1.2s ease;
+}
+
+.section-subtitle {
+  color: var(--muted);
+  font-size: 1.2rem;
+  margin-top: 0.6rem;
+  opacity: 0.8;
+  animation: fadeIn 1.8s ease;
+}
+
+/* ===== گرید ===== */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  align-items: stretch;
+  padding: 0 1.5rem;
+}
+
+.posts-grid:has(.post-card:nth-child(1):last-child) {
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+/* ===== کارت ===== */
+.post-card {
+  width: 100%;
+  max-width: 360px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1.3rem;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.7s ease;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.post-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== تصویر ===== */
+.post-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease, filter 1s ease;
+  filter: brightness(0.9);
+}
+
+.post-card:hover img {
+  transform: scale(1.12);
+  filter: brightness(1.1) saturate(1.15);
+}
+
+.post-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2), transparent 60%);
+  z-index: 2;
+}
+
+/* ===== اطلاعات پست ===== */
+.post-info {
+  flex-grow: 1;
+  padding: 1.4rem 1.2rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  font-family: "Vazirmatn", "IRANSansX", sans-serif;
+}
+
+/* ===== عنوان ===== */
+.post-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+  line-height: 1.5;
+}
+
+.post-title a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* ===== توضیح ===== */
+.post-desc {
+  color: var(--text);
+  opacity: 0.85;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== فوتر ===== */
+.post-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ===== دکمه مطالعه خبر ===== */
+.btn-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: none;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--gold)));
+  color: var(--accent-foreground);
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Vazirmatn", "IRANSansX", sans-serif;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.btn-glow:hover {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 90%, var(--gold)), var(--gold));
+  color: #fff;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 25px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.btn-glow:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ===== تاریخ ===== */
+.post-date-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: color-mix(in srgb, var(--accent) 85%, var(--gold));
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  z-index: 5;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+/* ===== تم تاریک ===== */
+[data-theme="dark"] .post-card {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 12px 25px rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .post-date-badge {
+  background: rgba(255, 204, 51, 0.95);
+  color: #111;
+}
+
+[data-theme="dark"] .btn-glow {
+  background: linear-gradient(90deg, #ffb84d, #ffcc33);
+  color: #111;
+  box-shadow: 0 0 18px rgba(255, 204, 51, 0.25);
+}
+
+[data-theme="dark"] .btn-glow:hover {
+  background: linear-gradient(90deg, #ffcc33, #ffe680);
+  color: #000;
+  box-shadow: 0 0 28px rgba(255, 230, 140, 0.45);
+}
+
+/* ===== واکنش‌گرا ===== */
+@media (max-width: 1024px) {
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-card {
+    max-width: 95%;
+  }
+}
+
+/* ===== انیمیشن‌ها ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

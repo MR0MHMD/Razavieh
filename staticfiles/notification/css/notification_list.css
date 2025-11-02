@@ -1,0 +1,243 @@
+/* =============================
+   📢 Announcements Section (Fixed + Animated)
+============================= */
+
+.notification-section {
+  padding: 4rem 0;
+  background: var(--bg);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ===== عنوان اصلی ===== */
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 2.5rem;
+  position: relative;
+  line-height: 1.4;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--accent);
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
+}
+
+/* =============================
+   📢 Notification Grid & Cards
+============================= */
+
+/* ✅ گرید کارت‌ها */
+.notifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 3rem 0;
+  justify-items: center;
+  align-items: stretch; /* همه کارت‌ها ارتفاع یکسان بگیرن */
+}
+
+/* ===== کارت ===== */
+.notification-card {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  height: 480px; /* همه کارت‌ها ارتفاع ثابت دارن */
+  cursor: pointer;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+/* ✨ افکت تاخیر تصادفی */
+.notification-card:nth-child(1) { animation-delay: 0.1s; }
+.notification-card:nth-child(2) { animation-delay: 0.25s; }
+.notification-card:nth-child(3) { animation-delay: 0.4s; }
+.notification-card:nth-child(4) { animation-delay: 0.55s; }
+.notification-card:nth-child(5) { animation-delay: 0.7s; }
+.notification-card:nth-child(6) { animation-delay: 0.85s; }
+.notification-card:nth-child(7) { animation-delay: 1s; }
+.notification-card:nth-child(8) { animation-delay: 1.15s; }
+
+.notification-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== تصویر ===== */
+.notification-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 1.2s ease, filter 0.8s ease;
+}
+
+.notification-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+/* ===== پوشش گرادیانت ===== */
+.notification-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.15) 70%, transparent 100%);
+  z-index: 1;
+}
+
+/* ===== محتوا ===== */
+.notification-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1.5rem 1.2rem;
+  color: #fff;
+  z-index: 2;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 80%);
+  backdrop-filter: blur(0.5px);
+  transition: all 0.4s ease;
+}
+
+/* ===== تاریخ ===== */
+.notification-date {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== توضیح ===== */
+.notification-desc {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.9);
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* نمایش فقط ۳ خط توضیح */
+  -webkit-box-orient: vertical;
+}
+
+/* ===== دکمه جزئیات ===== */
+.notification-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 50px;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+.notification-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: 0 0 16px var(--accent);
+}
+
+/* =============================
+   🌙 تم تاریک
+============================= */
+[data-theme="dark"] .notification-card {
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .notification-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3) 70%, transparent 100%);
+}
+
+[data-theme="dark"] .notification-btn {
+  border-color: #ffcc33;color: #ffcc33;
+}
+
+[data-theme="dark"] .notification-btn:hover {
+  background: #ffcc33;
+  color: #111;
+  box-shadow: 0 0 20px rgba(255, 220, 100, 0.5);
+}
+
+/* =============================
+   📱 واکنش‌گرا و تنظیم فونت‌ها
+============================= */
+
+/* تبلت */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .notifications-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .notification-card {
+    height: 420px;
+  }
+
+  .notification-desc {
+    font-size: 0.95rem;
+  }
+}
+
+/* موبایل */
+@media (max-width: 640px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .notifications-grid {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .notification-card {
+    width: 95%;
+    height: 380px;
+  }
+
+  .notification-date {
+    font-size: 0.85rem;
+  }
+
+  .notification-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .notification-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
+  }
+}
+
+/* =============================
+   ✨ انیمیشن fadeUp
+============================= */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
