@@ -1,41 +1,40 @@
 from pathlib import Path
 import os
-import dj_database_url
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 🔑 امنیت پایه
 SECRET_KEY = 'django-insecure-8-c*&%_^o%v^@bih9$ob7(p$=t0&8@r$68ma%%@*6ujz#g2m2e'
-
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
+# 📦 اپلیکیشن‌ها
 INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "report.apps.ReportConfig",
+    "blog.apps.BlogConfig",
+    "main.apps.MainConfig",
+    "inventory.apps.InventoryConfig",
+    "notification.apps.NotificationConfig",
+
+    # Third-party
+    'django_jalali',
+    'django_cleanup.apps.CleanupConfig',
+    'jalali_date',
+    'taggit',
+
+    # Django default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_jalali',
-    'django_cleanup.apps.CleanupConfig',
-    "blog.apps.BlogConfig",
-    "main.apps.MainConfig",
-    'jalali_date',
-    "taggit",
-    "inventory.apps.InventoryConfig",
-    "notification.apps.NotificationConfig"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,11 +46,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "Razavieh.urls"
 
+# 🎨 قالب‌ها
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,58 +70,49 @@ DATABASES = {
         'NAME': 'Razavieh_db',
         'USER': 'razavieh_user',
         'PASSWORD': 'H0jat12(Ali):soon',
-        'PORT': 5432,
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
-# Static
+# 📁 فایل‌های استاتیک و مدیا
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
+# 🕒 تنظیمات عمومی
+LANGUAGE_CODE = 'fa-ir'
+TIME_ZONE = 'Asia/Tehran'
+USE_I18N = True
+USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 180
-SESSION_SAVE_EVERY_REQUEST = True
-
-LOGIN_REDIRECT_URL = '/report/report_list'
-
+# 👤 مدل کاربر سفارشی
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+# 🔐 اعتبارسنجی رمز عبور
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+# 📨 تنظیمات ایمیل (برای بازیابی رمز)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'test.emial.django@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'test.emial.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'qyupiaqlnpfgnvbf'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True").lower() in ("1", "true")
+# 🔁 سشن‌ها
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 180  # 6 ماه
+SESSION_SAVE_EVERY_REQUEST = True
+
+# 📍 مسیر بعد از لاگین
+LOGIN_REDIRECT_URL = '/report/report_list'
