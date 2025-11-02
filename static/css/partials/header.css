@@ -1,242 +1,170 @@
 /* ============================
-   header.css - استایل حرفه‌ای هدر مسجد رضویه
-   ============================ */
+   header.css — هدر حرفه‌ای و ریسپانسیو مسجد رضویه
+   با پس‌زمینه‌ی نیمه‌شفاف و رنگ‌دار
+   هماهنگ با base.css
+============================ */
 
 .main-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(12px);
-  transition: background var(--transition), box-shadow var(--transition);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(12px);
+    transition: background var(--transition), box-shadow var(--transition);
 }
 
 .header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 0;
 }
 
 /* ---------------- لوگو ---------------- */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 1.25rem;
-  transition: transform 0.25s ease;
-}
-.logo:hover {
-  transform: scale(1.05);
-}
-.logo-img {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-.logo-text {
-  font-size: 1.3rem;
-  color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.25rem;
+    transition: transform 0.25s ease;
 }
 
-/* ---------------- نوار جستجو ---------------- */
-.search-bar {
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.logo-text {
+    font-size: 1.3rem;
+    color: var(--text);
+}
+
+/* ===============================
+   🔍 Compact Header Search (Mobile-style)
+================================= */
+.search-bar-wrapper {
+  position: relative;
+  z-index: 5000;
+}
+
+.search-form {
   display: flex;
   align-items: center;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.3rem 0.6rem;
-  width: 280px;
-  transition: border-color var(--transition), background var(--transition);
-}
-.search-bar input {
-  flex: 1;
-  border: none;
+  justify-content: flex-end;
   background: transparent;
-  color: var(--text);
-  padding: 0.4rem 0.5rem;
-  font-size: 0.9rem;
-}
-.search-bar input:focus {
-  outline: none;
-}
-.search-bar button {
-  background: var(--accent);
   border: none;
-  color: var(--accent-foreground);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
+}
+
+/* ورودی جستجو (در حالت عادی پنهان) */
+.search-input {
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  border: none;
+  outline: none;
+  background: var(--card-bg);
+  border-radius: 50px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* وقتی فوکوس می‌گیرد (باز می‌شود) */
+.search-input.active {
+  width: 180px;
+  opacity: 1;
+  visibility: visible;
+  margin-left: 0.5rem;
+}
+
+/* دکمه آیکن */
+.search-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition);
-}
-.search-bar button:hover {
-  background: var(--accent-hover);
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
+.search-btn:hover {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  transform: scale(1.1);
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+  .search-input.active {
+    width: 140px;
+    font-size: 0.85rem;
+  }
+  .search-btn {
+    font-size: 1rem;
+    padding: 0.3rem;
+  }
+}
 /* ---------------- منوی اصلی ---------------- */
 .nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-.nav-menu a, button {
-  position: relative;
-  color: var(--text);
-  font-weight: 500;
-  font-size: 0.8rem;
-  text-decoration: none;
-  transition: color var(--transition);
-}
-.nav-menu a::after, button::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  right: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 5px;
-  transition: width var(--transition);
-}
-.nav-menu a:hover, button:hover {
-  color: var(--accent);
-}
-.nav-menu a:hover::after, button:hover::after {
-  width: 100%;
-}
-
-/* ---------------- دکمه‌های کاربر ---------------- */
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.user-actions .login-btn,
-.user-actions .signup-btn,
-.user-actions .profile-btn {
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all var(--transition);
-}
-.user-actions .login-btn {
-  background: var(--accent);
-  color: var(--accent-foreground);
-}
-.user-actions .login-btn:hover {
-  background: var(--accent-hover);
-}
-.user-actions .profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-}
-.user-actions .profile-btn:hover {
-  background: var(--accent);
-  color: var(--accent-foreground);
-}
-
-/* ---------------- منوی موبایل ---------------- */
-.menu-toggle {
-  display: none;
-  background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color var(--transition);
-}
-.menu-toggle:hover {
-  color: var(--accent);
-}
-
-/* ---------------- واکنش‌گرایی ---------------- */
-@media (max-width: 992px) {
-  .search-bar {
-    width: 200px;
-  }
-}
-@media (max-width: 768px) {
-  .nav-menu {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    width: 100%;
-    flex-direction: column;
+    display: flex;
     align-items: center;
-    /*background: var(--card-bg);*/
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
-    transform: translateY(-200%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-  .nav-menu.active {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .menu-toggle {display: block;
-  }
-
-  .search-bar {
-    display: none;
-  }
-
-  .user-actions {
-    display: none;
-  }
+    gap: 1.5rem;
+    position: relative;
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 25px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.nav-menu a,
+button {
+    position: relative;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color var(--transition);
 }
 
-.search-bar input {
-  border: none;
-  outline: none;
-  padding: 0.5rem 1rem;
-  flex: 1;
-  font-size: 0.95rem;
-  color: #333;
+.nav-menu a::after,
+button::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 5px;
+    transition: width var(--transition);
 }
 
-.search-bar button {
-  background: #2b7a78;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 0.9rem;
-  cursor: pointer;
-  transition: 0.3s;
+.nav-menu a:hover,
+button:hover {
+    color: var(--accent);
 }
 
-.search-bar button:hover {
-  background: #205e5c;
+.nav-menu a:hover::after,
+button:hover::after {
+    width: 100%;
 }
 
+/* ---------------- زیرمنوها ---------------- */
 .categories-dropdown {
     position: relative;
     display: inline-block;
@@ -247,7 +175,6 @@
     color: var(--text);
     padding: 0.8rem 1.5rem;
     border: none;
-    border-radius: var(--radius);
     cursor: pointer;
     font-family: inherit;
     font-weight: 600;
@@ -258,8 +185,8 @@
 }
 
 .dropdown-btn:hover {
+    color: var(--accent);
     transform: translateY(-2px);
-    color: var(--text);
 }
 
 .arrow {
@@ -271,15 +198,16 @@
     transform: rotate(180deg);
 }
 
+/* ===== پس‌زمینه و رنگ منوها ===== */
 .dropdown-content {
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--bg);
-    backdrop-filter: blur(var(--blur));
+    background: rgba(20, 232, 113, 0.58); /* ✅ رنگ زمینه سبز ملایم */
+    backdrop-filter: blur(10px) saturate(140%);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     min-width: 200px;
     opacity: 0;
     visibility: hidden;
@@ -299,193 +227,348 @@
     padding: 0.8rem 1.2rem;
     color: var(--text);
     text-decoration: none;
-    transition: var(--transition);
     border-bottom: 1px solid rgba(107, 114, 128, 0.1);
-}
-
-.dropdown-content a:last-child {
-    border-bottom: none;
+    transition: var(--transition);
+    background: color-mix(in srgb, var(--card-bg) 85%, var(--accent) 5%);
 }
 
 .dropdown-content a:hover {
-    background: rgba(44, 110, 73, 0.05);
+    background: color-mix(in srgb, var(--accent) 15%, var(--bg));
     color: var(--accent);
     padding-right: 1.5rem;
 }
 
-/* ===============================
-   🔍 Search Bar — modern glass style
-   =============================== */
-
-.search-bar-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 ;
-  width: 300px;
-}
-
-.search-form {
-  display: flex;
-  align-items: center;
-  background: color-mix(in srgb, var(--card-bg) 60%, transparent);
-  backdrop-filter: blur(10px) saturate(150%);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  /*padding: 0.4rem 0.5rem;*/
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
-  transition: box-shadow 0.3s ease, transform 0.25s ease;
-  width: min(300px, 95%);
-}
-
-.search-form:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 20%, transparent);
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 1rem;
-  padding: 0.7rem 1rem;
-  color: var(--text);
-  font-family: inherit;
-}
-
-.search-input::placeholder {
-  color: var(--muted);
-  transition: color 0.3s ease;
-}
-
-.search-input:focus::placeholder {
-  color: color-mix(in srgb, var(--muted) 50%, transparent);
-}
-
-.search-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: none;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--accent-foreground);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.8rem 1.3rem;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-  box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
-.search-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 35%, transparent);
-}
-
-.search-btn i {
-  font-size: 1rem;
-}
-
-/* ✨ Focus effect */
-.search-form:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
-/* ✅ Responsive */
-@media (max-width: 600px) {
-  .search-btn span {
-    display: none;
-  }
-  .search-btn {
-    padding: 0.7rem 0.9rem;
-  }
-}
-
-/* ==== زیرمنو اصلی ==== */
+/* زیرمنو چندسطحی */
 .submenu {
-  position: relative;
+    position: relative;
 }
 
-/* لینک‌هایی که زیرمنو دارن */
-.has-submenu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* فلش زیرمنو */
-.has-submenu .arrow {
-  font-size: 0.7rem;
-  transform: rotate(0);
-  transition: transform 0.25s ease;
-}
-
-/* محتوای زیرمنو */
 .submenu-content {
-  position: absolute;
-  top: 0;
-  right: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  min-width: 180px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(10px);
-  transition: all var(--transition);
-  z-index: 1001;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    background: rgba(8, 248, 115, 0.52);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all var(--transition);
+    z-index: 1001;
 }
 
-/* نمایش زیرمنو وقتی روش میری */
 .submenu:hover .submenu-content {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-5px);
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-5px);
 }
 
-/* چرخش فلش */
 .submenu:hover .arrow {
-  transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
 
-/* لینک‌های زیرمنو */
-.submenu-content a {
-  display: block;
-  padding: 0.8rem 1rem;
-  color: var(--text);
-  text-decoration: none;
-  transition: var(--transition);
+/* ---------------- دکمه‌های کاربر ---------------- */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.submenu-content a:hover {
-  background: rgba(44, 110, 73, 0.05);
-  color: var(--accent);
-  padding-right: 1.5rem;
+.user-actions .login-btn,
+.user-actions .profile-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition);
 }
 
+.user-actions .login-btn {
+    background: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.user-actions .login-btn:hover {
+    background: var(--accent-hover);
+}
+
+.user-actions .profile-btn {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.user-actions .profile-btn:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+}
+
+/* ---------------- دکمه تغییر تم ---------------- */
 .theme-toggle {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  color: var(--text);
-  cursor: pointer;
-  transition: all var(--transition);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: all var(--transition);
 }
 
 .theme-toggle:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    transform: rotate(20deg);
+    box-shadow: var(--hover-shadow);
+}
+
+/* ---------------- دکمه منوی موبایل ---------------- */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.7rem;
+    cursor: pointer;
+    transition: color var(--transition);
+    margin-left: 0; /* 📍 سمت چپ */
+}
+
+.menu-toggle:hover {
+    color: var(--accent);
+}
+
+/* ---------------- واکنش‌گرایی ---------------- */
+@media (max-width: 992px) {
+    .search-bar-wrapper {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(9, 108, 112, 0.62); /* ✅ رنگ سبز مات و نیمه شفاف */
+        backdrop-filter: blur(15px) saturate(140%);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 1rem 0;
+        transform: translateY(-200%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .search-bar-wrapper,
+    .user-actions {
+        display: block;
+    }
+}
+
+/* =============================
+   🔍 پاپ‌آپ جستجو موبایل (لوکس مسجد رضویه)
+============================= */
+
+/* دکمه آیکون */
+.mobile-search-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.mobile-search-btn:hover {
+  color: var(--accent);
+  transform: scale(1.15);
+}
+
+/* لایه تار پشت پاپ‌آپ */
+.mobile-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 1050;
+}
+.mobile-search-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* باکس اصلی جستجو */
+.mobile-search-popup {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: min(92%, 480px);
+  background: color-mix(in srgb, var(--card-bg) 70%, rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 1100;
+  overflow: hidden;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.mobile-search-popup.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, 0);
+  animation: goldGlow 0.6s ease forwards;
+}
+
+/* فرم داخل پاپ‌آپ */
+.mobile-search-form {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  gap: 0.8rem;
+}
+
+.mobile-search-form input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--card-bg) 80%, transparent);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: "Vazirmatn", sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mobile-search-form input::placeholder {
+  color: var(--muted);
+}
+
+.mobile-search-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(44, 110, 73, 0.15);
+  outline: none;
+  background: color-mix(in srgb, var(--card-bg) 80%, transparent);
+}
+
+/* دکمه جستجو */
+.mobile-search-form button {
   background: var(--accent);
+  border: none;
   color: var(--accent-foreground);
-  transform: rotate(20deg);
-  box-shadow: var(--hover-shadow);
+  padding: 0.8rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 6px 14px rgba(44, 110, 73, 0.3);
+}
+
+.mobile-search-form button:hover {
+  background: var(--accent-hover);
+  transform: scale(1.1);
+}
+
+/* انیمیشن درخشش طلایی */
+@keyframes goldGlow {
+  0% { box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+  50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+  100% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); }
+}
+
+/* حالت دارک */
+[data-theme="dark"] .mobile-search-popup {
+  background: color-mix(in srgb, #111820 80%, rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* فقط در موبایل */
+@media (max-width: 768px) {
+  .mobile-search-btn {
+    display: block;
+  }
+  .search-bar-wrapper {
+    display: none;
+  }
+}
+
+/* ===============================
+   📱 زیرمنوها در حالت موبایل (با تاچ)
+=============================== */
+@media (max-width: 768px) {
+  .submenu-content {
+    position: static;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--card-bg) 90%, var(--bg));
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    transition: all 0.35s ease;
+  }
+
+  /* وقتی اکتیو شد */
+  .submenu-content.active {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+    padding: 0.4rem 0;
+  }
+
+  .submenu a.has-submenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    background: color-mix(in srgb, var(--bg) 85%, var(--card-bg));
+    border-radius: 10px;
+    margin-bottom: 0.3rem;
+    transition: background 0.3s ease;
+  }
+
+  .submenu a.has-submenu:hover {
+    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  }
+
+  .submenu-content a {
+    display: block;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .submenu-content a:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+    transform: translateX(-3px);
+  }
 }

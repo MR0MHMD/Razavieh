@@ -6,10 +6,7 @@
 {% block title %}مسجد رضویه افسریه{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'main/css/index/hero.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/index/about.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/index/contact.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/index/news.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -18,16 +15,16 @@
         <div class="hero-section">
             <div class="hero-content container">
                 <div class="hero-image">
-                    <img src="{% static 'main/img/hero-1.jpg' %}" class="slide active" alt="hero">
-                    <img src="{% static 'main/img/hero-2.jpg' %}" class="slide" alt="hero">
-                    <img src="{% static 'main/img/hero-3.jpg' %}" class="slide" alt="hero">
+                    <img src="{% static 'main/img/hero-1.JPG' %}" class="slide active" alt="hero">
+                    <img src="{% static 'main/img/hero-2.JPG' %}" class="slide" alt="hero">
+                    <img src="{% static 'main/img/hero-3.JPG' %}" class="slide" alt="hero">
                 </div>
                 <div class="hero-text">
                     <h1 class="hero-title">مسجد رضویه افسریه <span>محل رشد فرهنگی و معنوی</span></h1>
                     <p class="hero-subtitle">در مسیر ایمان، خدمت و رشد در کنار هم.</p>
                     <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary glow">گزارش‌ها</a>
-                        <a href="#" class="btn btn-secondary">درباره ما</a>
+                        <a href="{% url 'report:report_list' %}" class="btn btn-primary glow">گزارش‌ها</a>
+                        <a href="{% url 'main:about' %}" class="btn btn-secondary">درباره ما</a>
                     </div>
                 </div>
             </div>
@@ -52,7 +49,7 @@
                     هدف ما ایجاد محیطی پویا، گرم و الهام‌بخش برای تمام اقشار جامعه است؛
                     جایی برای عبادت، آموزش و همکاری در مسیر ایمان و انسانیت.
                 </p>
-                <a href="#" class="btn btn-primary glow">بیشتر بدانید</a>
+                <a href="{% url 'main:about' %}" class="btn btn-primary glow">بیشتر بدانید</a>
             </div>
         </div>
     </section>
@@ -75,7 +72,7 @@
     <!-- ❤️ پرلایک‌ترین گزارشات -->
     <section class="home-section">
         {% top_liked_reports 3 %}
-        <a href="{% url 'report:report_list' %}?sort=likes" class="btnbtn-outline">مشاهده همه</a>
+        <a href="{% url 'report:report_list' %}?sort=likes" class="btn btn-outline">مشاهده همه</a>
     </section>
 
     <!-- 💬 پر‌بحث‌ترین گزارشات -->

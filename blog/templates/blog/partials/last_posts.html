@@ -1,13 +1,37 @@
-{% load jformat static %}
-<div class="news-grid">
-    {% for post in posts %}
-    <a href="{{ post.get_absolute_url }}" class="news-card card">
-        <img src="{{ post.image.url }}" alt="{{ post.title }}">
-        <div class="news-info">
-            <h3 class="news-title">{{ post.title }}</h3>
-            <p class="news-desc">{{ post.description|truncatechars:100 }}</p>
-            <span class="news-date">{{ post.created|jformat:"%Y/%m/%d" }}</span>
-        </div>
-    </a>
-    {% endfor %}
-</div>
+{% load static jformat %}
+
+<link rel="stylesheet" href="{% static 'blog/css/blog/post_list.css' %}">
+{% if posts %}
+    <div class="posts-grid">
+      {% for post in posts %}
+        <article class="post-card">
+          <div class="post-image">
+            <a href="{{ post.get_absolute_url }}">
+              {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+              {% else %}
+                <img src="#" alt="default">
+              {% endif %}
+            </a>
+            <div class="post-overlay"></div>
+            <div class="post-date-badge">
+              {{ post.created|jformat:"%Y/%M/%d" }}
+            </div>
+          </div>
+
+          <div class="post-info">
+            <h3 class="post-title">
+              <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h3>
+            <p class="post-desc">{{ post.description|truncatechars:130 }}</p>
+
+            <div class="post-footer">
+              <a href="{{ post.get_absolute_url }}" class="btn btn-glow">مطالعه خبر</a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-posts">📭 هنوز خبری ثبت نشده است.</p>
+  {% endif %}

@@ -6,93 +6,96 @@
 {% block title %}{{ report.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'report/css/report/report_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'report/css/report/report_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'report/css/report/comment_list.css' %}">
 {% endblock %}
 
 {% block body %}
-<div class="report-detail-container container">
-    <div class="report-meta card">
-        <h1 class="report-title">{{ report.title }}</h1>
+    <div class="report-detail-container container">
+        <div class="report-meta card">
+            <h1 class="report-title">{{ report.title }}</h1>
 
-        <div class="report-stats">
-            <!-- دکمه لایک -->
-            <div class="stat-item like-wrapper">
-                <button class="like-btn" data-id="{{ report.id }}">
-                    <img 
-                        src="{% if liked %}{% static 'report/icons/heart_full.svg' %}{% else %}{% static 'report/icons/heart_empty.svg' %}{% endif %}"
-                        alt="like"
-                        class="like-icon"
-                    >
-                </button>
-                <span class="like-count">{{ likes_count }}</span>
-            </div>
+            <div class="report-stats">
+                <!-- دکمه لایک -->
+                <div class="stat-item like-wrapper">
+                    <button class="like-btn" data-id="{{ report.id }}">
+                        <img
+                                src="
+                                        
+                                        {% if liked %}{% static 'report/icons/heart_full.svg' %}{% else %}{% static 'report/icons/heart_empty.svg' %}{% endif %}"
+                                alt="like"
+                                class="like-icon"
+                        >
+                    </button>
+                    <span class="like-count">{{ likes_count }}</span>
+                </div>
 
-            <div class="stat-item">
-                <img src="{% static 'report/icons/view.svg' %}" alt="views">
-                <span>{{ report.views }}</span>
-            </div>
+                <div class="stat-item">
+                    <img src="{% static 'report/icons/view.svg' %}" alt="views">
+                    <span>{{ report.views }}</span>
+                </div>
 
-            <div class="stat-item">
-                <img src="{% static 'report/icons/comment.svg' %}" alt="comments">
-                <span>{{ active_comments_count }}</span>
-            </div>
+                <div class="stat-item">
+                    <img src="{% static 'report/icons/comment.svg' %}" alt="comments">
+                    <span>{{ active_comments_count }}</span>
+                </div>
 
-            <div class="stat-item">
-                <img src="{% static 'report/icons/date.svg' %}" alt="date">
-                <span>{{ report.created|jformat:"%Y/%m/%d" }}</span>
+                <div class="stat-item">
+                    <img src="{% static 'report/icons/date.svg' %}" alt="date">
+                    <span>{{ report.created|jformat:"%Y/%m/%d" }}</span>
+                </div>
             </div>
         </div>
+
+        {% if report.images.all %}
+            <section class="report-gallery">
+                {% for image in report.images.all %}
+                    <div class="gallery-item">
+                        <img src="{{ image.image.url }}" alt="{{ report.title }}">
+                    </div>
+                {% endfor %}
+            </section>
+        {% endif %}
+
+        <article class="report-content card">
+            {{ report.description|linebreaks }}
+        </article>
+
+        {% if report.tags.all %}
+            <div class="report-tags">
+                <h4>برچسب‌ها:</h4>
+                <ul class="tag-list">
+                    {% for tag in report.tags.all %}
+                        <li>
+                            <a href="{% url 'report:report_list_tag' tag.slug %}" class="tag-item">#{{ tag.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <section class="comments-section">
+            <h2>نظرات</h2>
+            <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
+            {% latest_comments 3 %}
+            {% if active_comments_count > 3 %}
+                <div class="more-comments">
+                    <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
+                </div>
+            {% endif %}
+        </section>
     </div>
 
-    {% if report.images.all %}
-    <section class="report-gallery">
-        {% for image in report.images.all %}
-        <div class="gallery-item">
-            <img src="{{ image.image.url }}" alt="{{ report.title }}">
-        </div>
-        {% endfor %}
-    </section>
-    {% endif %}
-
-    <article class="report-content card">
-        {{ report.description|linebreaks }}
-    </article>
-
-    {% if report.tags.all %}
-        <div class="report-tags">
-            <h4>برچسب‌ها:</h4>
-            <ul class="tag-list">
-                {% for tag in report.tags.all %}
-                    <li>
-                        <a href="{% url 'report:report_list_tag' tag.slug %}" class="tag-item">#{{ tag.name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    <section class="comments-section">
-        <h2>نظرات</h2>
-        <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
-        {% latest_comments 3 %}
-        {% if active_comments_count > 3 %}
-        <div class="more-comments">
-            <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
-        </div>
-        {% endif %}
-    </section>
-</div>
-
-<div id="lightbox" class="lightbox">
-    <span class="close">&times;</span>
-    <span class="prev">&#10094;</span>
-    <img class="lightbox-img" src="" alt="">
-    <span class="next">&#10095;</span>
-</div>
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <span class="prev">&#10094;</span>
+        <img class="lightbox-img" src="" alt="">
+        <span class="next">&#10095;</span>
+    </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'report/js/lightbox.js' %}"></script>
-<script src="{% static 'report/js/comment_react.js' %}"></script>
-<script src="{% static 'report/js/report_likes.js' %}"></script>
+    <script src="{% static 'report/js/lightbox.js' %}"></script>
+    <script src="{% static 'report/js/comment_react.js' %}"></script>
+    <script src="{% static 'report/js/report_likes.js' %}"></script>
 {% endblock %}

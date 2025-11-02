@@ -10,7 +10,7 @@ def index(request):
     context = {
         "notifications": notifications,
     }
-    return render(request, "main/index.html", context)
+    return render(request, "main/main/index.html", context)
 
 
 def ticket(request):
@@ -29,3 +29,7 @@ def ticket(request):
     else:
         form = TicketForm()
     return render(request, 'main/forms/ticket.html', {'form': form})
+
+
+def about(request):
+    return render(request, 'main/main/about.html')

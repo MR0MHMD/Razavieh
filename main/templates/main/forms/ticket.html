@@ -5,12 +5,12 @@
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
 {% block body %}
-    <div class="form-container">
-        <h2>ارسال تیکت</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="ارسال">
-        </form>
-    </div> 
+    <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <input type="file" name="image" multiple style="margin-top: 2rem">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">ثبت گزارش</button>
+        </div>
+    </form>
 {% endblock %}

@@ -1,3 +1,7 @@
+/* ===============================
+   👤 Profile Page — Animated Tabs + Responsive
+   =============================== */
+
 .profile-wrapper {
   max-width: 950px;
   margin: 2rem auto;
@@ -5,19 +9,20 @@
 }
 
 .card {
-  background: var(--color-card-bg, #fff);
+  background: var(--card-bg, #fff);
   border-radius: 1.5rem;
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   padding: 1.5rem;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* هدر پروفایل */
+/* ===== Header ===== */
 .profile-header {
   display: flex;
   align-items: center;
   gap: 2rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .profile-avatar img {
@@ -25,7 +30,7 @@
   height: 130px;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid var(--color-accent, #007bff);
+  border: 3px solid var(--accent, #007bff);
 }
 
 .profile-info h2 {
@@ -36,12 +41,13 @@
 .profile-info .bio {
   color: #555;
   margin-bottom: 0.4rem;
+  font-size: 1rem;
 }
 
 .edit-btn {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: var(--color-accent, #007bff);
+  background: var(--accent, #007bff);
   color: white;
   border-radius: 0.8rem;
   text-decoration: none;
@@ -51,15 +57,18 @@
   background: #0056b3;
 }
 
-/* تب‌ها */
+/* ===== Tabs ===== */
 .tabs {
   margin-top: 1rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .tab-buttons {
   display: flex;
   border-bottom: 2px solid #ddd;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .tab-btn {
@@ -73,24 +82,25 @@
 }
 
 .tab-btn.active {
-  border-bottom: 3px solid var(--color-accent, #007bff);
-  color: var(--color-accent, #007bff);
+  border-bottom: 3px solid var(--accent, #007bff);
+  color: var(--accent, #007bff);
 }
 
+/* ===== انیمیشن جابه‌جایی تب‌ها ===== */
 .tab-content {
   display: none;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.5s ease;
 }
+
 .tab-content.active {
   display: block;
-  animation: fadeIn 0.3s ease;
+  opacity: 1;
+  transform: translateX(0);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* لیست گزارش‌های لایک‌شده */
+/* ===== Liked Reports ===== */
 .liked-item {
   background: rgba(0, 123, 255, 0.05);
   border-radius: 10px;
@@ -117,7 +127,7 @@
   color: #e63946;
 }
 
-/* حالت تاریک */
+/* ===== Dark Mode ===== */
 [data-theme="dark"] .card {
   background: #1e1e1e;
   color: #e0e0e0;
@@ -127,11 +137,78 @@
   color: #00bcd4;
 }
 
-.btn-primary{
+/* ===== Button ===== */
+.btn-primary {
   margin: 20px auto;
 }
-
-.btn-primary:hover{
+.btn-primary:hover {
   color: white;
   text-decoration: none;
+}
+
+/* ===============================
+   📱 Responsive Design
+   =============================== */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .profile-header {
+    gap: 1.5rem;
+  }
+  .profile-avatar img {
+    width: 110px;
+    height: 110px;
+  }
+  .profile-info h2 {
+    font-size: 1.4rem;
+  }
+  .profile-info .bio {
+    font-size: 0.95rem;
+  }
+  .tab-btn {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+  .liked-item a {
+    padding: 0.7rem 0.9rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .profile-wrapper {
+    padding: 0 0.6rem;
+    margin: 1.5rem auto;
+  }
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .profile-avatar img {
+    width: 90px;
+    height: 90px;
+  }
+  .profile-info h2 {
+    font-size: 1.2rem;
+  }
+  .profile-info .bio {
+    font-size: 0.85rem;
+  }
+  .edit-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+  }
+  .tab-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+  .liked-item a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.7rem;
+  }
+  .like-icon {
+    font-size: 1rem;
+  }
 }

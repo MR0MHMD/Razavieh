@@ -1,36 +1,37 @@
 {% load static %}
 {% load jformat %}
-
+<link rel="stylesheet" href="{% static 'report/css/report/comment_list.css' %}">
 {% if comments %}
-<div class="comments-list">
-    {% for comment in comments %}
-        <div class="comment-card">
-            <div class="comment-header">
-                <div class="comment-user">
-                    {% if comment.name.photo %}
-                        <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}" class="comment-avatar">
-                    {% else %}
-                        <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
-                    {% endif %}
+    <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div class="comment-user">
+                        {% if comment.name.photo %}
+                            <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}"
+                                 class="comment-avatar">
+                        {% else %}
+                            <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
+                        {% endif %}
 
-                    <div class="comment-info">
-                        <strong>
-                            {% if comment.name.get_full_name %}
-                                {{ comment.name.get_full_name }}
-                            {% else %}
-                                {{ comment.name.username }}
-                            {% endif %}
-                        </strong>
-                        <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
+                        <div class="comment-info">
+                            <strong>
+                                {% if comment.name.get_full_name %}
+                                    {{ comment.name.get_full_name }}
+                                {% else %}
+                                    {{ comment.name.username }}
+                                {% endif %}
+                            </strong>
+                            <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d" }}</span>
+                        </div>
                     </div>
                 </div>
+
+                <p class="comment-body">{{ comment.body }}</p>
+
             </div>
-
-            <p class="comment-body">{{ comment.body }}</p>
-
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% else %}
     <p class="no-comments">هنوز نظری ثبت نشده است.</p>
 {% endif %}

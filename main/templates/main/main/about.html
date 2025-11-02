@@ -1,0 +1,84 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}درباره مسجد رضویه{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'main/css/about.css' %}">
+{% endblock %}
+
+{% block body %}
+    <section class="about-hero fade-up">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1>مسجد رضویه</h1>
+            <p>پایگاه نور، ایمان و خدمت به مردم</p>
+        </div>
+    </section>
+
+    <section class="about-section container fade-up">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1597001318067-5a36c1af5b7f?auto=format&fit=crop&w=1200&q=80"
+                 alt="Mosque interior">
+        </div>
+        <div class="about-text">
+            <h2>درباره ما</h2>
+            <p>
+                مسجد رضویه، قلب تپنده معنویت در دل شهر است.
+                جایی برای انس با قرآن، رشد فرهنگی، و همدلی اجتماعی.
+                ما تلاش می‌کنیم مسجد را از دیوارهای سنگی فراتر برده و آن را به خانه‌ی دل‌های مردم بدل کنیم.
+            </p>
+        </div>
+    </section>
+
+    <section class="mission-section fade-up">
+        <h2 class="section-title">اهداف و رسالت ما</h2>
+        <div class="mission-grid container">
+            <div class="mission-card">
+                <div class="icon-circle"><i class="fa-solid fa-hands-praying"></i></div>
+                <h3>احیای معنویت</h3>
+                <p>ترویج فرهنگ نماز و جلسات معرفتی برای تقویت ایمان و آرامش در زندگی.</p>
+            </div>
+            <div class="mission-card">
+                <div class="icon-circle"><i class="fa-solid fa-book-quran"></i></div>
+                <h3>آموزش و تربیت قرآنی</h3>
+                <p>برگزاری کلاس‌های قرائت، حفظ و تدبر در قرآن برای کودکان و بزرگسالان.</p>
+            </div>
+            <div class="mission-card">
+                <div class="icon-circle"><i class="fa-solid fa-people-carry-box"></i></div>
+                <h3>خدمت به جامعه</h3>
+                <p>اجرای طرح‌های جهادی، کمک مؤمنانه و حمایت از خانواده‌های نیازمند.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section fade-up">
+        <h2 class="section-title">خادمان مسجد</h2>
+        <div class="team-grid container">
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1618354691330-d7e4c7e58e2a?auto=format&fit=crop&w=800&q=80"
+                     alt="">
+                <h3>حجت‌الاسلام احمدی</h3>
+                <p>امام جماعت و مسئول فرهنگی</p>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=800&q=80"
+                     alt="">
+                <h3>خانم موسوی</h3>
+                <p>مدیر واحد بانوان و فعالیت‌های آموزشی</p>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=80"
+                     alt="">
+                <h3>آقای رضایی</h3>
+                <p>مسئول گروه‌های جهادی و جوانان</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section fade-up">
+        <h2>به جمع خادمان مسجد بپیوندید</h2>
+        <p>اگر تمایل دارید در مسیر رشد فرهنگی و معنوی جامعه قدمی بردارید، ما از همراهی‌تان استقبال می‌کنیم.</p>
+        <a href="{% url 'main:ticket' %}" class="btn-cta">ارتباط با ما</a>
+    </section>
+{% endblock %}

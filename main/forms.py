@@ -8,15 +8,15 @@ class TicketForm(forms.Form):
         ('گزارش', 'گزارش'),
     ]
 
-    name = forms.CharField(max_length=250, required=True, label="", widget=forms.TextInput(attrs={
+    name = forms.CharField(max_length=250, required=True, label="نام و نام خانوادگی", widget=forms.TextInput(attrs={
         'placeholder': "نام و نام خانوادگی",
         'class': 'ticket-form-name  form-field',
     }))
-    message = forms.CharField(required=True, label='', widget=forms.Textarea(attrs={
+    message = forms.CharField(required=True, label='پیام', widget=forms.Textarea(attrs={
         "placeholder": 'متن پیام',
         'class': 'form-message form-field',
     }))
-    phone = forms.CharField(required=True, max_length=11, label="", widget=forms.TelInput(attrs={
+    phone = forms.CharField(required=True, max_length=11, label="تلفن همراه", widget=forms.TelInput(attrs={
         'placeholder': 'تلفن همراه',
         'class': 'ticket-form-phone form-field',
     }))
@@ -29,4 +29,3 @@ class TicketForm(forms.Form):
                 raise forms.ValidationError("شماره تلفن درست نیست!")
             else:
                 return phone
-

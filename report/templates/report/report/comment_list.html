@@ -4,72 +4,75 @@
 {% block title %}نظرات {{ report.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'report/css/report/comment_list.css' %}">
+    <link rel="stylesheet" href="{% static 'report/css/report/comment_list.css' %}">
 {% endblock %}
 
 {% block body %}
-<div class="container comments-page">
-    <h1 class="comments-title">نظرات {{ report.title }}</h1>
+    <div class="container comments-page">
+        <h1 class="comments-title">نظرات {{ report.title }}</h1>
 
-    {% if comments %}
-        <div class="comments-list">
-            {% for comment in comments %}
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <div class="comment-user">
-                            {% if comment.name.photo %}
-                                <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}" class="comment-avatar">
-                            {% else %}
-                                <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
-                            {% endif %}
+        {% if comments %}
+            <div class="comments-list">
+                {% for comment in comments %}
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                {% if comment.name.photo %}
+                                    <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}"
+                                         class="comment-avatar">
+                                {% else %}
+                                    <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
+                                {% endif %}
 
-                            <div class="comment-info">
-                                <strong>
-                                    {% if comment.name.get_full_name %}
-                                        {{ comment.name.get_full_name }}
-                                    {% else %}
-                                        {{ comment.name.username }}
-                                    {% endif %}
-                                </strong>
-                                <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d - %H:%M" }}</span>
+                                <div class="comment-info">
+                                    <strong>
+                                        {% if comment.name.get_full_name %}
+                                            {{ comment.name.get_full_name }}
+                                        {% else %}
+                                            {{ comment.name.username }}
+                                        {% endif %}
+                                    </strong>
+                                    <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d - %H:%M" }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <p class="comment-body">{{ comment.body }}</p>
+                        <p class="comment-body">{{ comment.body }}</p>
 
-                    <div class="comment-actions">
-                        <button class="reaction-btn {% if comment.user_reaction == 'like' %}selected{% endif %}" data-id="{{ comment.id }}" data-reaction="like">
-                            <img src="{% if comment.user_reaction == 'like' %}
+                        <div class="comment-actions">
+                            <button class="reaction-btn {% if comment.user_reaction == 'like' %}selected{% endif %}"
+                                    data-id="{{ comment.id }}" data-reaction="like">
+                                <img src="{% if comment.user_reaction == 'like' %}
                                          {% static 'report/icons/selected_like.svg' %}
                                      {% else %}
                                          {% static 'report/icons/like.svg' %}
                                      {% endif %}" alt="like">
-                            <span class="like-count">{{ comment.like_count }}</span>
-                        </button>
+                                <span class="like-count">{{ comment.like_count }}</span>
+                            </button>
 
-                        <button class="reaction-btn {% if comment.user_reaction == 'dislike' %}selected{% endif %}" data-id="{{ comment.id }}" data-reaction="dislike">
-                            <img src="{% if comment.user_reaction == 'dislike' %}
+                            <button class="reaction-btn {% if comment.user_reaction == 'dislike' %}selected{% endif %}"
+                                    data-id="{{ comment.id }}" data-reaction="dislike">
+                                <img src="{% if comment.user_reaction == 'dislike' %}
                                          {% static 'report/icons/selected_dislike.svg' %}
                                      {% else %}
                                          {% static 'report/icons/dislike.svg' %}
                                      {% endif %}" alt="dislike">
-                            <span class="dislike-count">{{ comment.dislike_count }}</span>
-                        </button>
+                                <span class="dislike-count">{{ comment.dislike_count }}</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="no-comments">هنوز نظری ثبت نشده است.</p>
-    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-comments">هنوز نظری ثبت نشده است.</p>
+        {% endif %}
 
-    <div class="back-btn-container">
-        <a href="{{ report.get_absolute_url }}" class="btn btn-outline">بازگشت به گزارش</a>
+        <div class="back-btn-container">
+            <a href="{{ report.get_absolute_url }}" class="btn btn-outline">بازگشت به گزارش</a>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'report/js/comment_react.js' %}"></script>
+    <script src="{% static 'report/js/comment_react.js' %}"></script>
 {% endblock %}

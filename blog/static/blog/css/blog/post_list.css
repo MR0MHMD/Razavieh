@@ -1,5 +1,6 @@
 /* =============================
    📰 Ultra Premium News Grid – Equal Height Edition
+   نسخه بهینه‌شده برای وب‌اپ مسجد رضویه
 ============================= */
 
 .blog-list {
@@ -29,7 +30,7 @@
 }
 
 .section-subtitle {
-  color: var(--text-muted);
+  color: var(--muted);
   font-size: 1.2rem;
   margin-top: 0.6rem;
   opacity: 0.8;
@@ -46,7 +47,6 @@
   padding: 0 1.5rem;
 }
 
-/* حالت کمتر از 3 کارت */
 .posts-grid:has(.post-card:nth-child(1):last-child) {
   justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -56,7 +56,7 @@
 .post-card {
   width: 100%;
   max-width: 360px;
-  min-height: 480px; /* ✅ ارتفاع ثابت */
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,6 +66,8 @@
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   transition: all 0.7s ease;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
 .post-card:hover {
@@ -100,16 +102,18 @@
   z-index: 2;
 }
 
-/* ===== محتوا ===== */
+/* ===== اطلاعات پست ===== */
 .post-info {
   flex-grow: 1;
-  padding: 1.4rem 1.2rem;
+  padding: 1.4rem 1.2rem 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: right;
+  font-family: "Vazirmatn", "IRANSansX", sans-serif;
 }
 
+/* ===== عنوان ===== */
 .post-title {
   font-size: 1.3rem;
   font-weight: 800;
@@ -128,6 +132,7 @@
   text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
+/* ===== توضیح ===== */
 .post-desc {
   color: var(--text);
   opacity: 0.85;
@@ -135,30 +140,65 @@
   font-size: 0.95rem;
   margin-bottom: 1.2rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* ✅ نمایش فقط ۳ خط توضیح */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ===== دکمه ===== */
+/* ===== فوتر ===== */
+.post-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ===== دکمه مطالعه خبر ===== */
 .btn-glow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   border: none;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--gold)));
   color: var(--accent-foreground);
-  padding: 0.6rem 1.3rem;
+  padding: 0.65rem 1.4rem;
   border-radius: 999px;
   font-weight: 700;
+  font-size: 0.95rem;
   text-decoration: none;
-  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
-  transition: all 0.4s ease;
-  align-self: flex-start;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Vazirmatn", "IRANSansX", sans-serif;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .btn-glow:hover {
-  box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent);
-  transform: translateY(-3px);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 90%, var(--gold)), var(--gold));
+  color: #fff;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 25px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.btn-glow:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ===== تاریخ ===== */
+.post-date-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: color-mix(in srgb, var(--accent) 85%, var(--gold));
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  z-index: 5;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
 
 /* ===== تم تاریک ===== */
@@ -170,6 +210,18 @@
 [data-theme="dark"] .post-date-badge {
   background: rgba(255, 204, 51, 0.95);
   color: #111;
+}
+
+[data-theme="dark"] .btn-glow {
+  background: linear-gradient(90deg, #ffb84d, #ffcc33);
+  color: #111;
+  box-shadow: 0 0 18px rgba(255, 204, 51, 0.25);
+}
+
+[data-theme="dark"] .btn-glow:hover {
+  background: linear-gradient(90deg, #ffcc33, #ffe680);
+  color: #000;
+  box-shadow: 0 0 28px rgba(255, 230, 140, 0.45);
 }
 
 /* ===== واکنش‌گرا ===== */
@@ -188,7 +240,7 @@
   }
 }
 
-/* ===== انیمیشن ===== */
+/* ===== انیمیشن‌ها ===== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
@@ -196,5 +248,10 @@
 
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }

@@ -1,46 +1,57 @@
 /* =============================
-   📰 Blog Post Detail - Elegant Design
+   📰 Blog Post Detail – Premium Responsive Edition
+   برای مسجد رضویه
 ============================= */
 
 .post-detail {
   max-width: 850px;
   margin: 3rem auto;
   padding: 0 1rem;
+  animation: fadeUp 0.8s ease both;
 }
 
 /* ===== عنوان ===== */
 .post-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--text);
+  font-size: 2.4rem;
+  font-weight: 900;
   text-align: center;
   margin-bottom: 1.8rem;
-  line-height: 1.4;
+  line-height: 1.5;
   background: linear-gradient(90deg, var(--accent), var(--gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 3px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  animation: fadeDown 1s ease;
 }
 
 /* ===== تصویر ===== */
 .post-image-wrapper {
   border-radius: var(--radius);
   overflow: hidden;
+  position: relative;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  transition: transform 0.6s ease;
+}
+
+.post-image-wrapper:hover {
+  transform: translateY(-5px);
 }
 
 .post-image {
   width: 100%;
   height: 480px;
   object-fit: cover;
-  transition: transform 0.8s ease;
+  transition: transform 1s ease, filter 1s ease;
+  filter: brightness(0.95);
 }
 
-.post-image:hover {
+.post-image-wrapper:hover .post-image {
   transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
-/* ===== محتوا ===== */
+/* ===== محتوای خبر ===== */
 .post-content {
   background: var(--card-bg);
   padding: 2rem;
@@ -49,10 +60,16 @@
   font-size: 1.05rem;
   color: var(--text);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease;
+  animation: fadeUp 1s ease both;
+}
+
+.post-content:hover {
+  transform: translateY(-3px);
 }
 
 .post-description {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .post-date {
@@ -60,6 +77,7 @@
   text-align: left;
   font-size: 0.9rem;
   opacity: 0.7;
+  font-style: italic;
 }
 
 /* =============================
@@ -67,6 +85,7 @@
 ============================= */
 .comments-section {
   margin-top: 4rem;
+  animation: fadeUp 1.2s ease both;
 }
 
 .comments-header {
@@ -75,18 +94,28 @@
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
+  gap: 1rem;
 }
 
 .comments-header h2 {
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
 }
 
-.comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+.comments-header .btn {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+  font-weight: 600;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
+  transition: all 0.4s ease;
+}
+
+.comments-header .btn:hover {
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent);
+  transform: translateY(-3px);
 }
 
 /* ===== کارت هر نظر ===== */
@@ -96,20 +125,20 @@
   border-radius: var(--radius);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
-  transition: transform 0.3s ease, box-shadow 0.4s ease;
-  animation: fadeUp 0.7s ease both;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: fadeUp 0.8s ease both;
 }
 
 .comment:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
 .comment-name {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--accent);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .comment-body {
@@ -139,13 +168,25 @@
   display: block;
   width: fit-content;
   margin: 1.5rem auto 0;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+  transition: all 0.3s ease;
 }
 
-/* ===== انیمیشن ===== */
+.comments-section .btn-outline:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-2px);
+}
+
+/* ===== انیمیشن‌ها ===== */
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
@@ -153,130 +194,60 @@
   }
 }
 
-/* ===== حالت تاریک ===== */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);}
+}
+
+/* =============================
+   🌙 حالت تاریک
+============================= */
 [data-theme="dark"] .comment {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-[data-theme="dark"] .comment:hover {
-  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.08);
+[data-theme="dark"] .post-content {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
 }
 
-.comments-page {
-  padding: 2rem 0;
-}
+/* =============================
+   📱 واکنش‌گرا
+============================= */
+@media (max-width: 768px) {
+  .post-title {
+    font-size: 1.7rem;
+  }
 
-.comments-title {
-  text-align: center;
-  color: var(--accent);
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
-}
+  .post-image {
+    height: 300px;
+  }
 
-.comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
+  .post-content {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
 
-.comment-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.2rem;
-  box-shadow: var(--shadow);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
+  .comments-header h2 {
+    font-size: 1.3rem;
+  }
 
-.comment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--hover-shadow);
-}
+  .comments-header .btn,
+  .comments-section .btn-outline {
+    font-size: 0.9rem;
+    padding: 0.45rem 1.1rem;
+  }
 
-/* بخش کاربر */
-.comment-user {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.6rem;
-}
+  .comment-name {
+    font-size: 1rem;
+  }
 
-.comment-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
-}
-
-.comment-info strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.comment-date {
-  font-size: 0.8rem;
-  color: var(--muted);
-  display: block;
-  margin-top: 0.2rem;
-}
-
-/* بدنه‌ی کامنت */
-.comment-body {
-  font-size: 0.95rem;
-  color: var(--text);
-  line-height: 1.6;
-  margin: 0.6rem 0 0.8rem;
-}
-
-/* واکنش‌ها */
-.comment-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.reaction-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  transition: transform var(--transition), filter var(--transition);
-}
-
-.reaction-btn:hover {
-  transform: translateY(-2px);
-}
-
-.reaction-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-.like-count,
-.dislike-count {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.reaction-btn.selected img {
-  filter: none;
-  transform: scale(1.1);
-}
-
-/* بازگشت */
-.back-btn-container {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-.no-comments {
-  text-align: center;
-  color: var(--muted);
-  font-style: italic;
-  margin-top: 2rem;
+  .comment-body {
+    font-size: 0.9rem;
+  }
 }

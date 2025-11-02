@@ -1,6 +1,6 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/partials/header.css' %}">
 <header class="main-header">
-    <link rel="stylesheet" href="{% static 'css/partials/header.css' %}">
     <div class="container header-content">
 
         <!-- لوگو -->
@@ -21,7 +21,6 @@
                 />
                 <button type="submit" class="search-btn">
                     <i class="fas fa-search"></i>
-                    <span>جستجو</span>
                 </button>
             </form>
         </div>
@@ -57,10 +56,10 @@
             {% endif %}
 
             <div class="categories-dropdown">
-                <a href="{% url 'report:report_list' %}" class="dropdown-btn">
+                <button class="dropdown-btn">
                     گزارشات
                     <span class="arrow">▼</span>
-                </a>
+                </button>
                 <div class="dropdown-content">
                     <a href="{% url 'report:report_list_category' 'همه' %}">همه</a>
                     <a href="{% url 'report:report_list_category' 'عزاداری' %}">عزاداری</a>
@@ -68,7 +67,8 @@
                     <a href="{% url 'report:report_list_category' 'موکب' %}">موکب</a>
                     <a href="{% url 'report:report_list_category' 'مناسبت های مذهبی' %}">مناسبت های مذهبی</a>
                     <a href="{% url 'report:report_list_category' 'مناسبت های ملی' %}">مناسبت های ملی</a>
-                    <a href="{% url 'report:report_list_category' 'چهارشنبه های امام رضایی' %}">چهارشنبه های امام رضایی</a>
+                    <a href="{% url 'report:report_list_category' 'چهارشنبه های امام رضایی' %}">چهارشنبه های امام
+                        رضایی</a>
                     <a href="{% url 'report:report_list_category' 'هیئت' %}">هیئت</a>
                 </div>
             </div>
@@ -87,13 +87,27 @@
             {% endif %}
         </div>
 
-        <!-- منوی موبایل -->
+        <!-- آیکون جستجو موبایل -->
+        <button class="mobile-search-btn" id="mobileSearchBtn">
+            <i class="fas fa-search"></i>
+        </button>
+
+        <!-- پاپ‌آپ جستجو -->
+        <div class="mobile-search-overlay" id="mobileSearchOverlay"></div>
+        <div class="mobile-search-popup" id="mobileSearchPopup">
+            <form method="get" action="{% url 'report:report_search' %}" class="mobile-search-form">
+                <input type="text" name="q" placeholder="جستجو در گزارش‌ها..." required>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+
         <button class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
         </button>
 
-        <button id="themeToggle" class="theme-toggle" aria-label="تغییر تم">
-            🌙
-        </button>
     </div>
 </header>
+<script src="{% static 'js/menu-toggle.js' %}">
+
+</script>
+

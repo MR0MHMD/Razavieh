@@ -9,13 +9,10 @@
 
     <!-- 🧱 Base Styles -->
     <link rel="stylesheet" href="{% static 'css/parent/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/partials/layout.css' %}">
 
     <!-- 📦 Block for extra page-specific styles -->
     {% block extra_css %}{% endblock %}
-
-    <!-- 🌗 Optional: JS for theme switch -->
-    {#    <script defer src="{% static 'parent/theme.js' %}"></script>#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
@@ -35,6 +32,20 @@
 {% block scripts %}
 
 {% endblock %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.querySelector(".nav-menu");
+
+        menuToggle.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
+            menuToggle.classList.toggle("open");
+            menuToggle.innerHTML = menuToggle.classList.contains("open")
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const body = document.body;
