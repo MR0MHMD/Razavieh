@@ -35,8 +35,13 @@ def create_report(request):
     return render(request, 'report/forms/create_report.html', context)
 
 
-def report_list(request, category=None, tag=None):
-    if category is not None:
+def report_list(request, category=None, tag=None, likes=False, comments=False):
+    if comments:
+        Report.objects.all().annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-comments_count')
+    if likes:
+        reports = Report.objects.all().order_by('-likes')
+    elif category is not None:
         reports = Report.objects.filter(categories__name=category).annotate(
             comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
     elif tag is not None:
@@ -66,6 +71,8 @@ def report_list(request, category=None, tag=None):
         'liked_reports': liked_reports,
         'category': category,
         'tag': tag,
+        'comments': comments,
+        'likes': likes,
     }
     return render(request, 'report/report/report_list.html', context)
 

@@ -27,8 +27,8 @@
                 <div class="poster-meta">
                     <div class="meta-item">
                         <img src="{% static 'report/icons/date.svg' %}" alt="date">
-                        <span class="meta-label">تاریخ برگزاری:</span>
-                        <span class="meta-value">{{ notification.date|jformat:"%Y/%m/%d" }}</span>
+                        <span class="meta-label">زمان برگزاری:</span>
+                        <span class="meta-value">{{ notification.datetime }}</span>
                     </div>
                     {% if notification.location %}
                         <div class="meta-item">

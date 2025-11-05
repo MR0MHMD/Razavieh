@@ -14,7 +14,7 @@
                 <div class="notification-overlay"></div>
                 <div class="notification-info">
                     <h3 class="notification-title">{{ notification.title }}</h3>
-                    <p class="notification-date">{{ notification.created|jformat:"%Y/%m/%d" }}</p>
+                    <p class="notification-date">{{ notification.datetime }}</p>
                     <p class="notification-desc">{{ notification.content|truncatechars:30 }}</p>
                     <a href="{{ notification.get_absolute_url }}" class="notification-btn">مشاهده
                         جزئیات</a>

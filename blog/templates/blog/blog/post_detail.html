@@ -21,7 +21,7 @@
 
         <!-- توضیحات و محتوا -->
         <div class="post-content card">
-            <p class="post-description">{{ post.description }}</p>
+            <p class="post-description">{{ post.description|linebreaks }}</p>
             <span class="post-date">{{ post.created|jformat:"%Y/%m/%d | %H:%M" }}</span>
         </div>
 

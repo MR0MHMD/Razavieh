@@ -5,7 +5,7 @@ from .models import *
 
 
 def index(request):
-    notifications = Notification.objects.filter(is_active=True).order_by('-date')[:3]
+    notifications = Notification.objects.filter(is_active=True).order_by('-datetime')[:3]
 
     context = {
         "notifications": notifications,

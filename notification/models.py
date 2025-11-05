@@ -9,7 +9,7 @@ from taggit.managers import TaggableManager
 class Notification(models.Model):
     title = models.CharField("عنوان اطلاعیه", max_length=200)
     content = models.TextField("متن اطلاعیه")
-    date = jmodels.jDateField("تاریخ برگزاری", default=timezone.now)
+    datetime = models.CharField("تاریخ و ساعت برگزاری")
     location = models.CharField("محل برگزاری", max_length=255)
     is_active = models.BooleanField("فعال باشد؟", default=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -23,7 +23,7 @@ class Notification(models.Model):
     )
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['-datetime']
         verbose_name = "اطلاعیه"
         verbose_name_plural = "اطلاعیه‌ها"
 

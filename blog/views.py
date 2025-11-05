@@ -1,5 +1,7 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 from .forms import *
 
 
@@ -47,3 +49,14 @@ def post_comment_list(request, slug):
         'comments': comments,
     }
     return render(request, 'blog/blog/comment_list.html', context)
+
+
+class creat_post(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/forms/create_post.html'
+    success_url = reverse_lazy('blog:post_list')
+
+    def form_valid(self, form):
+        form.instance.slug = form.instance.slug or form.instance.title.replace(" ", "-")
+        return super().form_valid(form)

@@ -72,13 +72,13 @@
     <!-- ❤️ پرلایک‌ترین گزارشات -->
     <section class="home-section">
         {% top_liked_reports 3 %}
-        <a href="{% url 'report:report_list' %}?sort=likes" class="btn btn-outline">مشاهده همه</a>
+        <a href="{% url 'report:report_list_likes' True %}?sort=likes" class="btn btn-outline">مشاهده همه</a>
     </section>
 
     <!-- 💬 پر‌بحث‌ترین گزارشات -->
     <section class="home-section">
         {% top_commented_reports 3 %}
-        <a href="{% url 'report:report_list' %}?sort=comments" class="btn btn-outline">مشاهده همه</a>
+        <a href="{% url 'report:report_list_comments' True %}?sort=comments" class="btn btn-outline">مشاهده همه</a>
     </section>
 
     <!-- 💚 CTA Section -->

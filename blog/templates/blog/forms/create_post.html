@@ -1,0 +1,57 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}ایجاد پست جدید{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container fade-up">
+        <h1 class="form-title">ایجاد پست خبری جدید</h1>
+
+        <form method="post" enctype="multipart/form-data" class="form-container">
+            {% csrf_token %}
+            {{ form.as_div }}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">ثبت پست</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const realFileInput = document.querySelector('input[type="file"]');
+            const label = document.createElement("label");
+            const wrapper = document.createElement("div");
+            const fileName = document.createElement("span");
+
+            wrapper.className = "file-upload-wrapper";
+            label.className = "file-upload-label";
+            label.innerHTML = '<i class="fas fa-upload"></i> انتخاب فایل';
+            fileName.className = "file-name";
+            fileName.textContent = "هیچ فایلی انتخاب نشده است";
+
+            realFileInput.parentNode.insertBefore(wrapper, realFileInput);
+            wrapper.appendChild(label);
+            wrapper.appendChild(realFileInput);
+            wrapper.appendChild(fileName);
+
+            label.addEventListener("click", () => realFileInput.click());
+
+            realFileInput.addEventListener("change", () => {
+                if (realFileInput.files.length > 1) {
+                    fileName.textContent = `${realFileInput.files.length} فایل انتخاب شد`;
+                } else if (realFileInput.files.length === 1) {
+                    fileName.textContent = realFileInput.files[0].name;
+                } else {
+                    fileName.textContent = "هیچ فایلی انتخاب نشده است";
+                }
+            });
+        });
+    </script>
+{% endblock %}

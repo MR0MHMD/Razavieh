@@ -25,18 +25,18 @@
 
                             <div class="comment-info">
                                 <strong>
-{#                                    {% if comment.name.get_full_name %}#}
+                                    {% if comment.name.get_full_name %}
                                         {{ comment.name.get_full_name }}
-{#                                    {% else %}#}
+                                    {% else %}
                                         {{ comment.name.username }}
-{#                                    {% endif %}#}
+                                    {% endif %}
                                 </strong>
                                 <span class="comment-date">{{ comment.created|jformat:"%Y/%m/%d - %H:%M" }}</span>
                             </div>
                         </div>
                     </div>
 
-                    <p class="comment-body">{{ comment.body }}</p>
+                    <p class="comment-body">{{ comment.body|linebreaks }}</p>
                 </div>
             {% endfor %}
         </div>

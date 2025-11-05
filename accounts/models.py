@@ -1,10 +1,21 @@
+from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django_resized import ResizedImageField
 from django_jalali.db import models as jmodels
-from django.db import models
 
 
 class CustomUser(AbstractUser):
+    phone_number = models.CharField(
+        max_length=11,
+        unique=True,
+        verbose_name="شماره موبایل",
+    )
+    verification_code = models.CharField(
+        max_length=6,
+        blank=True,
+        null=True,
+        verbose_name="کد تأیید"
+    )
     date_of_birth = jmodels.jDateField(null=True, blank=True, verbose_name="تاریخ تولد")
     bio = models.TextField(verbose_name='بیوگرافی', blank=True, null=True)
     photo = ResizedImageField(upload_to='profile_image', verbose_name='تصویر', blank=True, null=True)
