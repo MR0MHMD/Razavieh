@@ -10,6 +10,7 @@ class Notification(models.Model):
     title = models.CharField("عنوان اطلاعیه", max_length=200)
     content = models.TextField("متن اطلاعیه")
     datetime = models.CharField("تاریخ و ساعت برگزاری")
+    date = jmodels.jDateField('تاریخ برگزاری مراسم')
     location = models.CharField("محل برگزاری", max_length=255)
     is_active = models.BooleanField("فعال باشد؟", default=True)
     created = models.DateTimeField(auto_now_add=True)

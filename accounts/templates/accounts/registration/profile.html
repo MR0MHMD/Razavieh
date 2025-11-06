@@ -44,7 +44,6 @@
                 <ul class="info-list">
                     <li><strong>نام کاربری:</strong> {{ user.username }}</li>
                     <li><strong>ایمیل:</strong> {{ user.email }}</li>
-                    <li><strong>تاریخ تولد:</strong> {{ user.date_of_birth|default:"ثبت نشده" }}</li>
                 </ul>
             </div>
 
@@ -67,20 +66,5 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const buttons = document.querySelectorAll('.tab-btn');
-            const tabs = document.querySelectorAll('.tab-content');
-
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    buttons.forEach(b => b.classList.remove('active'));
-                    tabs.forEach(t => t.classList.remove('active'));
-
-                    btn.classList.add('active');
-                    document.getElementById(btn.dataset.tab).classList.add('active');
-                });
-            });
-        });
-    </script>
+    <script src="{% static 'accounts/js/profile.js' %}"></script>
 {% endblock %}

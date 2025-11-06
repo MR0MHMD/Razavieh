@@ -1,12 +1,11 @@
-from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.postgres.search import TrigramSimilarity
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Greatest
 from main.decorators import superuser_required
+from django.db.models import Count, Q
 from django.http import JsonResponse
-from taggit.models import Tag
 from rapidfuzz import fuzz
 from typing import Any
 from .forms import *
@@ -229,12 +228,6 @@ def react_comment(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
-def report_by_tag(request, slug):
-    tag = get_object_or_404(Tag, slug=slug)
-    reports = Report.objects.filter(tags__in=[tag])
-    return render(request, 'report/report/report_by_tag.html', {'tag': tag, 'reports': reports})
-
-
 def normalize_farsi(text):
     if not text:
         return ''
@@ -263,10 +256,7 @@ def report_search(request):
             .distinct()
         )
 
-        tag_results = Report.objects.filter(
-            tags__name__icontains=query
-        )
-
+        tag_results = Report.objects.filter(tags__name__icontains=query)
         combined = set(list(reports) + list(tag_results))
 
         scored_results = []
@@ -285,7 +275,14 @@ def report_search(request):
 
         results = [r for r, _ in sorted(scored_results, key=lambda x: x[1], reverse=True)]
 
+    liked_reports = []
+    if request.user.is_authenticated:
+        liked_reports = list(
+            ReportLike.objects.filter(user=request.user).values_list("report_id", flat=True)
+        )
+
     return render(request, 'report/report/search_results.html', {
         'query': query,
-        'results': results
+        'results': results,
+        'liked_reports': liked_reports,
     })

@@ -5,10 +5,11 @@ from django_jalali.admin.widgets import AdminjDateWidget
 
 
 class NotificationForm(forms.ModelForm):
-
+    date = jDateField(widget=AdminjDateWidget(
+        attrs={'placeholder': 'YYYY-MM-DD'}))
     class Meta:
         model = Notification
-        fields = ['title', 'content', 'datetime', 'location', 'is_active', 'tags', 'image']
+        fields = ['title', 'content', 'datetime', 'location', 'date', 'is_active', 'tags', 'image']
         labels = {
             'title': 'عنوان اطلاعیه',
             'content': 'متن اطلاعیه',

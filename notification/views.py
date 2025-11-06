@@ -5,9 +5,9 @@ from .forms import NotificationForm
 
 def notification_list(request, tag=None):
     if tag:
-        notifications = Notification.objects.filter(tags__slug=tag)
+        notifications = Notification.objects.filter(tags__slug=tag).order_by('-date')
     else:
-        notifications = Notification.objects.all()
+        notifications = Notification.objects.all().order_by('-date')
     context = {
         'notifications': notifications,
         'tag': tag,

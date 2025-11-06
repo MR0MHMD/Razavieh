@@ -65,18 +65,21 @@
 
     <!-- 📄 آخرین گزارشات -->
     <section class="home-section">
+        <h2>آخرین گزارشات</h2>
         {% last_reports 3 %}
         <a href="{% url 'report:report_list' %}" class="btn btn-outline">مشاهده همه</a>
     </section>
 
     <!-- ❤️ پرلایک‌ترین گزارشات -->
     <section class="home-section">
+        <h2>محبوب ترین گزارشات</h2>
         {% top_liked_reports 3 %}
         <a href="{% url 'report:report_list_likes' True %}?sort=likes" class="btn btn-outline">مشاهده همه</a>
     </section>
 
     <!-- 💬 پر‌بحث‌ترین گزارشات -->
     <section class="home-section">
+        <h2>پر بحث ترین گزارشات</h2>
         {% top_commented_reports 3 %}
         <a href="{% url 'report:report_list_comments' True %}?sort=comments" class="btn btn-outline">مشاهده همه</a>
     </section>
@@ -98,4 +101,5 @@
 
 {% block scripts %}
     <script src="{% static 'main/js/home.js' %}"></script>
+    <script src="{% static 'report/js/report_likes.js' %}"></script>
 {% endblock %}

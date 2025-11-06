@@ -1,0 +1,20 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
+{% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-3">ورود با شماره موبایل</h2>
+        <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">ثبت گزارش</button>
+        </div>
+    </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'accounts:login' %}">بازگشت به ورود با رمز عبور</a>
+        </div>
+    </div>
+{% endblock %}

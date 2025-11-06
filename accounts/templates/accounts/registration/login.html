@@ -2,18 +2,21 @@
 {% load static %}
 {% block title %}login{% endblock %}
 {% block extra_css %}
-	<link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
 {% block body %}
-	<h1>ورود</h1>
-        <h2>لطفا اطلاعات خود را وارد کنید</h2>
-        <form method="post" enctype="multipart/form-data" class="form-container">
+    <h1>ورود</h1>
+    <h2>لطفا اطلاعات خود را وارد کنید</h2>
+    <form method="post" enctype="multipart/form-data" class="form-container">
         {% csrf_token %}
         {{ form.as_div }}
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">ثبت گزارش</button>
+            <button type="submit" class="btn btn-primary">ورود</button>
         </div>
-        <p>اگر حسابی ندارید <a href="{% url 'accounts:register' %}">ثبت نام</a> کنید  </p>
-        <p style="text-align: center"><a href="{% url 'accounts:password_reset' %}">فراموشی رمز ورود</a></p>
+        <p>اگر حسابی ندارید <a href="{% url 'accounts:register' %}">ثبت نام</a> کنید </p>
+        
+        <p style="text-align: center">
+            یا <a href="{% url 'accounts:mobile_login' %}">ورود با شماره موبایل و کد تأیید</a>
+        </p>
     </form>
 {% endblock %}

@@ -16,15 +16,10 @@ class CustomUserRegisterForm(forms.ModelForm):
         label='تکرار رمز عبور',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'تکرار رمز عبور'})
     )
-    date_of_birth = JalaliDateField(
-        label='تاریخ تولد',
-        widget=AdminJalaliDateWidget,
-        required=False
-    )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'bio', 'date_of_birth', 'photo')
+        fields = ('username', 'first_name', 'last_name', 'phone_number', 'photo')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام کاربری'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام'}),
@@ -32,16 +27,7 @@ class CustomUserRegisterForm(forms.ModelForm):
             'bio': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'درباره خودتان بنویسید...'}),
             'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
-        }
-
-        labels = {
-            'first_name': 'نام',
-            'last_name': 'نام خانوادگی',
-            'username': 'نام کاربری'
-        }
-
-        help_texts = {
-            'username': None,
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثال: 09121234567'})
         }
 
     def clean_password2(self):
@@ -52,21 +38,13 @@ class CustomUserRegisterForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
-    date_of_birth = JalaliDateField(
-        label='تاریخ تولد',
-        widget=AdminJalaliDateWidget,
-        required=False
-    )
-
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'date_of_birth', 'bio', 'photo']
+        fields = ['first_name', 'last_name', 'email', 'photo']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام خانوادگی'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'ایمیل'}),
-            'bio': forms.Textarea(
-                attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'درباره خودتان بنویسید...'}),
             'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
         }
 
@@ -79,6 +57,26 @@ class UserEditForm(forms.ModelForm):
         help_texts = {
             'username': None,
         }
+
+
+class OTPVerifyForm(forms.Form):
+    phone_number = forms.CharField(
+        max_length=11,
+        widget=forms.HiddenInput()  # شماره موبایل مخفی است
+    )
+    code = forms.CharField(
+        max_length=6,
+        label="کد تأیید",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد ارسال شده'})
+    )
+
+
+class MobileLoginForm(forms.Form):
+    phone_number = forms.CharField(
+        max_length=11,
+        label="شماره موبایل",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثلاً 09121234567'})
+    )
 
 
 class PersianSetPasswordForm(SetPasswordForm):

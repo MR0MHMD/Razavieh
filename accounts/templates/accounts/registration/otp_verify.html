@@ -1,0 +1,50 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}تأیید شماره موبایل{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
+{% endblock %}
+
+{% block body %}
+    <section class="form-page">
+        <h1 class="form-title fade-up">تأیید شماره موبایل</h1>
+        <p class="form-subtitle">
+            یک کد ۶ رقمی به شماره
+            <strong>{{ form.initial.phone_number }}</strong>
+            ارسال شد.
+        </p>
+
+        <form method="post" enctype="multipart/form-data" class="form-container fade-up">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.phone_number.as_hidden }}
+            </div>
+
+            <!-- فیلد کد تأیید -->
+            <div class="form-group">
+                {{ form.code.label_tag }}
+                {{ form.code }}
+                {% if form.code.errors %}
+                    <div class="field-errors">
+                        {% for error in form.code.errors %}
+                            <p class="error-text">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- دکمه ارسال -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary full-width-btn">تأیید کد</button>
+            </div>
+        </form>
+
+        <p class="form-note">
+            اگر کد را دریافت نکردید،
+            <a href="{% url 'accounts:otp-verify' form.phone_number %}" class="link-accent">دوباره ارسال کنید</a>.
+        </p>
+    </section>
+{% endblock %}

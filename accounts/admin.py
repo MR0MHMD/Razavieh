@@ -5,9 +5,9 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class UserAdmin(UserAdmin):
-    list_display = ('username', 'first_name', 'joined_jalali', 'last_name', 'is_active', 'is_superuser')
+    list_display = ('username', 'first_name', 'last_name', 'is_active', 'is_superuser')
     fieldsets = UserAdmin.fieldsets + (
-        ("Additional Information", {'fields': ('photo', 'date_of_birth', 'bio',)}),
+        ("Additional Information", {'fields': ('photo', 'phone_number')}),
     )
-    search_fields = ('username', 'email', 'first_name', 'last_name')
+    search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
     ordering = ('username',)

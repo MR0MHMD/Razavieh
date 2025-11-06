@@ -116,3 +116,5 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 # 📍 مسیر بعد از لاگین
 LOGIN_REDIRECT_URL = '/report/report_list'
+
+GHASEDAK_API_KEY = "97b761464896092337b2792e656b23382cd4b17561cceaccd1496ed68141b4aeyC6PCGMHHJGaZPpV"
