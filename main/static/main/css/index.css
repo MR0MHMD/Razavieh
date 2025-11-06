@@ -1,324 +1,235 @@
 /* =======================================================
    🕌 Home Page — Mosque Razavieh
-   Combined CSS (Hero + About + News + Contact CTA)
+   Combined & Optimized CSS (Hero + About + News + Contact CTA)
    Author: ChatGPT x Mohammad
 ======================================================= */
 
-.btn-outline{
-  display: block;
-  margin: 3rem auto;
-  width: 200px;
-  text-align: center;
+/* =============================
+   ✨ Buttons
+============================= */
+.btn {
+    position: relative;
+    display: inline-block;
+    padding: 14px 32px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    height: 55px;
+}
+
+.btn-outline {
+    display: block;
+    margin: 3rem auto;
+    width: 200px;
+    text-align: center;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center; /* همیشه وسط */
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-buttons .btn {
+    flex: 0 0 180px; /* عرض ثابت همه دکمه‌ها */
+    min-width: 140px;
+    max-width: 220px;
+    text-align: center;
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    border: none;
+    outline: none;
+    letter-spacing: 0.4px;
+    z-index: 1;
+    color: #0e141b;
+}
+
+.hero-buttons .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(255, 200, 80, 0.4);
+}
+
+.hero-buttons .btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(255, 200, 80, 0.6);
+}
+
+.hero-buttons .btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    backdrop-filter: blur(8px);
+}
+
+.hero-buttons .btn-outline:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* =============================
+   ✨ Neon Green Buttons
+============================= */
+.neon-btn {
+    background: linear-gradient(135deg, #00ff7f, #00fa9a);
+    box-shadow: 0 0 5px #00fa9a, 0 0 10px #00fa9a, 0 0 20px #00ff7f, 0 0 40px #00ff7f;
+}
+
+.neon-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #00fa9a, 0 0 20px #00fa9a, 0 0 40px #00ff7f, 0 0 80px #00ff7f;
+}
+
+.neon-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(60deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 70%);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+}
+
+.neon-btn:hover::before {
+    top: -70%;
+    left: -70%;
+}
+
+.neon-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+}
+
+.neon-btn:hover::after {
+    left: 100%;
+    transition: left 0.7s ease-in-out;
+}
+
+.neon-btn:active {
+    transform: scale(0.97);
 }
 
 /* =============================
    ✨ Hero Section
 ============================= */
+.install-app-section {
+    text-align: center;
+    margin: 40px auto;
+}
+
+#installBtn {
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+}
+
+#installBtn.show {
+    display: inline-block;
+}
+
 .hero-section {
-  position: relative;
-  overflow: hidden;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.4s ease;
-  width: 99.3vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s ease;
+    width: 99.3vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
 }
 
 [data-theme="light"] .hero-section {
-  background: linear-gradient(135deg, #eaf6f0, #f9fff9);
+    background: linear-gradient(135deg, #eaf6f0, #f9fff9);
 }
+
 [data-theme="dark"] .hero-section {
-  background: linear-gradient(135deg, #07140c, #102115);
+    background: linear-gradient(135deg, #07140c, #102115);
 }
 
 .hero-content {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  text-align: right;
-  padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: nowrap;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    text-align: right;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: nowrap;
 }
 
 .hero-text {
-  flex: 1 1 45%;
-  text-align: center;
-  z-index: 4;
+    flex: 1 1 45%;
+    text-align: center;
+    z-index: 4;
 }
 
 .hero-title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 1.4;
-  margin-bottom: 1rem;
-  background: linear-gradient(90deg, var(--accent), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: fadeInDown 1.4s ease;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInDown 1.4s ease;
 }
 
 .hero-title span {
-  display: block;
-  font-size: 1.1rem;
-  color: var(--text);
-  font-weight: 500;
-  margin-top: 0.5rem;
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-top: 0.5rem;
 }
 
 .hero-subtitle {
-  color: var(--text);
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.85;
-  animation: fadeIn 2s ease;
+    color: var(--text);
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+    animation: fadeIn 2s ease;
 }
 
-/* === دکمه‌ها === */
-.hero-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeInUp 1.8s ease;
-}
-
-.hero-buttons .btn {
-  padding: 0.9rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  border: none;
-  outline: none;
-  letter-spacing: 0.4px;
-  z-index: 1;
-}
-
-.hero-buttons .btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--gold));
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(255, 200, 80, 0.4);
-}
-.hero-buttons .btn-primary:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 10px 30px rgba(255, 200, 80, 0.6);
-}
-
-.hero-buttons .btn-outline {
-  background: transparent;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  backdrop-filter: blur(8px);
-}
-.hero-buttons .btn-outline:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 40%, transparent);
-}
-
-/* === تصویر === */
 .hero-image {
-  position: relative;
-  flex: 1 1 50%;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25);
-}
-.hero-image img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.05);
-  transition: opacity 1s ease, transform 2s ease;
-}
-.hero-image img.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* =============================
-   🕌 About Section
-============================= */
-.about-section {
-  padding: 5rem 2rem;
-  background: var(--card-bg);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.about-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-.about-image {
-  flex: 1 1 30%;
-  max-width: 260px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-.about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1s ease;
-}
-.about-image:hover img { transform: scale(1.05); }
-
-.about-content {
-  flex: 1 1 60%;
-  text-align: right;
-}
-.about-title {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, var(--accent), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}.about-text {
-  color: var(--text);
-  line-height: 1.9;
-  margin-bottom: 1rem;
-  opacity: 0.9;
-}
-
-/* =============================
-   📰 News Section
-============================= */
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2rem;
-  padding: 3rem 0;
-  justify-items: center;
-}
-.news-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  transition: all 0.6s ease;
-  cursor: pointer;
-  height: 500px;
-  width: 100%;
-  max-width: 360px;
-}
-.news-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
-}
-.news-card img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-  transition: transform 1s ease, filter 0.5s ease;
-}
-.news-card:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.1);
-}
-.news-info {
-  padding: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 240px);
-}
-.news-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-.news-desc {
-  font-size: 0.95rem;
-  color: var(--text);
-  flex-grow: 1;
-  margin: 0.8rem 0;
-}
-.news-date {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-/* =============================
-   💬 Contact CTA
-============================= */
-.contact-cta {
-  text-align: center;
-  padding: 4rem 1rem;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-  margin: 4rem auto 2rem;
-  max-width: 800px;
-}
-.contact-cta h2 {
-  font-size: 1.8rem;
-  color: var(--accent);
-}
-.contact-cta p {
-  color: var(--text);
-  opacity: 0.85;
-  margin-bottom: 2rem;
-}
-.contact-btn {
-  display: inline-block;
-  padding: 0.9rem 2rem;
-  border-radius: 50px;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.contact-btn:hover {
-  background: var(--accent);
-  color: var(--accent-foreground);
-  transform: translateY(-3px);
-}
-
-/* =============================
-   📱 Responsive Design
-============================= */
-/* ✅ رفع مشکل ارتفاع در موبایل */
-@media (max-width: 950px) {
-  .hero-content {
-    flex-direction: column-reverse;
-    text-align: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-
-  /* والد تصویر باید ارتفاع ثابتی داشته باشه */
-  .hero-image {
     position: relative;
-    width: 100%;
-    height: 260px; /* ✅ ارتفاع ثابت برای موبایل */
-    overflow: hidden;
+    flex: 1 1 50%;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius);
-  }
+    overflow: hidden;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25);
+}
 
-  /* فقط عکس فعال دیده بشه، بقیه پنهان بمونن */
-  .hero-image img {
+.hero-image img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -326,45 +237,317 @@
     object-fit: cover;
     opacity: 0;
     transform: scale(1.05);
-    transition: opacity 0.8s ease, transform 1.5s ease;
-  }
+    transition: opacity 1s ease, transform 2s ease;
+}
 
-  .hero-image img.active {
+.hero-image img.active {
     opacity: 1;
     transform: scale(1);
-    z-index: 1;
-  }
+}
 
-  .hero-text {
+/* =============================
+   🕌 About Section
+============================= */
+.about-section {
+    padding: 5rem 2rem;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.about-container {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.about-image {
+    flex: 1 1 30%;
+    max-width: 260px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.about-image img {
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s ease;
+}
 
-  .hero-title {
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+.about-content {
+    flex: 1 1 60%;
+    text-align: right;
+}
+
+.about-title {
     font-size: 2rem;
-    line-height: 1.4;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-  }
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-@media (max-width: 768px) {
-  .about-container {
-    flex-direction: column-reverse;
+
+.about-text {
+    color: var(--text);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* =============================
+   📰 News Section
+============================= */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+    padding: 3rem 0;
+    justify-items: center;
+}
+
+.news-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.6s ease;
+    cursor: pointer;
+    height: 500px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.news-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+.news-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    transition: transform 1s ease, filter 0.5s ease;
+}
+
+.news-card:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+.news-info {
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 240px);
+}
+
+.news-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.news-desc {
+    font-size: 0.95rem;
+    color: var(--text);
+    flex-grow: 1;
+    margin: 0.8rem 0;
+}
+
+.news-date {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* =============================
+   💬 Contact CTA
+============================= */
+.contact-cta {
     text-align: center;
-  }
-  .about-title { font-size: 1.6rem; }
-  .news-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-  .news-card { height: auto; }
-  .contact-cta { padding: 3rem 1rem; }
-  .hero-section { min-height: 70vh; }
+    padding: 4rem 1rem;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    margin: 4rem auto 2rem;
+    max-width: 800px;
 }
 
-/* Animations */
-@keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-@keyframes fadeInDown { from {opacity: 0; transform: translateY(-25px);} to {opacity: 1; transform: translateY(0);} }
-@keyframes fadeInUp { from {opacity: 0; transform: translateY(25px);} to {opacity: 1; transform: translateY(0);} }
+.contact-cta h2 {
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+.contact-cta p{
+    color: var(--text);
+    opacity: 0.85;
+    margin-bottom: 2rem;
+}
+
+.contact-btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    transform: translateY(-3px);
+}
+
+/* =============================
+   📱 Responsive Design
+============================= */
+@media (max-width: 950px) {
+    .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .hero-image {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        overflow: hidden;
+        border-radius: var(--radius);
+    }
+
+    .hero-image img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transform: scale(1.05);
+        transition: opacity 0.8s ease, transform 1.5s ease;
+    }
+
+    .hero-image img.active {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 1;
+    }
+
+    .hero-text {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.4;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .about-title {
+        font-size: 1.6rem;
+    }
+
+    .news-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .news-card {
+        height: auto;
+    }
+
+    .contact-cta {
+        padding: 3rem 1rem;
+    }
+
+    .hero-section {
+        min-height: 70vh;
+    }
+}
+
+/* =============================
+   ✨ Animations
+============================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* همه دکمه‌ها یک اندازه پیش‌فرض */
+.hero-buttons .btn {
+    flex: 0 0 180px; /* عرض ثابت روی دسکتاپ */
+    min-width: 140px;
+    max-width: 220px;
+    text-align: center;
+}
+
+/* وقتی عرض صفحه کمتر از 500px شد */
+@media (max-width: 500px) {
+    .hero-buttons {
+        flex-direction: column; /* زیر هم قرار بگیرن */
+        gap: 0.8rem; /* فاصله بین دکمه‌ها */
+    }
+
+    .hero-buttons .btn {
+        flex: 1 1 100%; /* کل عرض رو بگیرن */
+        max-width: 100%;
+    }
+}

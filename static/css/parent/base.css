@@ -264,6 +264,11 @@ ul, li {
     margin-bottom: .5rem
 }
 
+::selection{
+    background-color: #ff64d7;
+    color: black;
+}
+
 /* =============================
    📱 Mobile Optimization Layer
 ============================= */

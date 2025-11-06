@@ -14,9 +14,22 @@
     {% block extra_css %}{% endblock %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- ✅ PWA Manifest -->
+    <link rel="manifest" href="{% static 'main/manifest.json' %}">
+    <meta name="theme-color" content="#d4af37">
+
+    <!-- ✅ PWA Icons -->
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'icons/icon-192x192.png' %}">
+    <link rel="apple-touch-icon" sizes="512x512" href="{% static 'icons/icon-512x512.png' %}">
+
+    <!-- ✅ Display standalone mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مسجد رضویه افسریه">
+
 </head>
 
-<body data-auth="{{ request.user.is_authenticated|yesno:'true,false' }} " data-theme="light">
+<body data-auth="{{ request.user.is_authenticated|yesno:'true,false' }} " data-theme="dark">
 <!-- 🕌 Header (optional include later) -->
 {% include 'partials/header.html' %}
 
@@ -44,26 +57,6 @@
                 ? '<i class="fas fa-times"></i>'
                 : '<i class="fas fa-bars"></i>';
         });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const body = document.body;
-        const btn = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('theme');
-
-        if (savedTheme) body.setAttribute('data-theme', savedTheme);
-
-        btn.addEventListener('click', () => {
-            const current = body.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            body.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            btn.textContent = next === 'dark' ? '☀️' : '🌙';
-        });
-
-        // تنظیم آیکون اولیه
-        btn.textContent = body.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
     });
 </script>
 <script>
@@ -95,6 +88,20 @@
         const initialTheme = document.body.getAttribute("data-theme") || "light";
         updateIconsForTheme(initialTheme);
     });
+</script>
+<!-- ✅ Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register("{% static 'main/js/service-worker.js' %}")
+                .then(function (registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function (error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+        });
+    }
 </script>
 </body>
 </html>

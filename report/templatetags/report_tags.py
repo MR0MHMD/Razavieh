@@ -39,7 +39,9 @@ def latest_comments(context, count=3):
 def last_reports(context, count=3):
     """آخرین گزارش‌ها"""
     user = context['request'].user
-    reports = Report.objects.order_by('-date')[:count]
+    reports = Report.objects.annotate(
+        comments_count=Count('comments', filter=Q(comments__active=True))
+    ).order_by('-date')[:count]
 
     liked_reports = []
     if user.is_authenticated:
@@ -53,7 +55,8 @@ def last_reports(context, count=3):
 def top_liked_reports(context, count=3):
     """محبوب‌ترین گزارش‌ها"""
     user = context['request'].user
-    reports = Report.objects.order_by('-likes', '-created')[:count]
+    reports = Report.objects.annotate(
+        comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-likes', '-created')[:count]
 
     liked_reports = []
     if user.is_authenticated:

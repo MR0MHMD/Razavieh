@@ -1,0 +1,14 @@
+h1, h2, a{
+        text-align: center;
+        margin: 1rem auto;
+    }
+    .redirect{
+        display: inline-block;
+        margin: 1rem auto;
+        border: 2px solid var(--accent);
+        padding: 1rem;
+        border-radius: var(--radius);
+    }
+    h1{
+        margin-top: 150px;
+    }

@@ -1,0 +1,15 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}نظرات {{ report.title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'report/css/report/comment_redirect.css' %}">
+{% endblock %}
+
+{% block body %}
+    <h1>ممنون بابت نظرتون </h1>
+    <h2>نظر شما ثبت شد و پس از تایید نمایش داده خواهد شد</h2>
+
+    <a class="redirect" href="{{ report.get_absolute_url }}">بازگشت به گزارش</a>
+{% endblock %}

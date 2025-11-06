@@ -127,7 +127,7 @@ def report_comment(request, slug):
             if request.user.is_authenticated:
                 comment.name = request.user
             comment.save()
-            return redirect(report.get_absolute_url())
+            return render(request, 'report/report/comment_redirect.html', {"report": report})
     else:
         form = CommentForm()
     context = {
