@@ -31,7 +31,7 @@ class Category(models.Model):
 class Report(models.Model):
     title = models.CharField(max_length=200, verbose_name='عنوان مراسم')
     description = models.TextField(verbose_name='توضیحات')
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, allow_unicode=True)
     date = jmodels.jDateField(default=None, verbose_name="تاریخ مراسم")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
