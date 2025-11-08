@@ -1,0 +1,59 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}کمک‌های مردمی{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'donation/css/donation.css' %}">
+{% endblock %}
+
+{% block body %}
+<section class="donation-section container">
+  <h2 class="section-title">💚 کمک‌های مردمی</h2>
+
+  <div class="donation-grid">
+    {% for card in cards %}
+      <article class="donation-card" 
+               data-card="{{ card.card_number }}" 
+               data-sheba="{{ card.sheba_number }}" 
+               data-link="{{ card.link|default:'' }}">
+        <header class="donation-card-header">
+          <h3 class="donation-title">{{ card.title }}</h3>
+        </header>
+
+        <div class="donation-media">
+          <img src="{{ card.image.url }}" alt="{{ card.title }}" class="donation-img">
+        </div>
+      </article>
+    {% empty %}
+      <p>فعلاً هیچ کارت فعالی ثبت نشده است.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- مودال -->
+<div class="donation-modal" id="donationModal" aria-hidden="true" role="dialog" aria-label="عملیات کارت پرداخت">
+  <div class="donation-modal-backdrop" id="donationBackdrop"></div>
+  <div class="donation-modal-panel" role="document" aria-modal="true">
+    <button class="modal-close" id="donationModalClose" aria-label="بستن">&times;</button>
+    <div class="modal-body">
+      <h3 id="modalTitle">انتخاب عملیات</h3>
+      <p id="modalCardLabel" class="muted">شماره کارت: <span id="modalCard"></span></p>
+      <p id="modalShebaLabel" class="muted">شماره شبا: <span id="modalSheba"></span></p>
+
+      <div class="modal-actions">
+        <button class="btn action-copy" id="copyCardBtn">📋 کپی شماره کارت</button>
+        <button class="btn action-copy" id="copyShebaBtn">📄 کپی شماره شبا</button>
+        <button class="btn action-link" id="openLinkBtn">💳 پرداخت (بله)</button>
+      </div>
+
+      <div id="modalToast" class="modal-toast" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'donation/js/donation.js' %}"></script>
+{% endblock %}

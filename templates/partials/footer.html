@@ -16,10 +16,11 @@
             <h3>لینک‌های سریع</h3>
             <ul>
                 <li><a href="{% url 'main:index' %}">خانه</a></li>
-                <li><a href="#">گزارش‌ها</a></li>
-                <li><a href="#">رویدادها</a></li>
-                <li><a href="#">درباره ما</a></li>
-                <li><a href="#">تماس با ما</a></li>
+                <li><a href="{% url 'report:report_list' %}">گزارش‌ها</a></li>
+                <li><a href="{% url 'notification:notification_list' %}">اطلاع رسانی ها</a></li>
+                <li><a href="{% url 'blog:post_list' %}">اخبار</a></li>
+                <li><a href="{% url 'main:about' %}">درباره ما</a></li>
+                <li><a href="{% url 'main:ticket' %}">تماس با ما</a></li>
             </ul>
         </div>
 
@@ -28,7 +29,7 @@
             <h3>تماس با ما</h3>
             <ul>
                 <li>📞 ۰۲۱-۱۲۳۴۵۶۷۸</li>
-                <li>📧 info@razaviyeh.ir</li>
+                <li>📧 www.razaviyehinfo.ir</li>
                 <li>📍 تهران، افسریه، خیابان 33، مسجد رضویه</li>
             </ul>
         </div>

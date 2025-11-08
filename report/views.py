@@ -36,9 +36,9 @@ def create_report(request):
 
 def report_list(request, category=None, tag=None, likes=False, comments=False):
     if comments:
-        Report.objects.all().annotate(
+        reports = Report.objects.annotate(
             comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-comments_count')
-    if likes:
+    elif likes:
         reports = Report.objects.all().order_by('-likes')
     elif category is not None:
         reports = Report.objects.filter(categories__name=category).annotate(
@@ -249,14 +249,20 @@ def report_search(request):
                 similarity=Greatest(
                     TrigramSimilarity('title', query),
                     TrigramSimilarity('description', query),
-                )
+                ),
+                comments_count=Count('comments', filter=Q(comments__active=True))  # ✅ اضافه شد
             )
             .filter(similarity__gt=0.05)
             .order_by('-similarity')
             .distinct()
         )
 
-        tag_results = Report.objects.filter(tags__name__icontains=query)
+        tag_results = Report.objects.filter(
+            tags__name__icontains=query
+        ).annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))  # ✅ اینجا هم اضافه شد
+        )
+
         combined = set(list(reports) + list(tag_results))
 
         scored_results = []
@@ -273,6 +279,7 @@ def report_search(request):
             if final_score > 40:
                 scored_results.append((r, final_score))
 
+        # ✅ مرتب‌سازی بر اساس شباهت و نگه داشتن مقدار کامنت‌ها
         results = [r for r, _ in sorted(scored_results, key=lambda x: x[1], reverse=True)]
 
     liked_reports = []
