@@ -20,7 +20,7 @@
                         required
                 />
                 <button type="submit" class="search-btn">
-                    <i class="fas fa-search"></i>
+                    <img src="{% static 'icons/search.svg' %}" alt="جستجو">
                 </button>
             </form>
         </div>
@@ -31,47 +31,8 @@
             <a href="{% url 'main:ticket' %}">تماس با ما</a>
             <a href="{% url 'notification:notification_list' %}">اطلاع رسانی</a>
             <a href="{% url 'blog:post_list' %}">مجله خبری</a>
-            {% if request.user.is_superuser %}
-                <div class="categories-dropdown">
-
-                    <div class="categories-dropdown">
-                        <button class="dropdown-btn">
-                            تجهیزات <span class="arrow">▼</span>
-                        </button>
-                        <div class="dropdown-content">
-                            <div class="submenu">
-                                <a href="{% url 'inventory:scrotter_list' %}" class="has-submenu">
-                                    پارچه‌ها <span class="arrow">▶</span>
-                                </a>
-                                <div class="submenu-content">
-                                    <a href="{% url 'inventory:scrotter_category' 'شهادت' %}">شهادت</a>
-                                    <a href="{% url 'inventory:scrotter_category' 'ولادت' %}">ولادت</a>
-                                    <a href="{% url 'inventory:scrotter_category' 'همه مناسبت ها' %}">همه مناسبت ها</a>
-                                </div>
-                            </div>
-                            <a href="{% url 'inventory:decorative_list' %}">وسایل دکوری</a>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
-            <div class="categories-dropdown">
-                <button class="dropdown-btn">
-                    گزارشات
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="dropdown-content">
-                    <a href="{% url 'report:report_list_category' 'همه' %}">همه</a>
-                    <a href="{% url 'report:report_list_category' 'عزاداری' %}">عزاداری</a>
-                    <a href="{% url 'report:report_list_category' 'جشن' %}">جشن</a>
-                    <a href="{% url 'report:report_list_category' 'موکب' %}">موکب</a>
-                    <a href="{% url 'report:report_list_category' 'مناسبت های مذهبی' %}">مناسبت های مذهبی</a>
-                    <a href="{% url 'report:report_list_category' 'مناسبت های ملی' %}">مناسبت های ملی</a>
-                    <a href="{% url 'report:report_list_category' 'چهارشنبه های امام رضایی' %}">چهارشنبه های امام
-                        رضایی</a>
-                    <a href="{% url 'report:report_list_category' 'هیئت' %}">هیئت</a>
-                </div>
-            </div>
+            <a href="{% url 'donation:donation_list' %}">کمک های مالی</a>
+            <a href="{% url 'report:report_list' %}">گزارشات</a>
         </nav>
 
         <!-- دکمه ورود / حساب کاربری -->
@@ -89,7 +50,7 @@
 
         <!-- آیکون جستجو موبایل -->
         <button class="mobile-search-btn" id="mobileSearchBtn">
-            <i class="fas fa-search"></i>
+            <img src="{% static 'icons/search.svg' %}" alt="جستجو">
         </button>
 
         <!-- پاپ‌آپ جستجو -->
@@ -97,7 +58,9 @@
         <div class="mobile-search-popup" id="mobileSearchPopup">
             <form method="get" action="{% url 'report:report_search' %}" class="mobile-search-form">
                 <input type="text" name="q" placeholder="جستجو در گزارش‌ها..." required>
-                <button type="submit"><i class="fas fa-search"></i></button>
+                <button type="submit">>
+                    <img src="{% static 'icons/search.svg' %}" alt="جستجو">
+                </button>
             </form>
         </div>
 
@@ -107,7 +70,4 @@
 
     </div>
 </header>
-<script src="{% static 'js/menu-toggle.js' %}">
-
-</script>
-
+<script src="{% static 'js/menu-toggle.js' %}"></script>

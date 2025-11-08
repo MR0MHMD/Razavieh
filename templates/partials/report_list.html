@@ -1,0 +1,53 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}گزارشات روز{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'report/css/report/report_list.css' %}">
+{% endblock %}
+{% block body %}
+    {% if likes %}
+        <h1 class="page-title">لیست محبوب ترین گزارشات</h1>
+    {% elif comments %}
+        <h1 class="page-title">لیست پر بحث ترین گزارشات</h1>
+    {% elif category %}
+        <h1 class="page-title">لیست گزارشات بر اساس دسته بندی {{ category }}</h1>
+    {% elif tag %}
+        <h1 class="page-title">لیست گزارشات بر اساس برچسب {{ tag }}</h1>
+    {% else %}
+        <h1 class="page-title"> گزارشات روز مسجد</h1>
+    {% endif %}
+    <div class="filter-bar">
+        <button id="openCategoryModal" class="filter-btn">مرتب‌سازی بر اساس دسته‌بندی</button>
+    </div>
+    <!-- مودال دسته‌بندی -->
+    <div class="category-modal" id="categoryModal">
+        <div class="category-modal-backdrop"></div>
+        <div class="category-modal-content">
+            <button class="modal-close" id="closeCategoryModal">&times;</button>
+            <h3 class="modal-title">انتخاب دسته‌بندی</h3>
+            <ul class="category-list">
+                <li><a href="{% url 'report:report_list_category' 'عزاداری' %}">عزاداری</a></li>
+                <li><a href="{% url 'report:report_list_category' 'جشن' %}">جشن</a></li>
+                <li><a href="{% url 'report:report_list_category' 'موکب' %}">موکب</a></li>
+                <li><a href="{% url 'report:report_list_category' 'مناسبت های مذهبی' %}">مناسبت‌های مذهبی</a></li>
+                <li><a href="{% url 'report:report_list_category' 'مناسبت های ملی' %}">مناسبت‌های ملی</a></li>
+                <li><a href="{% url 'report:report_list_category' 'چهارشنبه های امام رضایی' %}">چهارشنبه‌های امام
+                    رضایی</a></li>
+                <li><a href="{% url 'report:report_list_category' 'هیئت' %}">هیئت</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container reports-container">
+        {% if reports %}
+            {% include 'report/partials/report_cards.html' %}
+        {% else %}
+            <p class="no-report">هنوز گزارشی ثبت نشده است 😔</p>
+        {% endif %}
+    </div>
+    {% include 'partials/pagination.html' with pages=reports %}
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'report/js/report_likes.js' %}"></script>
+    <script src="{% static 'report/js/categories.js' %}"></script>
+{% endblock %}

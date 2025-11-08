@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Notification
 from .forms import NotificationForm
@@ -8,6 +9,15 @@ def notification_list(request, tag=None):
         notifications = Notification.objects.filter(tags__slug=tag).order_by('-date')
     else:
         notifications = Notification.objects.all().order_by('-date')
+
+    paginator = Paginator(notifications, 9)
+    page_number = request.GET.get('page', 1)
+    try:
+        notifications = paginator.page(page_number)
+    except EmptyPage:
+        notifications = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        notifications = paginator.page(1)
     context = {
         'notifications': notifications,
         'tag': tag,

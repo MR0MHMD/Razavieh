@@ -1,9 +1,8 @@
-from django.db import models
-from django.urls import reverse
-from django.utils import timezone
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
 from taggit.managers import TaggableManager
+from django.urls import reverse
+from django.db import models
 
 
 class Notification(models.Model):

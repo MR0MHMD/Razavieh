@@ -33,4 +33,3 @@ def ticket(request):
 
 def about(request):
     return render(request, 'main/main/about.html')
-

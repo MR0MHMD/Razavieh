@@ -1,14 +1,14 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 {% block title %}
-	comment
+    comment
 {% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
 {% block body %}
     {% if comment %}
-    	<p>کامنت شما ثبت شد!</p>
+        <p>کامنت شما ثبت شد!</p>
         <a href="{{ post.get_absolute_url }}">بازگشت به پست</a>
     {% else %}
         <div class="form-container">
@@ -18,6 +18,6 @@
                 {{ form.as_p }}
                 <input type="submit" value="ارسال">
             </form>
-        </div> 
+        </div>
     {% endif %}
 {% endblock %}

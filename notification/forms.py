@@ -1,7 +1,7 @@
-from django import forms
-from .models import Notification
-from django_jalali.forms import jDateField
 from django_jalali.admin.widgets import AdminjDateWidget
+from django_jalali.forms import jDateField
+from .models import Notification
+from django import forms
 
 
 class NotificationForm(forms.ModelForm):

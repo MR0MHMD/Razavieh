@@ -40,70 +40,70 @@
 /* Header (title above image) */
 /* ✅ کارت‌ها بدون پس‌زمینه */
 .donation-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* عنوان بالای عکس */
 .donation-card-header {
-  padding: 0.6rem 0;
+    padding: 0.6rem 0;
 }
 
 .donation-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--gold);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--gold);
 }
 
 /* ✅ عکس‌ها: نسبت حفظ، کوچک‌تر، با افکت هاور فقط روی عکس */
 .donation-media {
-  background: transparent;
-  padding: 0.3rem;
+    background: transparent;
+    padding: 0.3rem;
 }
 
 .donation-img {
-  width: 100%;
-  height: auto;
-  max-width: 92%;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-  border-radius: 14px;
-  transition: transform 0.4s ease, filter 0.4s ease;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    height: auto;
+    max-width: 92%;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    border-radius: 14px;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 /* 🟢 فقط وقتی ماوس روی عکس رفت */
 .donation-img:hover {
-  transform: scale(1.06);
-  filter: brightness(1.1) saturate(1.15);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+    transform: scale(1.06);
+    filter: brightness(1.1) saturate(1.15);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
 }
 
 /* ✅ شبکه کارت‌ها */
 .donation-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
-  justify-items: center;
-  padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+    padding: 1rem;
 }
 
 /* موبایل */
 @media (max-width: 900px) {
-  .donation-grid {
-    grid-template-columns: 1fr;
-  }
+    .donation-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .donation-img {
-    max-width: 100%;
-  }
+    .donation-img {
+        max-width: 100%;
+    }
 }
 
 /* Modal (centered sliding panel) */

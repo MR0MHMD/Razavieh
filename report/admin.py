@@ -20,7 +20,7 @@ class inlines:
 
 
 @admin.register(ReportImage)
-class ResizedImageFieldAdmin(admin.ModelAdmin):
+class ReportImagedAdmin(admin.ModelAdmin):
     list_display = ['report']
 
 
@@ -30,13 +30,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('active', ('created', JDateFieldListFilter))
     search_fields = ('name', 'body')
     list_editable = ['active']
-
-
-@admin.register(ReportLike)
-class ReportLikeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'report', 'user')
-    list_filter = ('report',)
-    search_fields = ('report__title', 'user__username')
 
 
 @admin.register(Category)
@@ -53,6 +46,8 @@ class ReportAdmin(admin.ModelAdmin):
     list_filter = ('date', 'categories')
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('categories',)
+    date_hierarchy = 'date'
+    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline]
     fieldsets = (
         ('اطلاعات کلی', {'fields': ('title', 'slug', 'description', 'date')}),
         ('تگ‌ها و آمار', {'fields': ('tags', 'likes', 'views', 'categories')}),

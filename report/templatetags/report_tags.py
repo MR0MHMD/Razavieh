@@ -16,9 +16,8 @@ def latest_comments(context, count=3):
     request = context['request']
     report = context.get('report')
 
-    comments = Comment.objects.filter(report=report, active=True) \
-                   .select_related('name') \
-                   .order_by('-like_count', '-created')[:count]
+    comments = Comment.objects.filter(report=report, active=True).select_related('name').order_by('-like_count',
+                                                                                                  '-created')[:count]
 
     # بررسی واکنش‌های کاربر
     user_reactions = {}

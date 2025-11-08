@@ -34,9 +34,9 @@
     --border: rgba(255, 255, 255, 0.08);
 
     --accent: #00bfa5;
-    --accent-light: rgba(0, 191, 165, 0.15);
+    --accent-light: #84cba3;
     --accent-hover: #00a68f;
-    --accent-foreground: #021212;
+    --accent-foreground: rgb(34, 62, 31);
 
     --shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
     --hover-shadow: 0 0 18px rgba(0, 191, 165, 0.35);
@@ -264,8 +264,8 @@ ul, li {
     margin-bottom: .5rem
 }
 
-::selection{
-    background-color: #ff64d7;
+::selection {
+    background-color: #00ff95;
     color: black;
 }
 
@@ -404,5 +404,173 @@ ul, li {
 
     .section-subtitle {
         font-size: 0.95rem;
+    }
+}
+
+/* ===========================
+   🌙 Loader — طلوع نور رضوی v2
+   مرکز دقیق + هماهنگی بصری
+=========================== */
+#page-loader {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #04130a 0%, #000000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+    transition: opacity 0.8s ease;
+    isolation: isolate;
+}
+
+#page-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 🌕 نور مرکزی */
+.loader-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(255, 215, 100, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glowPulse 3.5s infinite ease-in-out;
+    filter: blur(80px);
+    z-index: 0;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* 🔸 حلقه طلایی */
+.loader-ring {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.25);
+    animation: ringRotate 6s linear infinite;
+    z-index: 1;
+}
+
+@keyframes ringRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 🕌 لوگو مرکزی */
+.loader-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: contain;
+    z-index: 2;
+    filter: drop-shadow(0 0 20px rgba(255, 230, 120, 0.9)) drop-shadow(0 0 35px rgba(212, 175, 55, 0.5));
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 230, 120, 0.9));
+    }
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 45px rgba(255, 235, 160, 0.9));
+    }
+}
+
+/* ✨ انعکاس ظریف پایین لوگو */
+.loader-logo::after {
+    content: "";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.2), transparent);
+    border-radius: 50%;
+    filter: blur(10px);
+    opacity: 0.6;
+}
+
+/* 🕊️ متن ذکر */
+.loader-text {
+    position: relative;
+    margin-top: 2.4rem;
+    color: #f9e79f;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-align: center;
+    font-family: "Scheherazade New", "Vazirmatn", serif;
+    text-shadow: 0 0 6px rgba(255, 215, 120, 0.6),
+    0 0 20px rgba(212, 175, 55, 0.4);
+    animation: textFade 2.8s ease forwards, shimmer 4s infinite linear;
+    background: linear-gradient(90deg, #ffecb3, #fff, #ffd966);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    z-index: 3;
+}
+
+@keyframes textFade {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* ✨ پارتیکل‌های طلایی */
+#page-loader::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 240, 200, 0.6) 1px, transparent 1px);
+    background-size: 4px 4px;
+    animation: particles 15s linear infinite;
+    opacity: 0.25;
+    mix-blend-mode: overlay;
+}
+
+@keyframes particles {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 200px 200px;
     }
 }

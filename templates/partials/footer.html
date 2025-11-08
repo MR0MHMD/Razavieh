@@ -18,6 +18,7 @@
                 <li><a href="{% url 'main:index' %}">خانه</a></li>
                 <li><a href="{% url 'report:report_list' %}">گزارش‌ها</a></li>
                 <li><a href="{% url 'notification:notification_list' %}">اطلاع رسانی ها</a></li>
+                <li><a href="{% url 'donation:donation_list' %}">کمک های مردمی</a></li>
                 <li><a href="{% url 'blog:post_list' %}">اخبار</a></li>
                 <li><a href="{% url 'main:about' %}">درباره ما</a></li>
                 <li><a href="{% url 'main:ticket' %}">تماس با ما</a></li>
@@ -38,7 +39,7 @@
         <div class="footer-section social">
             <h3>ما را دنبال کنید</h3>
             <div class="social-icons">
-                <a href="https://ble.ir/14mersad" aria-label="بله">
+                <a href="https://ble.ir/14mersad" aria-label="بله" target="_blank">
                     <img
                             src="{% static 'icons/bale-black.svg' %}"
                             data-light="{% static 'icons/bale-black.svg' %}"
@@ -46,7 +47,7 @@
                             alt="بله">
                 </a>
 
-                <a href="https://eitaa.com/razaviyehinfo" aria-label="ایتا">
+                <a href="https://eitaa.com/razaviyehinfo" aria-label="ایتا" target="_blank">
                     <img
                             src="{% static 'icons/eitaa-black.svg' %}"
                             data-light="{% static 'icons/eitaa-black.svg' %}"
@@ -54,7 +55,7 @@
                             alt="ایتا">
                 </a>
 
-                <a href="https://www.instagram.com/razaviyeh.info" aria-label="اینستاگرام">
+                <a href="https://www.instagram.com/razaviyeh.info" aria-label="اینستاگرام" target="_blank">
                     <img
                             src="{% static 'icons/instagram-black.svg' %}"
                             data-light="{% static 'icons/instagram-black.svg' %}"

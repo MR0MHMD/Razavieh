@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import *
-import Razavieh
 
 
 @admin.register(Ticket)

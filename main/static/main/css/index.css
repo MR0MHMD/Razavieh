@@ -256,7 +256,7 @@
 }
 
 .about-container {
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 3rem;
@@ -387,7 +387,7 @@
     color: var(--accent);
 }
 
-.contact-cta p{
+.contact-cta p {
     color: var(--text);
     opacity: 0.85;
     margin-bottom: 2rem;
@@ -523,6 +523,7 @@
         transform: translateY(0);
     }
 }
+
 .hero-buttons {
     display: flex;
     justify-content: center;

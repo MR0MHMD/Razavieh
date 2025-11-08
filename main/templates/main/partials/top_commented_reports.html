@@ -2,52 +2,52 @@
 {% load jformat %}
 <link rel="stylesheet" href="{% static 'report/css/report/report_list.css' %}">
 <section class="top-commented-reports container">
-  <h2 class="section-title">💬 پر بحث‌ترین گزارش‌ها</h2>
+    <h2 class="section-title">💬 پر بحث‌ترین گزارش‌ها</h2>
 
-  {% if reports %}
-  <div class="reports-grid">
-    {% for report in reports %}
-    <div class="report-card">
-      <!-- تصویر -->
-      <div class="report-thumb">
-        {% if report.images.first %}
-          <img src="{{ report.images.first.image.url }}" alt="{{ report.title }}">
-        {% else %}
-          <img src="#" alt="بدون تصویر">
-        {% endif %}
-      </div>
+    {% if reports %}
+        <div class="reports-grid">
+            {% for report in reports %}
+                <div class="report-card">
+                    <!-- تصویر -->
+                    <div class="report-thumb">
+                        {% if report.images.first %}
+                            <img src="{{ report.images.first.image.url }}" alt="{{ report.title }}">
+                        {% else %}
+                            <img src="#" alt="بدون تصویر">
+                        {% endif %}
+                    </div>
 
-      <!-- بدنه -->
-      <div class="report-body">
-        <h3 class="report-title">{{ report.title }}</h3>
-        <p class="report-description">{{ report.description|truncatewords:20 }}</p>
-      </div>
+                    <!-- بدنه -->
+                    <div class="report-body">
+                        <h3 class="report-title">{{ report.title }}</h3>
+                        <p class="report-description">{{ report.description|truncatewords:20 }}</p>
+                    </div>
 
-      <!-- فوتر -->
-      <div class="report-footer">
-        <div class="report-meta">
-          <div class="meta-item comment">
-            <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
-            <span class="count">{{ report.comments_count }}</span>
-          </div>
+                    <!-- فوتر -->
+                    <div class="report-footer">
+                        <div class="report-meta">
+                            <div class="meta-item comment">
+                                <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                                <span class="count">{{ report.comments_count }}</span>
+                            </div>
 
-          <div class="meta-item">
-            <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
-            <span class="count">{{ report.views }}</span>
-          </div>
+                            <div class="meta-item">
+                                <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
+                                <span class="count">{{ report.views }}</span>
+                            </div>
 
-          <div class="meta-item">
-            <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
-            <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
-          </div>
+                            <div class="meta-item">
+                                <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
+                                <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
+                            </div>
+                        </div>
+
+                        <a href="{{ report.get_absolute_url }}" class="btn btn-primary full-width-btn">مشاهده</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-
-        <a href="{{ report.get_absolute_url }}" class="btn btn-primary full-width-btn">مشاهده</a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  {% else %}
-    <p class="no-report">هیچ گزارشی هنوز نظری ندارد 😔</p>
-  {% endif %}
+    {% else %}
+        <p class="no-report">هیچ گزارشی هنوز نظری ندارد 😔</p>
+    {% endif %}
 </section>

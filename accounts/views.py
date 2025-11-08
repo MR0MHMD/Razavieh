@@ -1,46 +1,95 @@
 from .forms import CustomUserRegisterForm, UserEditForm, OTPVerifyForm, MobileLoginForm
 from django.contrib.auth.decorators import login_required
-from .sms_utils import send_verification_code, verify_otp
+from .sms_utils import send_verification_code, generate_otp, send_otp_via_ghasedak
 from django.shortcuts import render, redirect
-from django.contrib.auth import logout,login
+from django.contrib.auth import logout, login
 from report.models import ReportLike
 from django.contrib import messages
 from .models import CustomUser
+from django.utils import timezone
+from datetime import timedelta
 
 
 def register(request):
+    """
+    ثبت‌نام کاربر:
+    - اطلاعات فرم را در session نگه می‌دارد
+    - OTP تولید و ارسال می‌کند
+    - کاربر هنوز ساخته نشده است
+    """
     if request.method == "POST":
         form = CustomUserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.is_active = True
-            user.save()
+            # ذخیره داده‌ها در session
+            request.session['register_data'] = form.cleaned_data
 
-            send_verification_code(user)
+            # تولید OTP
+            code = generate_otp()
+            request.session['register_otp'] = code
+            request.session['otp_created_at'] = timezone.now().isoformat()
 
-            return redirect('accounts:otp-verify', phone_number=user.phone_number)
+            # ارسال OTP
+            send_otp_via_ghasedak(form.cleaned_data['phone_number'], code)
+
+            return redirect('accounts:otp-verify', phone_number=form.cleaned_data['phone_number'])
     else:
         form = CustomUserRegisterForm()
     return render(request, 'accounts/registration/register.html', {'form': form})
 
 
 def otp_verify(request, phone_number):
+    """
+    تأیید OTP:
+    - داده‌های فرم از session خوانده می‌شوند
+    - در صورت صحت OTP، کاربر ساخته و وارد می‌شود
+    """
+    otp = request.session.get('register_otp')
+    otp_time = request.session.get('otp_created_at')
+    register_data = request.session.get('register_data')
+
+    if not otp or not register_data:
+        messages.error(request, "لطفاً ابتدا ثبت‌نام را انجام دهید.")
+        return redirect('accounts:register')
+
+    # بازیابی کاربر از دیتابیس (در صورت ورود بعد از OTP)
     try:
         user = CustomUser.objects.get(phone_number=phone_number)
+        user_exists = True
     except CustomUser.DoesNotExist:
-        return redirect('accounts:register')
+        user = None
+        user_exists = False
 
     if request.method == "POST":
         form = OTPVerifyForm(request.POST)
         if form.is_valid():
-            code = form.cleaned_data['code']
-            valid, message = verify_otp(user, code)
-            if valid:
-                login(request, user)
-                return redirect('accounts:profile')
+            code_input = form.cleaned_data['code']
+
+            # بررسی کد و محدودیت زمانی 2 دقیقه
+            otp_created_at_dt = timezone.datetime.fromisoformat(otp_time)
+            if code_input != otp:
+                form.add_error('code', "کد اشتباه است.")
+            elif timezone.now() > otp_created_at_dt + timedelta(minutes=2):
+                form.add_error('code', "کد منقضی شده است.")
             else:
-                form.add_error('code', message)
+                # اگر کاربر هنوز ساخته نشده، ایجاد می‌کنیم
+                if not user_exists:
+                    user = CustomUser.objects.create_user(
+                        username=register_data['username'],
+                        phone_number=register_data['phone_number'],
+                        password=register_data['password'],
+                        first_name=register_data.get('first_name', ''),
+                        last_name=register_data.get('last_name', ''),
+                    )
+
+                # ورود کاربر
+                login(request, user)
+
+                # پاک کردن داده‌های session
+                request.session.pop('register_data', None)
+                request.session.pop('register_otp', None)
+                request.session.pop('otp_created_at', None)
+
+                return redirect('accounts:profile')
     else:
         form = OTPVerifyForm(initial={'phone_number': phone_number})
 

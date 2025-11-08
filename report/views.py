@@ -73,7 +73,7 @@ def report_list(request, category=None, tag=None, likes=False, comments=False):
         'comments': comments,
         'likes': likes,
     }
-    return render(request, 'report/report/report_list.html', context)
+    return render(request, 'partials/report_list.html', context)
 
 
 def report_detail(request, slug):
@@ -109,6 +109,7 @@ def report_detail(request, slug):
         'liked': liked,
         'likes_count': likes_count,
         'active_comments_count': active_comments_count,
+        "user_reactions": user_reactions,
     }
 
     return render(request, 'report/report/report_detail.html', context)
@@ -233,7 +234,7 @@ def normalize_farsi(text):
         return ''
     text = text.strip().lower()
     text = text.replace("ي", "ی").replace("ك", "ک")
-    text = re.sub(r"[‌\u200c\s]+", " ", text)
+    text = re.sub(r'[‌\s]+', " ", text)
     text = re.sub(r"[^\w\s\u0600-\u06FF]", "", text)
     return text
 

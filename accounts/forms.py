@@ -1,8 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
-from jalali_date.widgets import AdminJalaliDateWidget
 from django.contrib.auth.forms import SetPasswordForm
 from django.core.exceptions import ValidationError
-from jalali_date.fields import JalaliDateField
 from .models import CustomUser
 from django import forms
 
@@ -19,14 +17,13 @@ class CustomUserRegisterForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'phone_number', 'photo')
+        fields = ('username', 'first_name', 'last_name', 'phone_number')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام کاربری'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام خانوادگی'}),
             'bio': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'درباره خودتان بنویسید...'}),
-            'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثال: 09121234567'})
         }
 

@@ -56,73 +56,75 @@
    🔍 Compact Header Search (Mobile-style)
 ================================= */
 .search-bar-wrapper {
-  position: relative;
-  z-index: 5000;
+    position: relative;
+    z-index: 5000;
 }
 
 .search-form {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  background: transparent;
-  border: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: transparent;
+    border: none;
 }
 
 /* ورودی جستجو (در حالت عادی پنهان) */
 .search-input {
-  width: 0;
-  opacity: 0;
-  visibility: hidden;
-  border: none;
-  outline: none;
-  background: var(--card-bg);
-  border-radius: 50px;
-  padding: 0.45rem 0.8rem;
-  font-size: 0.9rem;
-  color: var(--text);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    border: none;
+    outline: none;
+    background: var(--card-bg);
+    border-radius: 50px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 
 /* وقتی فوکوس می‌گیرد (باز می‌شود) */
 .search-input.active {
-  width: 180px;
-  opacity: 1;
-  visibility: visible;
-  margin-left: 0.5rem;
+    width: 180px;
+    opacity: 1;
+    visibility: visible;
+    margin-left: 0.5rem;
 }
 
 /* دکمه آیکن */
 .search-btn {
-  background: transparent;
-  border: none;
-  color: var(--accent);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 0.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.3s ease, transform 0.2s ease;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .search-btn:hover {
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-  transform: scale(1.1);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    transform: scale(1.1);
 }
 
 /* ریسپانسیو */
 @media (max-width: 768px) {
-  .search-input.active {
-    width: 140px;
-    font-size: 0.85rem;
-  }
-  .search-btn {
-    font-size: 1rem;
-    padding: 0.3rem;
-  }
+    .search-input.active {
+        width: 140px;
+        font-size: 0.85rem;
+    }
+
+    .search-btn {
+        font-size: 1rem;
+        padding: 0.3rem;
+    }
 }
+
 /* ---------------- منوی اصلی ---------------- */
 .nav-menu {
     display: flex;
@@ -392,183 +394,192 @@ button:hover::after {
 
 /* دکمه آیکون */
 .mobile-search-btn {
-  display: none;
-  background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
+
 .mobile-search-btn:hover {
-  color: var(--accent);
-  transform: scale(1.15);
+    color: var(--accent);
+    transform: scale(1.15);
 }
 
 /* لایه تار پشت پاپ‌آپ */
 .mobile-search-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.3);
-  backdrop-filter: blur(12px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-  z-index: 1050;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 1050;
 }
+
 .mobile-search-overlay.active {
-  opacity: 1;
-  pointer-events: all;
+    opacity: 1;
+    pointer-events: all;
 }
 
 /* باکس اصلی جستجو */
 .mobile-search-popup {
-  position: fixed;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  width: min(92%, 480px);
-  background: color-mix(in srgb, var(--card-bg) 70%, rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
-  z-index: 1100;
-  overflow: hidden;
-  font-family: "Vazirmatn", sans-serif;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    width: min(92%, 480px);
+    background: color-mix(in srgb, var(--card-bg) 70%, rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 1100;
+    overflow: hidden;
+    font-family: "Vazirmatn", sans-serif;
 }
 
 .mobile-search-popup.active {
-  opacity: 1;
-  pointer-events: all;
-  transform: translate(-50%, 0);
-  animation: goldGlow 0.6s ease forwards;
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, 0);
+    animation: goldGlow 0.6s ease forwards;
 }
 
 /* فرم داخل پاپ‌آپ */
 .mobile-search-form {
-  display: flex;
-  align-items: center;
-  padding: 1rem 1.2rem;
-  gap: 0.8rem;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    gap: 0.8rem;
 }
 
 .mobile-search-form input {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--card-bg) 80%, transparent);
-  color: var(--text);
-  font-size: 1rem;
-  font-family: "Vazirmatn", sans-serif;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--card-bg) 80%, transparent);
+    color: var(--text);
+    font-size: 1rem;
+    font-family: "Vazirmatn", sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mobile-search-form input::placeholder {
-  color: var(--muted);
+    color: var(--muted);
 }
 
 .mobile-search-form input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(44, 110, 73, 0.15);
-  outline: none;
-  background: color-mix(in srgb, var(--card-bg) 80%, transparent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(44, 110, 73, 0.15);
+    outline: none;
+    background: color-mix(in srgb, var(--card-bg) 80%, transparent);
 }
 
 /* دکمه جستجو */
 .mobile-search-form button {
-  background: var(--accent);
-  border: none;
-  color: var(--accent-foreground);
-  padding: 0.8rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 6px 14px rgba(44, 110, 73, 0.3);
+    background: var(--accent);
+    border: none;
+    color: var(--accent-foreground);
+    padding: 0.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 6px 14px rgba(44, 110, 73, 0.3);
 }
 
 .mobile-search-form button:hover {
-  background: var(--accent-hover);
-  transform: scale(1.1);
+    background: var(--accent-hover);
+    transform: scale(1.1);
 }
 
 /* انیمیشن درخشش طلایی */
 @keyframes goldGlow {
-  0% { box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
-  50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
-  100% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); }
+    0% {
+        box-shadow: 0 0 0 rgba(212, 175, 55, 0);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+    }
+    100% {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
 }
 
 /* حالت دارک */
 [data-theme="dark"] .mobile-search-popup {
-  background: color-mix(in srgb, #111820 80%, rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, #111820 80%, rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* فقط در موبایل */
 @media (max-width: 768px) {
-  .mobile-search-btn {
-    display: block;
-  }
-  .search-bar-wrapper {
-    display: none;
-  }
+    .mobile-search-btn {
+        display: block;
+    }
+
+    .search-bar-wrapper {
+        display: none;
+    }
 }
 
 /* ===============================
    📱 زیرمنوها در حالت موبایل (با تاچ)
 =============================== */
 @media (max-width: 768px) {
-  .submenu-content {
-    position: static;
-    opacity: 0;
-    visibility: hidden;
-    max-height: 0;
-    overflow: hidden;
-    background: color-mix(in srgb, var(--card-bg) 90%, var(--bg));
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    margin-top: 0.5rem;
-    transition: all 0.35s ease;
-  }
+    .submenu-content {
+        position: static;
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        overflow: hidden;
+        background: color-mix(in srgb, var(--card-bg) 90%, var(--bg));
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        transition: all 0.35s ease;
+    }
 
-  /* وقتی اکتیو شد */
-  .submenu-content.active {
-    opacity: 1;
-    visibility: visible;
-    max-height: 500px;
-    padding: 0.4rem 0;
-  }
+    /* وقتی اکتیو شد */
+    .submenu-content.active {
+        opacity: 1;
+        visibility: visible;
+        max-height: 500px;
+        padding: 0.4rem 0;
+    }
 
-  .submenu a.has-submenu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.9rem 1rem;
-    background: color-mix(in srgb, var(--bg) 85%, var(--card-bg));
-    border-radius: 10px;
-    margin-bottom: 0.3rem;
-    transition: background 0.3s ease;
-  }
+    .submenu a.has-submenu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1rem;
+        background: color-mix(in srgb, var(--bg) 85%, var(--card-bg));
+        border-radius: 10px;
+        margin-bottom: 0.3rem;
+        transition: background 0.3s ease;
+    }
 
-  .submenu a.has-submenu:hover {
-    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
-  }
+    .submenu a.has-submenu:hover {
+        background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+    }
 
-  .submenu-content a {
-    display: block;
-    padding: 0.6rem 1.4rem;
-    font-size: 0.95rem;
-    color: var(--text);
-  }
+    .submenu-content a {
+        display: block;
+        padding: 0.6rem 1.4rem;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
 
-  .submenu-content a:hover {
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    color: var(--accent);
-    transform: translateX(-3px);
-  }
+    .submenu-content a:hover {
+        background: color-mix(in srgb, var(--accent) 8%, transparent);
+        color: var(--accent);
+        transform: translateX(-3px);
+    }
 }
