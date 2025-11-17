@@ -34,7 +34,7 @@ def latest_comments(context, count=3):
 
 
 # 🔹 آخرین گزارشات
-@register.inclusion_tag('report/partials/report_cards.html', takes_context=True)
+@register.inclusion_tag('partials/report_cards.html', takes_context=True)
 def last_reports(context, count=3):
     """آخرین گزارش‌ها"""
     user = context['request'].user
@@ -50,7 +50,7 @@ def last_reports(context, count=3):
 
 
 # 🔹 پرلایک‌ترین گزارشات
-@register.inclusion_tag('report/partials/report_cards.html', takes_context=True)
+@register.inclusion_tag('partials/report_cards.html', takes_context=True)
 def top_liked_reports(context, count=3):
     """محبوب‌ترین گزارش‌ها"""
     user = context['request'].user
@@ -65,7 +65,7 @@ def top_liked_reports(context, count=3):
 
 
 # 🔹 پربحث‌ترین گزارشات
-@register.inclusion_tag('report/partials/report_cards.html', takes_context=True)
+@register.inclusion_tag('partials/report_cards.html', takes_context=True)
 def top_commented_reports(context, count=3):
     """پربحث‌ترین گزارش‌ها"""
     user = context['request'].user

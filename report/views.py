@@ -2,10 +2,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.postgres.search import TrigramSimilarity
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models.functions import Greatest
 from main.decorators import superuser_required
 from django.db.models import Count, Q
 from django.http import JsonResponse
+from .models import Tag as ModelTag
 from rapidfuzz import fuzz
 from typing import Any
 from .forms import *
@@ -18,66 +20,102 @@ def create_report(request):
     if request.method == 'POST':
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
-            report = form.save()
+            report = form.save(commit=False)
+            report.save()
 
+            # ذخیره تصاویر
             files = request.FILES.getlist('image')
             for f in files:
                 ReportImage.objects.create(report=report, image=f)
 
+            # --- دریافت تگ‌های انتخاب‌شده ---
+            tag_ids_str = request.POST.get("selected_tags", "")
+            if tag_ids_str.strip():
+                tag_ids = [int(t) for t in tag_ids_str.split(",") if t.strip().isdigit()]
+                tags = Tag.objects.filter(id__in=tag_ids)
+                report.tags.set(tags)
+
             return redirect('report:report_list')
+
     else:
         form = ReportForm()
 
-    context = {
+    return render(request, 'report/forms/create_report.html', {
         'form': form,
-    }
-    return render(request, 'report/forms/create_report.html', context)
+        'existing_tags': Tag.objects.all()
+    })
 
 
-def report_list(request, category=None, tag=None, likes=False, comments=False):
-    if comments:
-        reports = Report.objects.annotate(
-            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-comments_count')
-    elif likes:
+@csrf_exempt
+def create_tag_ajax(request):
+    name = request.POST.get("name", "").strip()
+    if not name:
+        return JsonResponse({"error": "نام تگ خالی است"}, status=400)
+
+    tag, created = Tag.objects.get_or_create(name=name)
+
+    return JsonResponse({
+        "id": tag.id,
+        "name": tag.name,
+        "slug": tag.slug
+    })
+
+
+def report_list(request, mode=None, id=None, slug=None):
+    categories = Category.objects.all()
+    category = None
+    tag = None
+    reports = Report.objects.all().order_by('-date')
+
+    if mode == "category" and slug:
+        category = get_object_or_404(Category, id=id, slug=slug)
+        reports = Report.objects.filter(categories=category)
+        category = category.name
+
+    elif mode == "tag" and slug:
+        tag = get_object_or_404(ModelTag, id=id, slug=slug)
+        reports = Report.objects.filter(tags=tag)
+        tag = tag.name
+
+    elif mode == "likes":
         reports = Report.objects.all().order_by('-likes')
-    elif category is not None:
-        reports = Report.objects.filter(categories__name=category).annotate(
-            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
-    elif tag is not None:
-        reports = Report.objects.filter(tags__slug=tag).annotate(
-            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
-    else:
-        reports = Report.objects.all().annotate(
-            comments_count=Count('comments', filter=Q(comments__active=True))).order_by('-date')
-    liked_reports = []
 
+    elif mode == "comments":
+        reports = Report.objects.annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))
+        ).order_by('-comments_count')
+
+    # لایک‌ها
+    liked_reports = []
     if request.user.is_authenticated:
         liked_reports = ReportLike.objects.filter(
             user=request.user
         ).values_list('report_id', flat=True)
 
+    # صفحه‌بندی
     paginator = Paginator(reports, 9)
     page_number = request.GET.get('page', 1)
     try:
         reports = paginator.page(page_number)
-    except EmptyPage:
-        reports = paginator.page(paginator.num_pages)
     except PageNotAnInteger:
         reports = paginator.page(1)
+    except EmptyPage:
+        reports = paginator.page(paginator.num_pages)
 
     context = {
         'reports': reports,
         'liked_reports': liked_reports,
+        'mode': mode,
+        'categories': categories,
         'category': category,
         'tag': tag,
-        'comments': comments,
-        'likes': likes,
     }
-    return render(request, 'partials/report_list.html', context)
+
+    return render(request, 'report/report/report_list.html', context)
 
 
-def report_detail(request, slug):
-    report = get_object_or_404(Report, slug=slug)
+def report_detail(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
 
     if not request.session.session_key:
         request.session.create()
@@ -116,8 +154,8 @@ def report_detail(request, slug):
 
 
 @login_required
-def report_comment(request, slug):
-    report = get_object_or_404(Report, slug=slug)
+def report_comment(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
     comment = None
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -139,8 +177,8 @@ def report_comment(request, slug):
     return render(request, 'report/forms/comment.html', context)
 
 
-def report_comment_list(request, slug):
-    report = get_object_or_404(Report, slug=slug)
+def report_comment_list(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
     comments = report.comments.filter(active=True).select_related('name').order_by('-like_count', '-created')
 
     user_reactions = {}
@@ -160,11 +198,11 @@ def report_comment_list(request, slug):
     return render(request, 'report/report/comment_list.html', context)
 
 
-def like_report(request, report_id):
+def like_report(request, id):
     if not request.user.is_authenticated:
         return JsonResponse({'redirect': '/accounts/login/', 'message': 'برای لایک کردن ابتدا وارد شوید.'}, status=401)
 
-    report = get_object_or_404(Report, id=report_id)
+    report = get_object_or_404(Report, id=id)
     user = request.user
 
     existing_like = ReportLike.objects.filter(report=report, user=user)

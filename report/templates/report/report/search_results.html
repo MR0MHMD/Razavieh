@@ -14,7 +14,7 @@
         {% if query %}
             <p class="search-query">عبارت جستجو: <strong>{{ query }}</strong></p>
             {% if results %}
-                {% include 'report/partials/report_cards.html' with reports=results %}
+                {% include 'partials/report_cards.html' with reports=results %}
             {% else %}
                 <p class="no-results">موردی یافت نشد 😔</p>
             {% endif %}

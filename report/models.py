@@ -1,10 +1,37 @@
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
-from taggit.managers import TaggableManager
+from slugify import slugify as py_slugify
 from accounts.models import CustomUser
-from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
+
+
+class Report(models.Model):
+    title = models.CharField(max_length=200, verbose_name='عنوان مراسم')
+    description = models.TextField(verbose_name='توضیحات')
+    slug = models.SlugField(unique=True, blank=True, null=True, allow_unicode=True)
+    date = jmodels.jDateField(default=None, verbose_name="تاریخ مراسم")
+    created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
+    views = models.PositiveIntegerField(default=0, verbose_name='تعداد بازدید')
+    tags = models.ManyToManyField("Tag", related_name='reports', blank=True, verbose_name='برچسب ها')
+    categories = models.ManyToManyField("Category", related_name='reports', blank=True, verbose_name='دسته‌ها')
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = 'گزارش روز'
+        verbose_name_plural = 'گزارشات روز'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = py_slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('report:report_detail', args=[self.id, self.slug])
+
+    def __str__(self):
+        return self.title
 
 
 class Category(models.Model):
@@ -19,41 +46,24 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name, allow_unicode=True)
-        super().save(*args, **kwargs)
-
     def get_absolute_url(self):
-        return reverse('report:report_by_category', args=[self.slug])
+        return reverse('report:report_list_category', args=[self.id, self.slug])
 
 
-class Report(models.Model):
-    title = models.CharField(max_length=200, verbose_name='عنوان مراسم')
-    description = models.TextField(verbose_name='توضیحات')
-    slug = models.SlugField(unique=True, blank=True, null=True, allow_unicode=True)
-    date = jmodels.jDateField(default=None, verbose_name="تاریخ مراسم")
-    created = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
-    likes = models.PositiveIntegerField(default=0, verbose_name='تعداد لایک‌ها')
-    views = models.PositiveIntegerField(default=0, verbose_name='تعداد بازدید')
-    tags = TaggableManager(verbose_name="برچسب‌ها", help_text="برچسب‌ها را با کاما جدا کنید")
-    categories = models.ManyToManyField(Category, related_name='reports', blank=True, verbose_name='دسته‌ها')
-
-    class Meta:
-        ordering = ['-date']
-        verbose_name = 'گزارش روز'
-        verbose_name_plural = 'گزارشات روز'
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="نام برچسب")
+    slug = models.SlugField(max_length=120, unique=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title, allow_unicode=True)
+            self.slug = py_slugify(self.name, allow_unicode=False)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('report:report_detail', args=[self.slug])
+        return reverse('report:report_list_tag', args=[self.id, self.slug])
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class ReportLike(models.Model):

@@ -68,7 +68,7 @@
                 <ul class="tag-list">
                     {% for tag in report.tags.all %}
                         <li>
-                            <a href="{% url 'report:report_list_tag' tag.slug %}" class="tag-item">#{{ tag.name }}</a>
+                            <a href="{{ tag.get_absolute_url }}" class="tag-item">#{{ tag.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -77,11 +77,11 @@
 
         <section class="comments-section">
             <h2>نظرات</h2>
-            <a href="{% url 'report:report_comment' report.slug %}" class="btn btn-primary">ارسال نظر</a>
+            <a href="{% url 'report:report_comment' report.id report.slug %}" class="btn btn-primary">ارسال نظر</a>
             {% latest_comments 3 %}
             {% if active_comments_count > 3 %}
                 <div class="more-comments">
-                    <a href="{% url 'report:report_comment_list' report.slug %}">مشاهده تمام کامنت‌ها</a>
+                    <a href="{% url 'report:report_comment_list' report.id report.slug %}">مشاهده تمام کامنت‌ها</a>
                 </div>
             {% endif %}
         </section>

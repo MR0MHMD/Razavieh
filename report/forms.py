@@ -13,7 +13,7 @@ class ReportForm(forms.ModelForm):
 
     class Meta:
         model = Report
-        fields = ['title', 'description', 'date', 'categories', 'tags']
+        fields = ['title', 'description', 'date', 'categories']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'input-outline',
@@ -27,14 +27,6 @@ class ReportForm(forms.ModelForm):
                 'class': 'jalali-date input-outline',
                 'placeholder': 'تاریخ گزارش را انتخاب کنید'
             }),
-            'category': forms.Select(attrs={'class': 'input-outline'}),
-            'tags': forms.TextInput(attrs={
-                'class': 'input-outline',
-                'placeholder': 'برچسب‌ها (جداشده با کاما)'
-            }),
-        }
-        help_texts = {
-            "tags": ""
         }
 
 

@@ -24,6 +24,18 @@ class ReportImagedAdmin(admin.ModelAdmin):
     list_display = ['report']
 
 
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'report_count')
+    search_fields = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+    def report_count(self, obj):
+        return obj.reports.count()
+
+    report_count.short_description = "تعداد گزارش‌ها"
+
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('report', 'name', 'created', 'active')
@@ -34,9 +46,14 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
+    list_display = ('name', 'report_count')
+
+    def report_count(self, obj):
+        return obj.reports.count()
+
+    report_count.short_description = "تعداد گزارش‌ها"
 
 
 @admin.register(Report)
@@ -45,9 +62,12 @@ class ReportAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_filter = ('date', 'categories')
     prepopulated_fields = {'slug': ('title',)}
-    filter_horizontal = ('categories',)
     date_hierarchy = 'date'
+
+    autocomplete_fields = ['tags', 'categories']
+
     inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline]
+
     fieldsets = (
         ('اطلاعات کلی', {'fields': ('title', 'slug', 'description', 'date')}),
         ('تگ‌ها و آمار', {'fields': ('tags', 'likes', 'views', 'categories')}),
