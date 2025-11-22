@@ -1,0 +1,86 @@
+/* --- Container --- */
+.search-tabs {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 1rem;
+    border-radius: 18px;
+    margin: 2rem auto;
+    width: max-content;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Buttons --- */
+
+.tab-btn {
+    position: relative;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 12px;
+    background: none;
+    border: none;
+    outline: none;
+    transition: 0.2s;
+    color: #555;
+}
+
+.tab-btn.active {
+    color: #fff;
+}
+
+/* پس‌زمینه‌ی تب فعال */
+.tab-btn.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1e88e5, #00bcd4);
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tab-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1e88e5, #00bcd4);
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: 0.3s ease-out;
+}
+
+/* Fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .search-tabs {
+        width: 100%;
+        justify-content: space-around;
+        gap: 10rem;
+    }
+
+    .tab-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+}

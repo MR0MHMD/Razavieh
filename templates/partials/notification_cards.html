@@ -1,0 +1,24 @@
+{% load jformat static %}
+<link rel="stylesheet" href="{% static 'notification/css/notification_list.css' %}">
+
+<section class="notifications-section container">
+    <div class="notifications-grid">
+        {% for notification in notifications %}
+            {% if notification.is_active %}
+                <div class="notification-card">
+                    <img src="{{ notification.image.url }}" alt="{{ notification.title }}">
+                    <div class="notification-overlay"></div>
+                    <div class="notification-info">
+                        <h3 class="notification-title">{{ notification.title }}</h3>
+                        <p class="notification-date">{{ notification.date|jformat:"%Y/%m/%d" }}</p>
+                        <p class="notification-desc">{{ notification.content|truncatechars:30 }}</p>
+                        <a href="{{ notification.get_absolute_url }}" class="notification-btn">مشاهده
+                            جزئیات</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p class="no-notifications">در حال حاضر اطلاعیه‌ای وجود ندارد.</p>
+        {% endfor %}
+    </div>
+</section>

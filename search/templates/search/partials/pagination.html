@@ -3,24 +3,30 @@
 <link rel="stylesheet" href="{% static 'css/partials/pagination.css' %}">
 
 <div class="pagination">
+
+    {# دکمه قبلی #}
     {% if pages.has_previous %}
-        <a href="?page={{ pages.previous_page_number }}">&#171; قبلی</a>
+        <a href="?{{ page_param }}={{ pages.previous_page_number }}">&#171; قبلی</a>
     {% else %}
         <span class="disabled">&#171; قبلی</span>
     {% endif %}
 
+    {# شماره صفحات #}
     {% for num in pages.paginator.page_range %}
         {% if num >= pages.number|add:'-2' and num <= pages.number|add:'2' %}
+
             {% if pages.number == num %}
                 <span class="active">{{ num }}</span>
             {% else %}
-                <a href="?page={{ num }}">{{ num }}</a>
+                <a href="?{{ page_param }}={{ num }}">{{ num }}</a>
             {% endif %}
+
         {% endif %}
     {% endfor %}
 
+    {# دکمه بعدی #}
     {% if pages.has_next %}
-        <a href="?page={{ pages.next_page_number }}">بعدی &#187;</a>
+        <a href="?{{ page_param }}={{ pages.next_page_number }}">بعدی &#187;</a>
     {% else %}
         <span class="disabled">بعدی &#187;</span>
     {% endif %}

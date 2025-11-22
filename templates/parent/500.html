@@ -1,0 +1,48 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}خطای داخلی سرور | 500{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .error-container {
+            text-align: center;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-size: 7rem;
+            color: #ff9800;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .error-message {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .error-btn {
+            padding: 0.8rem 2rem;
+            background: #00bcd4;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .error-btn:hover {
+            background: #0097a7;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="error-container">
+        <h1 class="error-code">500</h1>
+        <p class="error-message">یک خطای غیرمنتظره رخ داده. لطفاً بعداً دوباره امتحان کنید.</p>
+        <a href="/" class="error-btn">بازگشت به خانه</a>
+    </div>
+{% endblock %}

@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # 🔑 امنیت پایه
 SECRET_KEY = 'django-insecure-8-c*&%_^o%v^@bih9$ob7(p$=t0&8@r$68ma%%@*6ujz#g2m2e'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # 📦 اپلیکیشن‌ها
 INSTALLED_APPS = [
@@ -15,12 +15,12 @@ INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     "main.apps.MainConfig",
     "notification.apps.NotificationConfig",
+    "search.apps.SearchConfig",
 
     # Third-party
     'django_jalali',
     'django_cleanup.apps.CleanupConfig',
     'jalali_date',
-    'taggit',
 
     # Django default
     'django.contrib.admin',
@@ -62,17 +62,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Razavieh.wsgi.application'
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'Razavieh_db',
-#         'USER': 'razavieh_user',
-#         'PASSWORD': 'H0jat12(Ali):soon',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 
 DATABASES = {
     'default': {

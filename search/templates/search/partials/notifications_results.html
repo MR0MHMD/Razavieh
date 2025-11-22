@@ -1,0 +1,6 @@
+{% load static %}
+{% load jformat %}
+
+{% include 'partials/notification_cards.html' %}
+
+{% include "search/partials/pagination.html" with pages=notifications page_param="page_n" %}

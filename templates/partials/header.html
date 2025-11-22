@@ -11,7 +11,8 @@
 
         <!-- ✅ نوار جستجو -->
         <div class="search-bar-wrapper">
-            <form method="get" action="{% url 'report:report_search' %}" class="search-form">
+{#            <form method="get" class="search-form">#}
+            <form method="get" action="{% url 'search:search' "salam" %}" class="search-form">
                 <input
                         type="text"
                         name="q"
@@ -56,7 +57,7 @@
         <!-- پاپ‌آپ جستجو -->
         <div class="mobile-search-overlay" id="mobileSearchOverlay"></div>
         <div class="mobile-search-popup" id="mobileSearchPopup">
-            <form method="get" action="{% url 'report:report_search' %}" class="mobile-search-form">
+            <form method="get" action="{% url 'search:search' "salam" %}" class="mobile-search-form">
                 <input type="text" name="q" placeholder="جستجو در گزارش‌ها..." required>
                 <button type="submit">>
                     <img src="{% static 'icons/search.svg' %}" alt="جستجو">

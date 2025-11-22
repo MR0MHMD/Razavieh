@@ -1,0 +1,165 @@
+{% extends "parent/base.html" %}
+{% load static %}
+
+{% block title %}صفحه پیدا نشد | 404{% endblock %}
+
+{% block body %}
+
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .error-wrapper {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 2000px;
+            overflow: hidden;
+        }
+
+        /* نورهای پس‌زمینه */
+        .bg-light {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.5), transparent 70%);
+            filter: blur(90px);
+            animation: float 8s infinite ease-in-out;
+            z-index: -3;
+        }
+
+        .bg-light:nth-child(1) {
+            top: -10%;
+            left: -10%;
+        }
+
+        .bg-light:nth-child(2) {
+            bottom: -15%;
+            right: -5%;
+            animation-delay: 2s;
+        }
+
+        .bg-light:nth-child(3) {
+            top: 40%;
+            right: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-35px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* کارت 404 */
+        .error-card {
+            width: 60%;
+            max-width: 650px;
+            padding: 3rem;
+            border-radius: 25px;
+            backdrop-filter: blur(18px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 0px 50px rgba(0, 200, 255, 0.25);
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: 0.25s ease-out;
+        }
+
+        /* عدد 404 */
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            letter-spacing: -5px;
+            background: linear-gradient(135deg, #00eaff, #0066ff);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(0, 200, 255, 0.5);
+            margin-bottom: 0.7rem;
+        }
+
+        .error-message {
+            font-size: 1.5rem;
+            color: #ddd;
+            margin-bottom: 2rem;
+        }
+
+        /* دکمه */
+        .error-btn {
+            padding: 0.9rem 2.5rem;
+            background: linear-gradient(135deg, #00c3ff, #006aff);
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .error-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 180, 255, 0.5);
+        }
+
+        /* موبایل */
+        @media (max-width: 600px) {
+            .error-card {
+                width: 90%;
+                padding: 2rem;
+            }
+
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-message {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+
+
+    <div class="error-wrapper">
+
+        <!-- نورهای پس‌زمینه -->
+        <div class="bg-light"></div>
+        <div class="bg-light"></div>
+        <div class="bg-light"></div>
+
+        <!-- کارت اصلی -->
+        <div class="error-card" id="errorCard">
+            <div class="error-code">404</div>
+            <p class="error-message">اوه! صفحه‌ای که دنبالش هستی پیدا نشد...</p>
+            <a href="/" class="error-btn">بازگشت به صفحه اصلی</a>
+        </div>
+    </div>
+
+
+    <script>
+        /* پارالاکس سه‌بعدی کارت */
+        const card = document.getElementById("errorCard");
+
+        document.addEventListener("mousemove", (e) => {
+            const x = (window.innerWidth / 2 - e.clientX) / 20;
+            const y = (window.innerHeight / 2 - e.clientY) / 20;
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        /* نرمی برگشت */
+        document.addEventListener("mouseleave", () => {
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
+    </script>
+
+{% endblock %}
