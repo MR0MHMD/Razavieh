@@ -15,6 +15,5 @@ urlpatterns = [
     path('repoers/<int:id>/<slug:slug>/comment_list/', views.report_comment_list, name='report_comment_list'),
     path('like/<int:id>/', views.like_report, name='like_report'),
     path('react-comment/', views.react_comment, name='react_comment'),
-    path('search/', views.report_search, name='report_search'),
     path('ajax/create_tag/', views.create_tag_ajax, name='create_tag_ajax'),
 ]

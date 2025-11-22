@@ -1,29 +1,26 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, ListView
 from django.urls import reverse_lazy
 from .forms import *
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    paginator = Paginator(posts, 9)
-    page_number = request.GET.get('page', 1)
-    try:
-        posts = paginator.page(page_number)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    context = {'posts': posts}
-    return render(request, 'blog/blog/post_list.html', context)
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/blog/post_list.html'
+    context_object_name = 'posts'
+    paginate_by = 9
 
 
-def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    context = {'post': post}
-    return render(request, 'blog/blog/post_detail.html', context)
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/blog/post_detail.html'
+    context_object_name = 'post'
+
+    def get_object(self, queryset=None):
+        post_id = self.kwargs.get('id')
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Post, id=post_id, slug=slug)
 
 
 @login_required
@@ -67,5 +64,4 @@ class creat_post(CreateView):
     success_url = reverse_lazy('blog:post_list')
 
     def form_valid(self, form):
-        form.instance.slug = form.instance.slug or form.instance.title.replace(" ", "-")
         return super().form_valid(form)

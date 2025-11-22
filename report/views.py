@@ -22,13 +22,12 @@ def create_report(request):
         if form.is_valid():
             report = form.save(commit=False)
             report.save()
+            form.save_m2m()
 
-            # ذخیره تصاویر
             files = request.FILES.getlist('image')
             for f in files:
                 ReportImage.objects.create(report=report, image=f)
 
-            # --- دریافت تگ‌های انتخاب‌شده ---
             tag_ids_str = request.POST.get("selected_tags", "")
             if tag_ids_str.strip():
                 tag_ids = [int(t) for t in tag_ids_str.split(",") if t.strip().isdigit()]
@@ -67,15 +66,13 @@ def report_list(request, mode=None, id=None, slug=None):
     tag = None
     reports = Report.objects.all().order_by('-date')
 
-    if mode == "category" and slug:
+    if mode == "category" and slug and id:
         category = get_object_or_404(Category, id=id, slug=slug)
         reports = Report.objects.filter(categories=category)
-        category = category.name
 
-    elif mode == "tag" and slug:
+    elif mode == "tag" and slug and id:
         tag = get_object_or_404(ModelTag, id=id, slug=slug)
         reports = Report.objects.filter(tags=tag)
-        tag = tag.name
 
     elif mode == "likes":
         reports = Report.objects.all().order_by('-likes')
@@ -85,14 +82,12 @@ def report_list(request, mode=None, id=None, slug=None):
             comments_count=Count('comments', filter=Q(comments__active=True))
         ).order_by('-comments_count')
 
-    # لایک‌ها
     liked_reports = []
     if request.user.is_authenticated:
         liked_reports = ReportLike.objects.filter(
             user=request.user
         ).values_list('report_id', flat=True)
 
-    # صفحه‌بندی
     paginator = Paginator(reports, 9)
     page_number = request.GET.get('page', 1)
     try:
@@ -275,60 +270,3 @@ def normalize_farsi(text):
     text = re.sub(r'[‌\s]+', " ", text)
     text = re.sub(r"[^\w\s\u0600-\u06FF]", "", text)
     return text
-
-
-def report_search(request):
-    query = normalize_farsi(request.GET.get('q', '').strip())
-    results = []
-
-    if query:
-        reports = (
-            Report.objects
-            .annotate(
-                similarity=Greatest(
-                    TrigramSimilarity('title', query),
-                    TrigramSimilarity('description', query),
-                ),
-                comments_count=Count('comments', filter=Q(comments__active=True))  # ✅ اضافه شد
-            )
-            .filter(similarity__gt=0.05)
-            .order_by('-similarity')
-            .distinct()
-        )
-
-        tag_results = Report.objects.filter(
-            tags__name__icontains=query
-        ).annotate(
-            comments_count=Count('comments', filter=Q(comments__active=True))  # ✅ اینجا هم اضافه شد
-        )
-
-        combined = set(list(reports) + list(tag_results))
-
-        scored_results = []
-        for r in combined:
-            title_norm = normalize_farsi(r.title)
-            desc_norm = normalize_farsi(r.description)
-            tags_norm = normalize_farsi(" ".join(t.name for t in r.tags.all()))
-
-            title_score = fuzz.token_sort_ratio(query, title_norm)
-            desc_score = fuzz.partial_ratio(query, desc_norm)
-            tag_score = fuzz.partial_ratio(query, tags_norm)
-            final_score = max(title_score, desc_score, tag_score)
-
-            if final_score > 40:
-                scored_results.append((r, final_score))
-
-        # ✅ مرتب‌سازی بر اساس شباهت و نگه داشتن مقدار کامنت‌ها
-        results = [r for r, _ in sorted(scored_results, key=lambda x: x[1], reverse=True)]
-
-    liked_reports = []
-    if request.user.is_authenticated:
-        liked_reports = list(
-            ReportLike.objects.filter(user=request.user).values_list("report_id", flat=True)
-        )
-
-    return render(request, 'report/report/search_results.html', {
-        'query': query,
-        'results': results,
-        'liked_reports': liked_reports,
-    })

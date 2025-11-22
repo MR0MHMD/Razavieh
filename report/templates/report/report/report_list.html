@@ -1,49 +1,165 @@
 {% extends 'parent/base.html' %}
-{% load static %}
-{% load jformat %}
-{% block title %}گزارشات روز{% endblock %}
+{% load static jformat %}
+
+{% block title %}
+    {% if mode == "category" %}
+        {{ category.seo_title|default:category.name }} | مسجد رضویه
+    {% elif mode == "tag" %}
+        گزارشات با برچسب {{ tag.name }} | مسجد رضویه
+    {% elif mode == "likes" %}
+        محبوب‌ترین گزارشات | مسجد رضویه
+    {% elif mode == "comments" %}
+        پر بحث‌ترین گزارشات | مسجد رضویه
+    {% else %}
+        گزارشات روز مسجد رضویه
+    {% endif %}
+{% endblock %}
+
+{% block seo %}
+    {% if mode == "category" %}
+        <!-- Meta: Category -->
+        <meta name="description"
+              content="{{ category.seo_description|default:'گزارشات مربوط به ' }}{{ category.name }}">
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+        <meta property="og:title" content="{{ category.seo_title|default:category.name }}">
+        <meta property="og:description"
+              content="{{ category.seo_description|default:'گزارشات مرتبط با ' }}{{ category.name }}">
+
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "{{ category.seo_title|default:category.name }}",
+          "description": "{{ category.seo_description|default:'گزارشات مربوط به ' }}{{ category.name }}",
+          "url": "{{ request.build_absolute_uri }}"
+        }
+        </script>
+
+    {% elif mode == "tag" %}
+        <!-- Meta: Tag -->
+        <meta name="description"
+              content="لیست گزارشات دارای برچسب {{ tag.name }} در مسجد رضویه">
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+        <meta property="og:title" content="گزارشات با برچسب {{ tag.name }}">
+        <meta property="og:description"
+              content="گزارشات مرتبط با برچسب {{ tag.name }}">
+
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "گزارشات با برچسب {{ tag.name }}",
+          "description": "لیست گزارشات دارای برچسب {{ tag.name }} در مسجد رضویه",
+          "url": "{{ request.build_absolute_uri }}"
+        }
+        </script>
+
+    {% elif mode == "likes" %}
+        <!-- Meta: Most liked -->
+        <meta name="description"
+              content="لیست محبوب‌ترین گزارشات مسجد رضویه">
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    {% elif mode == "comments" %}
+        <!-- Meta: Most commented -->
+        <meta name="description"
+              content="لیست گزارشاتی که بیشترین کامنت را دارد">
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    {% else %}
+        <!-- Meta: General -->
+        <meta name="description"
+              content="آخرین گزارشات رویدادهای مسجد رضویه همراه تصاویر و جزئیات کامل">
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    {% endif %}
+
+    <!-- Breadcrumb JSON-LD -->
+    <script type="application/ld+json">
+        {
+         "@context": "https://schema.org",
+         "@type": "BreadcrumbList",
+         "itemListElement": [
+          {
+           "@type": "ListItem",
+           "position": 1,
+           "name": "خانه",
+           "item": "https://razaviyehinfo.ir/"
+          },
+          {
+           "@type": "ListItem",
+           "position": 2,
+           "name": "گزارشات",
+           "item": "https://razaviyehinfo.ir/report/reports/"
+          }
+        {% if mode == "category" %}
+            ,{
+              "@type": "ListItem",
+              "position": 3,
+              "name": "{{ category.name }}",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+        {% elif mode == "tag" %}
+            ,{
+              "@type": "ListItem",
+              "position": 3",
+              "name": "برچسب {{ tag.name }}",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+        {% endif %}
+        ]
+       }
+    </script>
+{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'report/css/report/report_list.css' %}">
 {% endblock %}
+
 {% block body %}
-    {% if mode == "likes" %}
-        <h1 class="page-title">لیست محبوب ترین گزارشات</h1>
-    {% elif mode == "comments" %}
-        <h1 class="page-title">لیست پر بحث ترین گزارشات</h1>
-    {% elif mode == "category" %}
-        <h1 class="page-title">لیست گزارشات بر اساس دسته بندی {{ category }}</h1>
-    {% elif mode == "tag" %}
-        <h1 class="page-title">لیست گزارشات بر اساس برچسب {{ tag }}</h1>
-    {% else %}
-        <h1 class="page-title"> گزارشات روز مسجد</h1>
-    {% endif %}
-    <div class="filter-bar">
-        <button id="openCategoryModal" class="filter-btn">مرتب‌سازی بر اساس دسته‌بندی</button>
-    </div>
-    <!-- مودال دسته‌بندی -->
-    <div class="category-modal" id="categoryModal">
-        <div class="category-modal-backdrop"></div>
-        <div class="category-modal-content">
-            <button class="modal-close" id="closeCategoryModal">&times;</button>
-            <h3 class="modal-title">انتخاب دسته‌بندی</h3>
-            <ul class="category-list">
-                {% for category in categories %}
-                	<li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
-                {% endfor %}
-                
-                
-            </ul>
-        </div>
-    </div>
-    <div class="container reports-container">
-        {% if reports %}
-            {% include 'partials/report_cards.html' %}
+    <div class="container">
+
+        {% if mode == "likes" %}
+            <h1 class="page-title">لیست محبوب‌ترین گزارشات</h1>
+
+        {% elif mode == "comments" %}
+            <h1 class="page-title">لیست پر بحث‌ترین گزارشات</h1>
+
+        {% elif mode == "category" %}
+            <h1 class="page-title">گزارشات دسته {{ category.name }}</h1>
+
+        {% elif mode == "tag" %}
+            <h1 class="page-title">گزارشات با برچسب {{ tag.name }}</h1>
+
         {% else %}
-            <p class="no-report">هنوز گزارشی ثبت نشده است 😔</p>
+            <h1 class="page-title">گزارشات روز مسجد رضویه</h1>
         {% endif %}
+
+        <div class="filter-bar">
+            <button id="openCategoryModal" class="filter-btn">مرتب‌سازی بر اساس دسته‌بندی</button>
+        </div>
+
+        {# Modal دسته‌ها #}
+        <div class="category-modal" id="categoryModal">
+            <div class="category-modal-backdrop"></div>
+            <div class="category-modal-content">
+                <button class="modal-close" id="closeCategoryModal">&times;</button>
+                <h3 class="modal-title">انتخاب دسته‌بندی</h3>
+                <ul class="category-list">
+                    {% for c in categories %}
+                        <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="reports-container">
+            {% include 'partials/report_cards.html' %}
+        </div>
+
+        {% include 'partials/pagination.html' with pages=reports %}
     </div>
-    {% include 'partials/pagination.html' with pages=reports %}
 {% endblock %}
+
 {% block scripts %}
     <script src="{% static 'report/js/report_likes.js' %}"></script>
     <script src="{% static 'report/js/categories.js' %}"></script>

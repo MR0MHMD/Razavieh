@@ -10,6 +10,8 @@ class ReportForm(forms.ModelForm):
         widget=AdminJalaliDateWidget,
         required=False
     )
+    categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), required=False,
+                                                widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Report

@@ -1,9 +1,83 @@
 {% extends 'parent/base.html' %}
-{% load static %}
-{% load jformat %}
-{% load report_tags %}
 
-{% block title %}{{ report.title }}{% endblock %}
+{% load static jformat report_tags %}
+
+{% block title %}{{ report.title }} | مسجد رضویه{% endblock %}
+
+{% block seo %}
+    <meta name="description"
+          content="{{ report.description|striptags|truncatechars:160 }}">
+    <meta name="keywords"
+          content="{% for tag in report.tags.all %}{{ tag.name }}, {% endfor %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{{ report.title }}">
+    <meta property="og:description" content="{{ report.description|striptags|truncatechars:160 }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="مسجد رضویه">
+    {% if report.images.first %}
+        <meta property="og:image" content="{{ report.images.first.image.url }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ report.title }}">
+    <meta name="twitter:description" content="{{ report.description|striptags|truncatechars:150 }}">
+    {% if report.images.first %}
+        <meta name="twitter:image" content="{{ report.images.first.image.url }}">
+    {% endif %}
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "{{ report.title }}",
+  "description": "{{ report.description|striptags|truncatechars:160 }}",
+  "datePublished": "{{ report.date|date:'Y-m-d' }}",
+  "dateModified": "{{ report.created|date:'Y-m-d' }}",
+  "author": {
+    "@type": "Organization",
+    "name": "مسجد رضویه"
+  },
+        {% if report.images.first %}
+            "image": "{{ report.images.first.image.url }}",
+        {% endif %}
+        "publisher": {
+          "@type": "Organization",
+          "name": "مسجد رضویه",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://razaviyehinfo.ir/static/img/logo.png"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+        {
+         "@context": "https://schema.org",
+         "@type": "BreadcrumbList",
+         "itemListElement": [
+          {
+           "@type": "ListItem",
+           "position": 1,
+           "name": "خانه",
+           "item": "https://razaviyehinfo.ir/"
+          },
+          {
+           "@type": "ListItem",
+           "position": 2,
+           "name": "گزارشات",
+           "item": "https://razaviyehinfo.ir/report/reports/"
+          }
+        {% if report.categories.first %}
+            ,{
+             "@type": "ListItem",
+             "position": 3,
+             "name": "{{ report.categories.first.name }}",
+   "item": "{{ report.categories.first.get_absolute_url }}"
+  }
+        {% endif %}
+        ]
+       }
+    </script>
+{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'report/css/report/report_detail.css' %}">
@@ -19,14 +93,8 @@
                 <!-- دکمه لایک -->
                 <div class="stat-item like-wrapper">
                     <button class="like-btn" data-id="{{ report.id }}">
-                        <img
-                                src="
-                                        
-                                        
-                                        {% if liked %}{% static 'report/icons/heart_full.svg' %}{% else %}{% static 'report/icons/heart_empty.svg' %}{% endif %}"
-                                alt="like"
-                                class="like-icon"
-                        >
+                        <img src="{% if liked %}{% static 'report/icons/heart_full.svg' %}{% else %}
+                                {% static 'report/icons/heart_empty.svg' %}{% endif %}" alt="like" class="like-icon">
                     </button>
                     <span class="like-count">{{ likes_count }}</span>
                 </div>

@@ -15,7 +15,41 @@
 
             <form method="post" enctype="multipart/form-data" class="form-container">
                 {% csrf_token %}
-                {{ form.as_div }}
+                <fieldset>
+                    <legend>اطلاعات</legend>
+                    {{ form.as_div }}
+                </fieldset>
+                <fieldset>
+                    <legend>برچسب‌ها</legend>
+
+                    <!-- افزودن تگ جدید -->
+                    <div class="tag-selector">
+                        <input id="new_tag_input" type="text"
+                               placeholder="نام برچسب جدید"
+                               class="input-outline">
+                        <button type="button" id="add_new_tag_btn" class="btn btn-primary">
+                            افزودن
+                        </button>
+                    </div>
+
+                    <!-- انتخاب تگ موجود -->
+                    <div class="tag-selector">
+                        <select id="existing_tag_select" class="input-outline">
+                            <option value="">انتخاب کنید...</option>
+                            {% for tag in existing_tags %}
+                                <option value="{{ tag.id }}">{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" id="add_existing_tag_btn" class="btn btn-primary">
+                            افزودن
+                        </button>
+                    </div>
+
+                    <!-- نمایش تگ‌های انتخاب‌شده -->
+                    <div id="selected_tags_box" class="tag-box"></div>
+                </fieldset>
+
+                <input type="hidden" name="selected_tags" id="selected_tags_input">
 
                 <!-- 🎯 دکمه ثبت -->
                 <div class="form-actions">
@@ -30,4 +64,62 @@
 
 {% block scripts %}
     <script src="{% static 'js/upload-file.js' %}"></script>
+    <script>
+        let selectedTags = [];
+
+        function renderTags() {
+            const box = document.getElementById("selected_tags_box");
+            box.innerHTML = "";
+
+            selectedTags.forEach(tag => {
+                const pill = document.createElement("div");
+                pill.className = "tag-pill";
+                pill.innerHTML = `${tag.name} <button data-id="${tag.id}">×</button>`;
+                box.appendChild(pill);
+            });
+
+            document.getElementById("selected_tags_input").value =
+                selectedTags.map(t => t.id).join(",");
+        }
+
+        document.addEventListener("click", function (e) {
+            if (e.target.tagName === "BUTTON" && e.target.dataset.id) {
+                const id = parseInt(e.target.dataset.id);
+                selectedTags = selectedTags.filter(t => t.id !== id);
+                renderTags();
+            }
+        });
+
+        document.getElementById("add_existing_tag_btn").onclick = function () {
+            const select = document.getElementById("existing_tag_select");
+            const id = parseInt(select.value);
+
+            if (!id) return;
+
+            const name = select.options[select.selectedIndex].text;
+
+            if (!selectedTags.find(t => t.id === id)) {
+                selectedTags.push({id: id, name: name});
+                renderTags();
+            }
+        };
+
+        document.getElementById("add_new_tag_btn").onclick = function () {
+            const input = document.getElementById("new_tag_input");
+            const name = input.value.trim();
+            if (!name) return;
+
+            fetch("{% url 'notification:create_tag_ajax' %}", {
+                method: "POST",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                body: new URLSearchParams({"name": name})
+            })
+                .then(r => r.json())
+                .then(data => {
+                    selectedTags.push({id: data.id, name: data.name});
+                    renderTags();
+                    input.value = "";
+                });
+        };
+    </script>
 {% endblock %}

@@ -30,6 +30,11 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
 
+    fieldsets = (
+        ("اطلاعات برچسب", {"fields": ("name", "slug")}),
+        ("تنظیمات سئو", {"fields": ("seo_title", "seo_description")}),
+    )
+
     def report_count(self, obj):
         return obj.reports.count()
 
@@ -49,6 +54,11 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
     list_display = ('name', 'report_count')
+
+    fieldsets = (
+        ("اطلاعات دسته", {"fields": ("name", "slug")}),
+        ("تنظیمات سئو", {"fields": ("seo_title", "seo_description")}),
+    )
 
     def report_count(self, obj):
         return obj.reports.count()

@@ -337,7 +337,6 @@
 .cta-section::after {
     content: "";
     position: absolute;
-    inset: 0;
     background: repeating-linear-gradient(
             45deg,
             rgba(255, 215, 0, 0.08) 0px,

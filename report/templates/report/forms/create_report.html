@@ -13,15 +13,21 @@
 
     <form method="post" enctype="multipart/form-data" class="form-container">
         {% csrf_token %}
+        <fieldset>
+            <legend>اطلاعات</legend>
+            {{ form.title }}
+            {{ form.description }}
+            {{ form.date }}
+        </fieldset>
 
-        {{ form.title }}
-        {{ form.description }}
-        {{ form.date }}
-        {{ form.categories }}
+        <fieldset>
+            <legend>دسته بندی ها</legend>
+            {{ form.categories }}
+        </fieldset>
 
         {#        <h3>برچسب‌ها</h3>#}
         <fieldset>
-            <legend> fgg
+            <legend> برچسب
             </legend>
             <!-- ورودی افزودن برچسب جدید -->
             <div class="tag-selector">

@@ -1,6 +1,6 @@
 from django_jalali.db import models as jmodels
+from main.utils import generate_english_slug
 from accounts.models import CustomUser
-from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
 
@@ -22,12 +22,12 @@ class Post(models.Model):
         verbose_name_plural = 'پست های خبری'
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[self.slug])
+        return reverse('blog:post_detail', args=[self.id, self.slug])
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(str(self.title))
-        super(Post, self).save(*args, **kwargs)
+            self.slug = generate_english_slug(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -39,7 +39,7 @@ class Comment(models.Model):
     body = models.TextField(verbose_name="متن نظر")
     created = jmodels.jDateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated = jmodels.jDateTimeField(auto_now=True, verbose_name="آخرین ویرایش")
-    active = models.BooleanField(default=True, verbose_name="وضعیت")
+    active = models.BooleanField(default=False, verbose_name="وضعیت")
 
     class Meta:
         ordering = ['-created']

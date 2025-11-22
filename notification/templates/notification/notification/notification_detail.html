@@ -47,7 +47,7 @@
                 {% if notification.tags.all %}
                     <div class="poster-tags">
                         {% for tag in notification.tags.all %}
-                            <a href="{% url 'notification:notification_list_by_tags' tag.slug %}?tag={{ tag.slug }}"
+                            <a href="{{ tag.get_absolute_url }}"
                                class="tag-item">
                                 #{{ tag.name }}
                             </a>

@@ -1,9 +1,9 @@
 from django_jalali.db import models as jmodels
 from django_resized import ResizedImageField
-from slugify import slugify as py_slugify
 from accounts.models import CustomUser
 from django.urls import reverse
 from django.db import models
+from main.utils import *
 
 
 class Report(models.Model):
@@ -24,7 +24,7 @@ class Report(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = py_slugify(self.title)
+            self.slug = generate_english_slug(self.title)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -36,7 +36,10 @@ class Report(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='نام دسته')
-    slug = models.SlugField(max_length=120, unique=True, blank=True, null=True)
+    slug = models.SlugField(max_length=120, blank=True, null=True)
+
+    seo_title = models.CharField(max_length=150, blank=True, null=True, verbose_name="عنوان سئو")
+    seo_description = models.TextField(blank=True, null=True, verbose_name="توضیحات سئو")
 
     class Meta:
         verbose_name = 'دسته'
@@ -53,10 +56,19 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="نام برچسب")
     slug = models.SlugField(max_length=120, unique=True, blank=True, null=True)
+    seo_title = models.CharField(max_length=150, blank=True, null=True)
+    seo_description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'برچسب گزارش'
+        verbose_name_plural = 'برچسب های گزارشات'
+
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = py_slugify(self.name, allow_unicode=False)
+            self.slug = generate_english_slug(self.name)
+        if not self.seo_title:
+            self.seo_title = self.name
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
