@@ -1,15 +1,11 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.postgres.search import TrigramSimilarity
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models.functions import Greatest
 from main.decorators import superuser_required
 from django.db.models import Count, Q
 from django.http import JsonResponse
 from .models import Tag as ModelTag
-from rapidfuzz import fuzz
-from typing import Any
 from .forms import *
 import json
 import re
@@ -120,6 +116,41 @@ def report_detail(request, id, slug):
         report.save(update_fields=['views'])
         request.session[viewed_key] = True
 
+    tags = report.tags.all()
+    categories = report.categories.all()
+
+    related_qs = Report.objects.filter().exclude(id=report.id)
+
+    related_qs = related_qs.annotate(
+        same_tags=Count('tags', filter=Q(tags__in=tags))
+    )
+
+    related_qs = related_qs.annotate(
+        same_categories=Count('categories', filter=Q(categories__in=categories))
+    )
+
+    related_qs = related_qs.order_by('-same_tags', '-same_categories')
+
+    def relevance_score(item):
+        score = 0
+        title_q = report.title.lower()
+        desc_q = report.description.lower()
+
+        if title_q in item.title.lower():
+            score += 3
+        if desc_q[:50] in item.description.lower():
+            score += 2
+
+        return score
+
+    related_sorted = sorted(
+        related_qs,
+        key=lambda x: (x.same_tags, x.same_categories, relevance_score(x)),
+        reverse=True
+    )
+
+    related_reports = related_sorted[:3]
+
     liked = False
     if request.user.is_authenticated:
         liked = ReportLike.objects.filter(report=report, user=request.user).exists()
@@ -130,22 +161,21 @@ def report_detail(request, id, slug):
     comments = report.comments.select_related('name').order_by('-created')
 
     if request.user.is_authenticated:
-        user_reactions: dict[Any, Any] = dict(
+        user_reactions = dict(
             CommentReaction.objects.filter(user=request.user, comment__in=comments)
             .values_list('comment_id', 'reaction_type')
         )
     else:
         user_reactions = {}
 
-    context = {
+    return render(request, 'report/report/report_detail.html', {
         'report': report,
         'liked': liked,
         'likes_count': likes_count,
         'active_comments_count': active_comments_count,
         "user_reactions": user_reactions,
-    }
-
-    return render(request, 'report/report/report_detail.html', context)
+        "related_reports": related_reports,
+    })
 
 
 @login_required

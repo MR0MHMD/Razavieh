@@ -60,6 +60,10 @@
         </div>
 
     </section>
+    {% if related_notifications %}
+        <h2 class="related-title">اطلاعیه‌های مرتبط</h2>
+        {% include 'partials/notification_cards.html' with notifications=related_notifications %}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

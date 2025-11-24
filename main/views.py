@@ -21,11 +21,10 @@ def ticket(request):
             Ticket.objects.create(
                 message=cd['message'],
                 name=cd['name'],
-                email=cd['email'],
                 phone=cd['phone'],
                 subject=cd['subject']
             )
-            return redirect('blog:post_list')
+            return render(request, 'main/partials/ticket_redirect.html')
     else:
         form = TicketForm()
     return render(request, 'main/forms/ticket.html', {'form': form})

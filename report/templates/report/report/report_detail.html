@@ -154,6 +154,9 @@
             {% endif %}
         </section>
     </div>
+    {% if related_reports %}
+        {% include 'partials/report_cards.html' with reports=related_reports %}
+    {% endif %}
 
     <div id="lightbox" class="lightbox">
         <span class="close">&times;</span>

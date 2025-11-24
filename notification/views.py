@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from notification.models import Notification, Tag
 from django.views.generic import CreateView
+from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from .forms import NotificationForm
-from notification.models import Notification, Tag
 
 
 def notification_list(request, id=None, slug=None):
@@ -33,7 +34,43 @@ def notification_list(request, id=None, slug=None):
 
 def notification_detail(request, id, slug):
     notification = get_object_or_404(Notification, id=id, slug=slug)
-    return render(request, 'notification/notification/notification_detail.html', {'notification': notification})
+
+    tags = notification.tags.all()
+
+    related_qs = Notification.objects.filter(is_active=True).exclude(id=notification.id)
+
+    if tags.exists():
+        related_qs = related_qs.annotate(
+            same_tags=Count('tags', filter=Q(tags__in=tags))
+        ).order_by('-same_tags')
+    else:
+        related_qs = related_qs.annotate(same_tags=0)
+
+    def relevance_score(item):
+        score = 0
+        q = notification.title.lower()
+        desc = notification.content.lower()
+
+        if q in item.title.lower():
+            score += 3
+        if q in item.content.lower():
+            score += 1
+        if desc[:40] in item.content.lower():
+            score += 1
+
+        return score
+
+    related_list = sorted(related_qs, key=lambda x: (x.same_tags, relevance_score(x)), reverse=True)
+
+    # فقط ۳ نتیجه
+    related_notifications = related_list[:3]
+
+    context = {
+        "notification": notification,
+        "related_notifications": related_notifications
+    }
+
+    return render(request, "notification/notification/notification_detail.html", context)
 
 
 class create_notification(CreateView):
