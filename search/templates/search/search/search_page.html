@@ -37,29 +37,26 @@
 
     </div>
 {% endblock %}
+
 {% block scripts %}
     <script>
         (function () {
-            // عناصر پایه
             const tabsContainer = document.querySelector('.search-tabs');
             const tabs = Array.from(document.querySelectorAll('.tab-btn'));
             const indicator = document.querySelector('.indicator');
             const resultsBox = document.getElementById('results-box');
 
-            // از template context:
             const cleanQuery = "{{ clean_query }}";
-            const originalQuery = "{{ query|escapejs }}"; // escapejs برای ایمنی درون رشته
-            // current tab ممکنه از سرور بیاد
+            const originalQuery = "{{ query|escapejs }}";
             let currentTab = "{{ tab }}";
 
-            // helper: move indicator زیر دکمه مشخص
             function moveIndicatorToButton(btn, animate = true) {
                 if (!btn || !tabsContainer || !indicator) return;
                 const containerRect = tabsContainer.getBoundingClientRect();
                 const btnRect = btn.getBoundingClientRect();
 
                 const left = btnRect.left - containerRect.left;
-                const width = Math.max(24, btnRect.width); // حداقل عرض برای زیبایی
+                const width = Math.max(24, btnRect.width);
 
                 if (!animate) {
                     indicator.style.transition = 'none';
@@ -70,7 +67,6 @@
                 indicator.style.width = width + 'px';
                 indicator.style.transform = `translateX(${left}px)`;
 
-                // force reflow to re-enable transitions if disabled
                 if (!animate) {
                     requestAnimationFrame(() => {
                         indicator.style.transition = '';
@@ -78,7 +74,6 @@
                 }
             }
 
-            // فعال/غیرفعال کردن کلاس active روی تب‌ها
             function setActiveTab(btn) {
                 tabs.forEach(t => t.classList.remove('active'));
                 if (btn) btn.classList.add('active');
@@ -86,13 +81,11 @@
                 moveIndicatorToButton(btn);
             }
 
-            // helper: build URL for fetch (keeps clean_query path)
             function buildSearchUrl(paramsObj = {}) {
                 const params = new URLSearchParams();
                 params.set('q', originalQuery);
                 params.set('tab', currentTab || 'reports');
 
-                // merge extra params (e.g. page_r/page_n/page_p)
                 for (const k in paramsObj) {
                     if (Object.prototype.hasOwnProperty.call(paramsObj, k) && paramsObj[k] != null) {
                         params.set(k, paramsObj[k]);
@@ -102,7 +95,6 @@
                 return `/search/${encodeURIComponent(cleanQuery)}/?${params.toString()}`;
             }
 
-            // main fetch + replace results
             async function loadTabContent({tab = null, extraParams = {}} = {}) {
                 if (tab) currentTab = tab;
                 const url = buildSearchUrl(extraParams);
@@ -114,7 +106,6 @@
                     });
 
                     if (!res.ok) {
-                        // fallback: do full navigation if server برگرداند redirect یا خطا
                         window.location.href = url;
                         return;
                     }
@@ -122,21 +113,16 @@
                     const html = await res.text();
                     resultsBox.innerHTML = html;
 
-                    // آپدیت history (تنظیم url در آدرس بار)
                     const prettyUrl = `${window.location.pathname}?q=${encodeURIComponent(originalQuery)}&tab=${encodeURIComponent(currentTab)}`;
                     window.history.replaceState({}, '', prettyUrl);
 
-                    // بعد از بارگذاری مجدد partialها: دوباره hook ها رو فعال کن
                     attachPaginationHandlers();
-                    // در صورت لزوم می‌توان اینجا re-init سایر چیزها (مثل لایت‌باکس) را صدا زد.
                 } catch (err) {
                     console.error('AJAX load failed:', err);
-                    // fallback به url کامل:
                     window.location.href = buildSearchUrl();
                 }
             }
 
-            // هنگام کلیک روی تب‌ها
             function attachTabHandlers() {
                 tabs.forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -144,73 +130,58 @@
                         const tabName = btn.dataset.tab;
                         if (!tabName) return;
 
-                        // اگر همان تب فعال است کاری نکن (اما اندیکاتور را هم بروزرسانی کن)
                         if (btn.classList.contains('active')) {
                             moveIndicatorToButton(btn);
                             return;
                         }
 
                         setActiveTab(btn);
-                        // load بدون پارامترهای صفحه‌بندی (صفحه اول)
                         loadTabContent({tab: tabName, extraParams: {}});
                     });
                 });
             }
 
-            // pagination: هر لینکی که page_r= یا page_n= یا page_p= یا page= دارد را با AJAX هندل کنیم.
             function attachPaginationHandlers() {
-                // برای هر لینک در داخل resultsBox listener قرار میدهیم (event delegation ساده)
                 resultsBox.querySelectorAll('a').forEach(a => {
-                    // اگر قبلاً handler گذاشته شده بود از دوباره جلوگیری کن
                     if (a.dataset.ajaxAttached === "1") return;
 
                     a.dataset.ajaxAttached = "1";
                     a.addEventListener('click', (ev) => {
                         const href = a.getAttribute('href') || '';
                         try {
-                            // اگر لینک خارجی است، بگذار مرورگر طبیعی رفتار کند
                             const isInternal = href.startsWith('/') || href.startsWith('?') || href.includes(window.location.hostname);
                             if (!isInternal) return;
 
-                            // استخراج query string از href
                             const qIndex = href.indexOf('?');
                             const queryStr = qIndex === -1 ? (href.startsWith('?') ? href.slice(1) : '') : href.slice(qIndex + 1);
                             const params = new URLSearchParams(queryStr);
 
-                            // آیا پارامترهای صفحه هست؟
                             const pageKeys = ['page_r', 'page_n', 'page_p', 'page'];
                             const found = pageKeys.some(k => params.has(k));
-                            if (!found) return; // اجازه ده لینک به صورت طبیعی کار کند
+                            if (!found) return;
 
                             ev.preventDefault();
 
-                            // merge page params into extraParams
                             const extra = {};
                             for (const [k, v] of params.entries()) {
                                 extra[k] = v;
                             }
 
-                            // اگر لینک خودش شامل tab parameter بود، از آن استفاده کن، در غیر اینصورت از currentTab
                             if (params.has('tab')) {
                                 currentTab = params.get('tab');
-                                // و update active class روی تب مربوطه
                                 const targetBtn = tabs.find(t => t.dataset.tab === currentTab);
                                 if (targetBtn) setActiveTab(targetBtn);
                             }
 
                             loadTabContent({extraParams: extra});
                         } catch (err) {
-                            // اگر هر خطایی دیدیم، برو به آدرس لینک
                             console.error(err);
-                            // اجازه بده مرورگر ادامه دهد
                         }
                     });
                 });
             }
 
-            // init on load: موقع لود صفحه اندیکاتور را زیر تب فعلی قرار بده
             function init() {
-                // اگر هیچ تب فعالی از سرور نبود، تب اول را فعال کن
                 let activeBtn = tabs.find(t => t.classList.contains('active')) || tabs[0];
                 if (!activeBtn) return;
 
@@ -219,11 +190,9 @@
                 attachTabHandlers();
                 attachPaginationHandlers();
 
-                // وقتی window resize میشه اندیکاتور را تنظیم کن
                 window.addEventListener('resize', () => moveIndicatorToButton(document.querySelector('.tab-btn.active')));
             }
 
-            // اجرا
             document.addEventListener('DOMContentLoaded', init);
         })();
     </script>

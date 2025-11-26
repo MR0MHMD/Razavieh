@@ -27,7 +27,7 @@
 }
 
 /* ===== متادیتا ===== */
-.report-meta {
+.report-meta-detail {
     padding: 1.5rem;
     margin-bottom: 2rem;
     background: var(--card-bg);
@@ -165,128 +165,6 @@
 }
 
 /* ===============================
-   🎞 Lightbox — cinematic transitions
-   =============================== */
-
-.lightbox {
-    position: fixed;
-    inset: 0;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.92);
-    backdrop-filter: blur(10px);
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.lightbox.active {
-    display: flex;
-    opacity: 1;
-}
-
-/* ===== تصویر ===== */
-.lightbox-img {
-    max-width: 90%;
-    max-height: 85vh;
-    object-fit: contain;
-    border-radius: var(--radius);
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    will-change: opacity, transform;
-}
-
-.lightbox.active .lightbox-img {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* 🎞 افکت fade هنگام تغییر عکس */
-@keyframes fadeChange {
-    0% {
-        opacity: 0;
-        transform: scale(0.98);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.lightbox-img.fade {
-    animation: fadeChange 0.5s ease;
-}
-
-/* ===== کنترل‌ها ===== */
-.lightbox .close,
-.lightbox .prev,
-.lightbox .next {
-    position: absolute;
-    color: #fff;
-    font-size: 2rem;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.25s ease, filter 0.25s ease;
-    will-change: filter;
-}
-
-.lightbox .close {
-    top: 25px;
-    right: 35px;
-}
-
-.lightbox .next,
-.lightbox .prev {
-    top: 50%;
-}
-
-.lightbox .next {
-    right: 25px;
-}
-
-.lightbox .prev {
-    left: 25px;
-}
-
-/* افکت hover ثابت */
-.lightbox .close:hover,
-.lightbox .next:hover,
-.lightbox .prev:hover {
-    color: var(--accent);
-    filter: brightness(1.4);
-}
-
-/* ===== حالت موبایل ===== */
-@media (max-width: 768px) {
-    .lightbox .prev,
-    .lightbox .next,
-    .lightbox .close {
-        z-index: 10000;
-        font-size: 1.8rem;
-        background: rgba(0, 0, 0, 0.4);
-        padding: 0.4rem 0.6rem;
-        border-radius: 50%;
-    }
-
-    .lightbox .prev {
-        left: 12px;
-    }
-
-    .lightbox .next {
-        right: 12px;
-    }
-
-    .lightbox .close {
-        top: 10px;
-        right: 15px;
-        font-size: 1.6rem;
-    }
-}
-
-/* ===============================
    ❤️ Like Button (modern pulse)
    =============================== */
 
@@ -368,7 +246,7 @@
         font-size: 1.5rem;
     }
 
-    .report-meta {
+    .report-meta-detail {
         padding: 1rem;
     }
 

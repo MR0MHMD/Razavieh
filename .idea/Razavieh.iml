@@ -33,6 +33,7 @@
         <option value="$MODULE_DIR$/notification/templates" />
         <option value="$MODULE_DIR$/donation/templates" />
         <option value="$MODULE_DIR$/search/templates" />
+        <option value="$MODULE_DIR$/report/templates" />
       </list>
     </option>
   </component>

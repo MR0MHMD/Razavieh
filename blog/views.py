@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, DetailView, ListView
-from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView
+from main.utils import clean_filename
 from .forms import *
 
 
@@ -57,11 +57,25 @@ def post_comment_list(request, slug):
     return render(request, 'blog/blog/comment_list.html', context)
 
 
-class creat_post(CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'blog/forms/create_post.html'
-    success_url = reverse_lazy('blog:post_list')
+def create_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+        if form.is_valid():
+            post = form.save(commit=False)
+
+            # ✔ تغییر نام فایل تصویر
+            if "image" in request.FILES:
+                post.image = clean_filename(request.FILES["image"])
+
+            post.save()
+            form.save_m2m()
+
+            return redirect("blog:post_list")
+
+    else:
+        form = PostForm()
+
+    return render(request, "blog/forms/create_post.html", {
+        "form": form,
+    })

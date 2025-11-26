@@ -574,3 +574,268 @@ ul, li {
         background-position: 200px 200px;
     }
 }
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* ===== تصویر ===== */
+.lightbox-img {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+}
+
+.lightbox.active .lightbox-img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 🎞 افکت fade هنگام تغییر عکس */
+@keyframes fadeChange {
+    0% {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s ease;
+    z-index: 99999;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    position: relative;
+    touch-action: pinch-zoom;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 10px;
+    transition: transform .3s ease;
+}
+
+/* دکمه‌های بالا */
+.top-controls {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.top-controls span {
+    cursor: pointer;
+}
+
+/* دکمه‌های کناری */
+.side-controls .prev,
+.side-controls .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.prev {
+    left: 30px;
+}
+
+.next {
+    right: 30px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.counter {
+    position: absolute;
+    bottom: 25px;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* lightbox base */
+#global-lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.65);
+    transition: opacity .25s ease;
+}
+
+#global-lightbox.active {
+    display: flex;
+}
+
+/* backdrop clickable area */
+#global-lightbox .lb-backdrop {
+    position: absolute;
+    inset: 0;
+}
+
+#global-lightbox .lb-inner {
+    position: relative;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* image */
+#global-lightbox .lightbox-img {
+    max-width: calc(100vw - 160px);
+    max-height: calc(100vh - 160px);
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform .28s cubic-bezier(.2, .9, .3, 1);
+    will-change: transform;
+    border-radius: 8px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* left/right buttons (side) */
+#global-lightbox .lb-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000000;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: transform .18s ease, background .18s ease;
+}
+
+#global-lightbox .prev {
+    left: 18px;
+}
+
+#global-lightbox .next {
+    right: 18px;
+}
+
+#global-lightbox .lb-btn:hover {
+    transform: translateY(-50%) scale(1.08);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+#global-lightbox .lb-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000002;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    width: 46px;
+    height: 46px;
+    font-size: 28px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#global-lightbox .lb-download img{
+    position: fixed;
+    top: 20px;
+    right: 80px;
+    z-index: 1000002;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#global-lightbox .lb-counter {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000002;
+    color: #fff;
+    background: rgba(0,0,0,0.45);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 15px;
+    backdrop-filter: blur(6px);
+}
+
+@media (max-width: 768px) {
+    #global-lightbox .lb-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    #global-lightbox .lightbox-img {
+        max-width: calc(100vw - 100px);
+        max-height: calc(100vh - 160px);
+    }
+}

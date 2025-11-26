@@ -86,7 +86,7 @@
 
 {% block body %}
     <div class="report-detail-container container">
-        <div class="report-meta card">
+        <div class="report-meta-detail card">
             <h1 class="report-title">{{ report.title }}</h1>
 
             <div class="report-stats">
@@ -117,10 +117,11 @@
         </div>
 
         {% if report.images.all %}
-            <section class="report-gallery">
+            <section class="report-gallery" dir="ltr">
                 {% for image in report.images.all %}
                     <div class="gallery-item">
-                        <img src="{{ image.image.url }}" alt="{{ report.title }}">
+                        <img class="lightbox-item" data-group="report-{{ report.id }}" src="{{ image.image.url }}"
+                             alt="{{ report.title }}">
                     </div>
                 {% endfor %}
             </section>
@@ -153,10 +154,11 @@
                 </div>
             {% endif %}
         </section>
+        {% if related_reports %}
+            {% include 'partials/report_cards.html' with reports=related_reports %}
+        {% endif %}
     </div>
-    {% if related_reports %}
-        {% include 'partials/report_cards.html' with reports=related_reports %}
-    {% endif %}
+
 
     <div id="lightbox" class="lightbox">
         <span class="close">&times;</span>
@@ -167,7 +169,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'report/js/lightbox.js' %}"></script>
+    <script src="{% static 'js/global_lightbox.js' %}"></script>
     <script src="{% static 'report/js/comment_react.js' %}"></script>
     <script src="{% static 'report/js/report_likes.js' %}"></script>
 {% endblock %}

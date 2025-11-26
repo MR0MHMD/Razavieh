@@ -27,7 +27,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="مسجد رضویه افسریه">
-    
+
     {% block seo %}{% endblock %}
 
 </head>
@@ -56,5 +56,20 @@
 
 {% endblock %}
 <script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/global_lightbox.js' %}"></script>
+<!-- global lightbox (put once, e.g. in base template) -->
+<div id="global-lightbox" class="lightbox" aria-hidden="true" role="dialog" tabindex="-1">
+    <div class="lb-backdrop"></div>
+
+    <button class="lb-btn prev" aria-label="Previous">&#10094;</button>
+    <button class="lb-btn next" aria-label="Next">&#10095;</button>
+
+    <div class="lb-inner">
+        <img class="lightbox-img" src="" alt="">
+        <div class="lb-counter"></div>
+        <button class="lb-download" title="دانلود"><img src="{% static 'icons/download.svg' %}" alt="download"></button>
+        <button class="lb-close" aria-label="Close">&times;</button>
+    </div>
+</div>
 </body>
 </html>

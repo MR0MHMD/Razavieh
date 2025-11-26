@@ -16,7 +16,7 @@
 
         <!-- تصویر اصلی -->
         <div class="post-image-wrapper">
-            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+            <img class="lightbox-item post-image" data-group="post-{{ post.id }}" src="{{ post.image.url }}" alt="{{ post.title }}">
         </div>
 
         <!-- توضیحات و محتوا -->

@@ -70,7 +70,6 @@ DATABASES = {
     }
 }
 
-# 📁 فایل‌های استاتیک و مدیا
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -79,17 +78,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
-# 🕒 تنظیمات عمومی
 LANGUAGE_CODE = 'fa-ir'
 TIME_ZONE = 'Asia/Tehran'
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 👤 مدل کاربر سفارشی
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-# 🔐 اعتبارسنجی رمز عبور
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -97,7 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# 📨 تنظیمات ایمیل (برای بازیابی رمز)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -106,10 +101,10 @@ EMAIL_HOST_USER = 'test.emial.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'qyupiaqlnpfgnvbf'
 
 # 🔁 سشن‌ها
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 180  # 6 ماه
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 90
 SESSION_SAVE_EVERY_REQUEST = True
 
 # 📍 مسیر بعد از لاگین
-LOGIN_REDIRECT_URL = '/report/reports'
+LOGIN_REDIRECT_URL = '/accounts/profile'
 
 GHASEDAK_API_KEY = "97b761464896092337b2792e656b23382cd4b17561cceaccd1496ed68141b4aeyC6PCGMHHJGaZPpV"

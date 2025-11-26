@@ -1,16 +1,20 @@
 {% extends 'parent/base.html' %}
+
 {% load static %}
+
 {% block title %}ticket form{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
+
 {% block body %}
     <form method="post" enctype="multipart/form-data" class="form-container">
         {% csrf_token %}
         {{ form.as_div }}
         <input type="file" name="image" multiple style="margin-top: 2rem">
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">ثبت گزارش</button>
+            <button type="submit" class="btn btn-primary">ثبت تیکت</button>
         </div>
     </form>
 {% endblock %}

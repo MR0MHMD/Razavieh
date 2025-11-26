@@ -1,11 +1,10 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from notification.models import Notification, Tag
-from django.views.generic import CreateView
-from django.db.models import Count, Q
+from main.utils import clean_filename
+from django.db.models import Count, Q, Value, IntegerField
 from django.http import JsonResponse
-from django.urls import reverse_lazy
 from .forms import NotificationForm
 
 
@@ -42,27 +41,34 @@ def notification_detail(request, id, slug):
     if tags.exists():
         related_qs = related_qs.annotate(
             same_tags=Count('tags', filter=Q(tags__in=tags))
-        ).order_by('-same_tags')
+        )
     else:
-        related_qs = related_qs.annotate(same_tags=0)
+        related_qs = related_qs.annotate(
+            same_tags=Value(0, output_field=IntegerField())
+        )
 
     def relevance_score(item):
         score = 0
-        q = notification.title.lower()
-        desc = notification.content.lower()
+        q_title = notification.title.lower()
+        q_desc = notification.content.lower()
 
-        if q in item.title.lower():
+        if q_title in item.title.lower():
             score += 3
-        if q in item.content.lower():
+
+        if q_title in item.content.lower():
             score += 1
-        if desc[:40] in item.content.lower():
+
+        if q_desc[:40] in item.content.lower():
             score += 1
 
         return score
 
-    related_list = sorted(related_qs, key=lambda x: (x.same_tags, relevance_score(x)), reverse=True)
+    related_list = sorted(
+        related_qs,
+        key=lambda x: (x.same_tags, relevance_score(x)),
+        reverse=True
+    )
 
-    # فقط ۳ نتیجه
     related_notifications = related_list[:3]
 
     context = {
@@ -73,30 +79,36 @@ def notification_detail(request, id, slug):
     return render(request, "notification/notification/notification_detail.html", context)
 
 
-class create_notification(CreateView):
-    model = Notification
-    form_class = NotificationForm
-    template_name = 'notification/forms/create_notification.html'
-    success_url = reverse_lazy('notification:notification_list')
+def create_notification(request):
+    if request.method == "POST":
+        form = NotificationForm(request.POST, request.FILES)
 
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['existing_tags'] = Tag.objects.all()
-        return ctx
+        if form.is_valid():
+            notification = form.save(commit=False)
 
-    def form_valid(self, form):
-        notification = form.save(commit=False)
-        notification.save()
-        form.save_m2m()
+            # ✔ تغییر نام فایل قبل از ذخیره
+            if "image" in request.FILES:
+                notification.image = clean_filename(request.FILES["image"])
 
-        # ذخیره تگ‌ها
-        tag_ids_str = self.request.POST.get("selected_tags", "")
-        if tag_ids_str.strip():
-            tag_ids = [int(t) for t in tag_ids_str.split(",") if t.strip().isdigit()]
-            tags = Tag.objects.filter(id__in=tag_ids)
-            notification.tags.set(tags)
+            notification.save()
+            form.save_m2m()
 
-        return super().form_valid(form)
+            # ✔ ذخیره تگ‌ها
+            tag_ids_str = request.POST.get("selected_tags", "")
+            if tag_ids_str.strip():
+                tag_ids = [int(t) for t in tag_ids_str.split(",") if t.strip().isdigit()]
+                tags = Tag.objects.filter(id__in=tag_ids)
+                notification.tags.set(tags)
+
+            return redirect("notification:notification_list")
+
+    else:
+        form = NotificationForm()
+
+    return render(request, "notification/forms/create_notification.html", {
+        "form": form,
+        "existing_tags": Tag.objects.all(),
+    })
 
 
 @csrf_exempt

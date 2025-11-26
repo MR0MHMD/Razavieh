@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from main.decorators import superuser_required
 from django.db.models import Count, Q
+from main.utils import clean_filename
 from django.http import JsonResponse
 from .models import Tag as ModelTag
 from .forms import *
@@ -15,15 +16,19 @@ import re
 def create_report(request):
     if request.method == 'POST':
         form = ReportForm(request.POST, request.FILES)
+
         if form.is_valid():
             report = form.save(commit=False)
             report.save()
             form.save_m2m()
 
+            # ✔ تغییر نام تمام عکس‌ها
             files = request.FILES.getlist('image')
             for f in files:
-                ReportImage.objects.create(report=report, image=f)
+                renamed = clean_filename(f)
+                ReportImage.objects.create(report=report, image=renamed)
 
+            # ✔ تگ‌ها
             tag_ids_str = request.POST.get("selected_tags", "")
             if tag_ids_str.strip():
                 tag_ids = [int(t) for t in tag_ids_str.split(",") if t.strip().isdigit()]

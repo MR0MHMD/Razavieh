@@ -16,7 +16,7 @@
 
             <!-- 🎬 پوستر اطلاعیه -->
             <div class="poster-image-box">
-                <img src="{{ notification.image.url }}" alt="{{ notification.title }}">
+                <img class="lightbox-item" data-group="notification-{{ notification.id }}" src="{{ notification.image.url }}" alt="{{ notification.title }}">
             </div>
 
             <!-- 📋 اطلاعات اطلاعیه -->
