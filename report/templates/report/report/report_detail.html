@@ -81,7 +81,6 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'report/css/report/report_detail.css' %}">
-    <link rel="stylesheet" href="{% static 'report/css/report/comment_list.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -105,17 +104,19 @@
                 </div>
 
                 <div class="stat-item">
-                    <img src="{% static 'report/icons/comment.svg' %}" alt="comments">
+                    <a href="{% url 'report:report_comment' report.id report.slug %}"><img
+                            src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                    </a>
                     <span>{{ active_comments_count }}</span>
                 </div>
 
                 <div class="stat-item">
                     <img src="{% static 'report/icons/date.svg' %}" alt="date">
-                    <span>{{ report.created|jformat:"%Y/%m/%d" }}</span>
+                    <span>{{ report.date|jformat:"%Y/%m/%d" }}</span>
                 </div>
             </div>
         </div>
-
+    
         {% if report.images.all %}
             <section class="report-gallery" dir="ltr">
                 {% for image in report.images.all %}
@@ -150,13 +151,17 @@
             {% latest_comments 3 %}
             {% if active_comments_count > 3 %}
                 <div class="more-comments">
-                    <a href="{% url 'report:report_comment_list' report.id report.slug %}">مشاهده تمام کامنت‌ها</a>
+                    <a class="full-width-btn comment-btn"
+                       href="{% url 'report:report_comment_list' report.id report.slug %}">مشاهده تمام کامنت‌ها</a>
                 </div>
             {% endif %}
         </section>
-        {% if related_reports %}
-            {% include 'partials/report_cards.html' with reports=related_reports %}
-        {% endif %}
+        <section class="related-reports--section">
+            {% if related_reports %}
+                <h2>گزارشات مشابه</h2>
+                {% include 'partials/report_cards.html' with reports=related_reports %}
+            {% endif %}
+        </section>
     </div>
 
 

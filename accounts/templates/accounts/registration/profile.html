@@ -30,7 +30,10 @@
                 <h2>{{ user.get_full_name|default:user.username }}</h2>
                 <p class="bio">{{ user.bio|default:"کاربر مسجد رضویه 🌙" }}</p>
                 <p class="join-date">عضو شده در {{ user.joined_jalali|date:"Y/m/d" }}</p>
-                <a href="{% url 'accounts:edit_profile' %}" class="edit-btn">ویرایش پروفایل ✏️</a>
+                <div class="account--actions">
+                    <a href="{% url 'accounts:edit_profile' %}" class="edit-btn">ویرایش پروفایل</a>
+                    <a href="{% url 'accounts:password_change' %}" class="edit-btn">تغییر رمز️</a>
+                </div>
             </div>
         </div>
 

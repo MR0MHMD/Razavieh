@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from main.decorators import superuser_required
+from main.utils import clean_filename as cf
 from django.db.models import Count, Q
-from main.utils import clean_filename
 from django.http import JsonResponse
 from .models import Tag as ModelTag
 from .forms import *
@@ -25,7 +25,7 @@ def create_report(request):
             # ✔ تغییر نام تمام عکس‌ها
             files = request.FILES.getlist('image')
             for f in files:
-                renamed = clean_filename(f)
+                renamed = cf(f)
                 ReportImage.objects.create(report=report, image=renamed)
 
             # ✔ تگ‌ها
@@ -65,18 +65,26 @@ def report_list(request, mode=None, id=None, slug=None):
     categories = Category.objects.all()
     category = None
     tag = None
-    reports = Report.objects.all().order_by('-date')
+    reports = Report.objects.annotate(
+        comments_count=Count('comments', filter=Q(comments__active=True))
+    ).order_by('-date')
 
     if mode == "category" and slug and id:
         category = get_object_or_404(Category, id=id, slug=slug)
-        reports = Report.objects.filter(categories=category)
+        reports = Report.objects.filter(categories=category).annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))
+        )
 
     elif mode == "tag" and slug and id:
         tag = get_object_or_404(ModelTag, id=id, slug=slug)
-        reports = Report.objects.filter(tags=tag)
+        reports = Report.objects.filter(tags=tag).annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))
+        )
 
     elif mode == "likes":
-        reports = Report.objects.all().order_by('-likes')
+        reports = Report.objects.annotate(
+            comments_count=Count('comments', filter=Q(comments__active=True))
+        ).order_by('-likes')
 
     elif mode == "comments":
         reports = Report.objects.annotate(
@@ -163,6 +171,12 @@ def report_detail(request, id, slug):
     likes_count = ReportLike.objects.filter(report=report).count()
     active_comments_count = Comment.objects.filter(active=True, report=report).count()
 
+    liked_reports = []
+    if request.user.is_authenticated:
+        liked_reports = ReportLike.objects.filter(
+            user=request.user
+        ).values_list('report_id', flat=True)
+
     comments = report.comments.select_related('name').order_by('-created')
 
     if request.user.is_authenticated:
@@ -177,6 +191,7 @@ def report_detail(request, id, slug):
         'report': report,
         'liked': liked,
         'likes_count': likes_count,
+        'liked_reports': liked_reports,
         'active_comments_count': active_comments_count,
         "user_reactions": user_reactions,
         "related_reports": related_reports,

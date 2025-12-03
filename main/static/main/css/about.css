@@ -196,7 +196,7 @@
 }
 
 .about-image {
-    flex: 1 1 40%;
+    flex: 1 1 38%;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);

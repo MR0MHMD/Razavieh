@@ -1,5 +1,6 @@
 {% extends 'parent/base.html' %}
 {% load static %}
+{% block title %}ورود با شماره موبایل{% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
@@ -17,4 +18,8 @@
             <a href="{% url 'accounts:login' %}">بازگشت به ورود با رمز عبور</a>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'accounts/js/persian_fixation.js' %}"></script>
 {% endblock %}

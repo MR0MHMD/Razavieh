@@ -14,9 +14,9 @@
         <div class="hero-section">
             <div class="hero-content container">
                 <div class="hero-image">
-                    <img src="{% static 'main/img/hero-1.JPG' %}" class="slide active" alt="hero">
-                    <img src="{% static 'main/img/hero-2.JPG' %}" class="slide" alt="hero">
-                    <img src="{% static 'main/img/hero-3.JPG' %}" class="slide" alt="hero">
+                    {% for image in hero_images %}
+                        <img src="{{ image.image.url }}" class="slide {% if forloop.first %}active{% endif %}" alt="{{ image.title }}">
+                    {% endfor %}
                 </div>
                 <div class="hero-text">
                     <h1 class="hero-title">مسجد رضویه افسریه <span>محل رشد فرهنگی و معنوی</span></h1>

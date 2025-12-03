@@ -24,7 +24,7 @@ class CustomUserRegisterForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام خانوادگی'}),
             'bio': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'درباره خودتان بنویسید...'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثال: 09121234567'})
+            'phone_number': forms.TextInput(attrs={'class': 'form-control persian-fix', 'placeholder': 'مثال: 09121234567'})
         }
 
     def clean_password2(self):
@@ -72,7 +72,7 @@ class MobileLoginForm(forms.Form):
     phone_number = forms.CharField(
         max_length=11,
         label="شماره موبایل",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثلاً 09121234567'})
+        widget=forms.TextInput(attrs={'class': 'form-control persian-fix', 'placeholder': 'مثلاً 09121234567'})
     )
 
 

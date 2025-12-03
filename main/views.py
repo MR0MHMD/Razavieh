@@ -6,9 +6,11 @@ from .models import *
 
 def index(request):
     notifications = Notification.objects.filter(is_active=True).order_by('-date')[:3]
+    hero_images = HeroImage.objects.filter(is_active=True)
 
     context = {
         "notifications": notifications,
+        "hero_images": hero_images,
     }
     return render(request, "main/main/index.html", context)
 
@@ -31,7 +33,8 @@ def ticket(request):
 
 
 def about(request):
-    return render(request, 'main/main/about.html')
+    staff = Staff.objects.filter(is_active=True).order_by("order")
+    return render(request, 'main/main/about.html', {'staff': staff})
 
 
 def error_404(request, exception):

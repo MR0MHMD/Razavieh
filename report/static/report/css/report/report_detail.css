@@ -201,6 +201,15 @@
     animation: heartPulse 0.4s ease;
 }
 
+.related-reports--section{
+    margin-top: 5rem;
+}
+
+.comment-btn{
+    margin-top: 2rem !important;
+    width: 40% !important;
+}
+
 @keyframes heartPulse {
     0%, 100% {
         transform: scale(1);

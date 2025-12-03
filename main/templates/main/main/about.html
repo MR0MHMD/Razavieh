@@ -18,7 +18,7 @@
 
     <section class="about-section container fade-up">
         <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1597001318067-5a36c1af5b7f?auto=format&fit=crop&w=1200&q=80"
+            <img src="{% static 'main/img/logo.png' %}"
                  alt="Mosque interior">
         </div>
         <div class="about-text">
@@ -51,34 +51,27 @@
             </div>
         </div>
     </section>
-
-    <section class="team-section fade-up">
-        <h2 class="section-title">خادمان مسجد</h2>
-        <div class="team-grid container">
-            <div class="team-card">
-                <img src="https://images.unsplash.com/photo-1618354691330-d7e4c7e58e2a?auto=format&fit=crop&w=800&q=80"
-                     alt="">
-                <h3>حجت‌الاسلام احمدی</h3>
-                <p>امام جماعت و مسئول فرهنگی</p>
+    
+    {% if staff %} 
+        <section class="team-section fade-up">
+            <h2 class="section-title">خادمان مسجد</h2>
+    
+            <div class="team-grid container">
+                {% for s in staff %}
+                    <div class="team-card">
+                        <img src="{{ s.image.url }}" class="lightbox-item" data-group="staff-{{ s.id }}" alt="{{ s.name }}">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.role }}</p>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="team-card">
-                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=800&q=80"
-                     alt="">
-                <h3>خانم موسوی</h3>
-                <p>مدیر واحد بانوان و فعالیت‌های آموزشی</p>
-            </div>
-            <div class="team-card">
-                <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=80"
-                     alt="">
-                <h3>آقای رضایی</h3>
-                <p>مسئول گروه‌های جهادی و جوانان</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
 
     <section class="cta-section fade-up">
         <h2>به جمع خادمان مسجد بپیوندید</h2>
         <p>اگر تمایل دارید در مسیر رشد فرهنگی و معنوی جامعه قدمی بردارید، ما از همراهی‌تان استقبال می‌کنیم.</p>
         <a href="{% url 'main:ticket' %}" class="btn-cta">ارتباط با ما</a>
     </section>
+    
 {% endblock %}

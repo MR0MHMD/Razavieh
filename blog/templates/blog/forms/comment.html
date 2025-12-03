@@ -1,7 +1,7 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 {% block title %}
-    comment
+    ارسال نظر برای {{ post.title }}
 {% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
@@ -16,7 +16,7 @@
             <form method="post" enctype="multipart/form-data" action="{% url 'blog:post_comment' post.slug %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="ارسال">
+                <button type="submit" class="btn btn-primary">ارسال نظر</button>
             </form>
         </div>
     {% endif %}

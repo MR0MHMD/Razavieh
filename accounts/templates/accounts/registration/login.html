@@ -1,6 +1,6 @@
 {% extends 'parent/base.html' %}
 {% load static %}
-{% block title %}login{% endblock %}
+{% block title %}ورود{% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/parent/forms.css' %}">
 {% endblock %}
@@ -16,7 +16,7 @@
         <p>اگر حسابی ندارید <a href="{% url 'accounts:register' %}">ثبت نام</a> کنید </p>
 
         <p style="text-align: center">
-            یا <a href="{% url 'accounts:mobile_login' %}">ورود با شماره موبایل و کد تأیید</a>
+            <a href="{% url 'accounts:mobile_login' %}">ورود با شماره موبایل و کد تأیید</a>
         </p>
     </form>
 {% endblock %}

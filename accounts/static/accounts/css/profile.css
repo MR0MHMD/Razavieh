@@ -46,6 +46,11 @@
     font-size: 1rem;
 }
 
+.account--actions {
+    display: flex;
+    gap: 2rem;
+}
+
 .edit-btn {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -54,6 +59,8 @@
     border-radius: 0.8rem;
     text-decoration: none;
     transition: background 0.3s ease;
+    width: 150px;
+    text-align: center;
 }
 
 .edit-btn:hover {
@@ -234,5 +241,11 @@
 
     .like-icon {
         font-size: 1rem;
+    }
+
+    .account--actions {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
 }

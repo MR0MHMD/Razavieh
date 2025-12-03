@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from main.utils import generate_english_slug
 from notification.models import Notification
 from django.core.paginator import Paginator
-from report.models import Report
+from report.models import Report, ReportLike
 from django.http import Http404
-from django.db.models import Q
+from django.db.models import Q, Count
 from blog.models import Post
 
 
@@ -46,39 +46,43 @@ def score_result(item, query):
     return 0
 
 
+from django.db.models import Count, Q
+
 def search_view(request, clean_query):
     query = request.GET.get('q', '').strip()
 
     if not query:
         raise Http404("Query is empty.")
 
-    # فقط برای زیبایی URL — تغییری روی دیتابیس نیست
     expected_slug = generate_english_slug(query)
-
     if clean_query != expected_slug:
-        # ریدایرکت به URL صحیح
         return redirect(f"/search/{expected_slug}/?q={query}")
 
-    # انتخاب تب
     tab = request.GET.get("tab", "reports")
 
     # ------------------------------
-    #     جستجو در گزارشات
+    #   گزارشات با شمارش کامنت
     # ------------------------------
     reports_qs = Report.objects.filter(
         Q(title__icontains=query) |
         Q(description__icontains=query) |
         Q(tags__name__icontains=query)
+    ).annotate(
+        comments_count=Count(
+            'comments',
+            filter=Q(comments__active=True),
+            distinct=True
+        )
     ).distinct()
 
+    # مرتب‌سازی با امتیاز
     reports = sorted(reports_qs, key=lambda r: -score_result(r, query))
 
     paginator_r = Paginator(reports, 6)
-    page_r = request.GET.get("page_r", 1)
-    reports_page = paginator_r.get_page(page_r)
+    reports_page = paginator_r.get_page(request.GET.get("page_r", 1))
 
     # ------------------------------
-    #     جستجو در اطلاع‌رسانی
+    #   اطلاع‌رسانی‌ها
     # ------------------------------
     notif_qs = Notification.objects.filter(
         Q(title__icontains=query) |
@@ -89,11 +93,10 @@ def search_view(request, clean_query):
     notifications = sorted(notif_qs, key=lambda r: -score_result(r, query))
 
     paginator_n = Paginator(notifications, 6)
-    page_n = request.GET.get("page_n", 1)
-    notifications_page = paginator_n.get_page(page_n)
+    notifications_page = paginator_n.get_page(request.GET.get("page_n", 1))
 
     # ------------------------------
-    #     جستجو در اخبار
+    #   اخبار
     # ------------------------------
     post_qs = Post.objects.filter(
         Q(title__icontains=query) |
@@ -103,21 +106,34 @@ def search_view(request, clean_query):
     posts = sorted(post_qs, key=lambda r: -score_result(r, query))
 
     paginator_p = Paginator(posts, 6)
-    page_p = request.GET.get("page_p", 1)
-    posts_page = paginator_p.get_page(page_p)
+    posts_page = paginator_p.get_page(request.GET.get("page_p", 1))
 
+    liked_reports = []
+    if request.user.is_authenticated:
+        liked_reports = ReportLike.objects.filter(
+            user=request.user
+        ).values_list('report_id', flat=True)
+
+    # ------------------------------
+    #   Context
+    # ------------------------------
     context = {
         "query": query,
         "clean_query": clean_query,
         "tab": tab,
+
         "reports": reports_page,
+        "liked_reports": liked_reports,
+
         "notifications": notifications_page,
         "posts": posts_page,
+
         "count_reports": len(reports),
         "count_notifications": len(notifications),
         "count_posts": len(posts),
     }
 
+    # AJAX
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         if tab == "reports":
             return render(request, "search/partials/reports_results.html", context)

@@ -86,6 +86,7 @@
 .comments-section {
     margin-top: 4rem;
     animation: fadeUp 1.2s ease both;
+    margin-bottom: 3rem;
 }
 
 .comments-header {

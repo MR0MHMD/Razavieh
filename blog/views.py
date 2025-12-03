@@ -1,15 +1,26 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 from main.utils import clean_filename
 from .forms import *
 
 
-class PostListView(ListView):
-    model = Post
-    template_name = 'blog/blog/post_list.html'
-    context_object_name = 'posts'
-    paginate_by = 9
+def post_list(request):
+    posts = Post.objects.all()
+
+    paginator = Paginator(posts, 9)
+    page_number = request.GET.get('page', 1)
+    try:
+        posts = paginator.page(page_number)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'blog/blog/post_list.html', context)
 
 
 class PostDetailView(DetailView):

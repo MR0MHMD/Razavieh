@@ -1,3 +1,4 @@
+import jdatetime
 from django_jalali.db import models as jmodels
 from main.utils import generate_english_slug
 from accounts.models import CustomUser
@@ -9,9 +10,8 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='posts/', blank=True)
-    slug = models.SlugField(unique=True, blank=True)
-    created = jmodels.jDateTimeField(auto_now_add=True)
-    updated = jmodels.jDateTimeField(auto_now=True)
+    slug = models.SlugField(blank=True, max_length=200)
+    created = jmodels.jDateTimeField(default=jdatetime.datetime.now())
 
     class Meta:
         ordering = ['-created']
