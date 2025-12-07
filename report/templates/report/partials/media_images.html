@@ -1,0 +1,12 @@
+{# templates/report/partials/media_images.html #}
+<section class="report-media-section report-images-section fade-up" aria-live="polite">
+    <h2 class="section-title">تصاویر</h2>
+
+    <div class="gallery-grid" dir="ltr">
+        {% for image in report.images.all %}
+            <div class="gallery-item">
+                <img class="lightbox-item" data-group="report-{{ report.id }}" src="{{ image.image.url }}" alt="{{ report.title }}">
+            </div>
+        {% endfor %}
+    </div>
+</section>

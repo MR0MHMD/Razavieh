@@ -2,14 +2,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
 from main.decorators import superuser_required
 from main.utils import clean_filename as cf
 from django.db.models import Count, Q
 from django.http import JsonResponse
+from django.http import HttpResponse
 from .models import Tag as ModelTag
 from .forms import *
 import json
-import re
 
 
 @superuser_required
@@ -312,11 +313,23 @@ def react_comment(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
-def normalize_farsi(text):
-    if not text:
-        return ''
-    text = text.strip().lower()
-    text = text.replace("ي", "ی").replace("ك", "ک")
-    text = re.sub(r'[‌\s]+', " ", text)
-    text = re.sub(r"[^\w\s\u0600-\u06FF]", "", text)
-    return text
+# تصاویر
+def report_media_images(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
+    if not report.images.exists():
+        return HttpResponse("", status=204)
+    html = render_to_string('report/partials/media_images.html', {'report': report}, request=request)
+    return HttpResponse(html)
+
+
+def report_media_videos(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
+    if not report.videos.exists():
+        return HttpResponse("", status=204)
+    html = render_to_string('report/partials/media_videos.html', {'report': report}, request=request)
+    return HttpResponse(html)
+
+
+def report_media_audios(request, id, slug):
+    report = get_object_or_404(Report, id=id, slug=slug)
+    return HttpResponse("", status=204)

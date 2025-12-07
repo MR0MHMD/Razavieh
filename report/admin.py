@@ -18,9 +18,19 @@ class inlines:
         extra = 0
         readonly_fields = ['report', 'user']
 
+    class VideoInline(admin.TabularInline):
+        model = ReportVideo
+        extra = 0
+        readonly_fields = ['title', 'video_uid', "description"]
+
 
 @admin.register(ReportImage)
 class ReportImagedAdmin(admin.ModelAdmin):
+    list_display = ['report']
+
+
+@admin.register(ReportVideo)
+class ReportVideoAdmin(admin.ModelAdmin):
     list_display = ['report']
 
 
@@ -76,7 +86,7 @@ class ReportAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ['tags', 'categories']
 
-    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline]
+    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline, inlines.VideoInline]
 
     fieldsets = (
         ('اطلاعات کلی', {'fields': ('title', 'slug', 'description', 'date')}),

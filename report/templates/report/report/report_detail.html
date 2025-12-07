@@ -116,17 +116,56 @@
                 </div>
             </div>
         </div>
-    
-        {% if report.images.all %}
-            <section class="report-gallery" dir="ltr">
-                {% for image in report.images.all %}
-                    <div class="gallery-item">
-                        <img class="lightbox-item" data-group="report-{{ report.id }}" src="{{ image.image.url }}"
-                             alt="{{ report.title }}">
+        <div class="report-media-wrapper" data-report-id="{{ report.id }}" data-report-slug="{{ report.slug }}">
+
+            {% with has_images=report.images.exists has_videos=report.videos.exists %}
+                {% if has_images or has_videos %}
+                    {% if has_images and has_videos %}
+                        <div class="media-tabs-container">
+                            <div class="media-tabs" role="tablist">
+
+                                {% if has_images %}
+                                    <button class="media-tab active"
+                                            data-media="images"
+                                            role="tab"
+                                            aria-selected="true">
+                                        تصاویر
+                                    </button>
+                                {% endif %}
+
+                                {% if has_videos %}
+                                    <button class="media-tab {% if not has_images %}active{% endif %}"
+                                            data-media="videos"
+                                            role="tab"
+                                            aria-selected="{% if not has_images %}true{% else %}false{% endif %}">
+                                        ویدیوها
+                                    </button>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+
+            <div id="media-content" class="media-content">
+
+                {% if report.images.exists %}
+
+                    {% include 'report/partials/media_images.html' %}
+
+                {% elif report.videos.exists %}
+
+                    {% include 'report/partials/media_videos.html' %}
+
+                {% else %}
+
+                    <div class="card">
+                        <p class="text-muted">هیچ رسانه‌ای موجود نیست.</p>
                     </div>
-                {% endfor %}
-            </section>
-        {% endif %}
+                {% endif %}
+            </div>
+        </div>
 
         <article class="report-content card">
             {{ report.description|linebreaks }}
@@ -158,12 +197,20 @@
         </section>
         <section class="related-reports--section">
             {% if related_reports %}
-                <h2>گزارشات مشابه</h2>
+                <h2>گزارش‌ها مشابه</h2>
                 {% include 'partials/report_cards.html' with reports=related_reports %}
             {% endif %}
         </section>
     </div>
+    <div id="videoLightbox" class="video-lightbox">
+        <div class="video-close-btn">&times;</div>
 
+        <div class="video-loading-spinner"></div>
+
+        <div class="video-frame">
+            <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+        </div>
+    </div>
 
     <div id="lightbox" class="lightbox">
         <span class="close">&times;</span>
@@ -177,4 +224,6 @@
     <script src="{% static 'js/global_lightbox.js' %}"></script>
     <script src="{% static 'report/js/comment_react.js' %}"></script>
     <script src="{% static 'report/js/report_likes.js' %}"></script>
+    <script src="{% static 'report/js/report_media_tabs.js' %}"></script>
+    <script src="{% static 'report/js/video_lightbox.js' %}"></script>
 {% endblock %}

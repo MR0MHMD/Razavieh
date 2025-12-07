@@ -102,6 +102,30 @@ class ReportImage(models.Model):
         verbose_name_plural = 'تصاویر گزارشات'
 
 
+class ReportVideo(models.Model):
+    report = models.ForeignKey(Report, related_name='videos', on_delete=models.CASCADE)
+    video_uid = models.CharField("شناسه ویدیو", max_length=50)
+    title = models.CharField("عنوان ویدیو", max_length=200, blank=True)
+    description = models.TextField("توضیحات ویدیو", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created']
+        verbose_name = "ویدیو گزارش"
+        verbose_name_plural = "ویدیوهای گزارش"
+
+    def __str__(self):
+        return self.title or f"ویدیو گزارش {self.report_id}"
+
+    @property
+    def player_url(self):
+        return f"https://player.arvancloud.ir/index.html?config=https://razaviyehinfo.arvanvod.ir/zVmDrVDb4B/{self.video_uid}/origin_config.json"
+
+    @property
+    def thumbnail_url(self):
+        return f"https://razaviyehinfo.arvanvod.ir/zVmDrVDb4B/{self.video_uid}/thumbnail.jpg"
+
+
 class Comment(models.Model):
     report = models.ForeignKey('Report', on_delete=models.CASCADE, related_name='comments')
     name = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
@@ -134,3 +158,6 @@ class CommentReaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.reaction_type} ({self.comment.id})"
+
+
+
