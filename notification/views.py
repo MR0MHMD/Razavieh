@@ -16,7 +16,7 @@ def notification_list(request, id=None, slug=None):
     else:
         notifications = Notification.objects.all().order_by('-date')
 
-    paginator = Paginator(notifications, 9)
+    paginator = Paginator(notifications, 12)
     page_number = request.GET.get('page', 1)
     try:
         notifications = paginator.page(page_number)

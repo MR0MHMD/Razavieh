@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // اگر سایتت با data-theme روی body کار می‌کنه:
     const observer = new MutationObserver(() => {
         const theme = document.body.getAttribute("data-theme") || "light";
         updateIconsForTheme(theme);
@@ -39,8 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const initialTheme = document.body.getAttribute("data-theme") || "light";
     updateIconsForTheme(initialTheme);
 });
-
-<!-- ✅ Service Worker Registration -->
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {

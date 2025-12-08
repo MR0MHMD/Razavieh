@@ -10,12 +10,14 @@
 {% block body %}
     <section class="form-page">
         <h1 class="form-title fade-up">تأیید شماره موبایل</h1>
-        <p class="form-subtitle">
-            یک کد ۶ رقمی به شماره
-            <strong>{{ form.initial.phone_number }}</strong>
-            ارسال شد.
-        </p>
+        <h2 class="phone-number-show">
+            <p class="form-subtitle">
+                یک کد ۶ رقمی به شماره
 
+                <strong>{{ form.initial.phone_number }}</strong>
+                ارسال شد.
+            </p>
+        </h2>
         <form method="post" enctype="multipart/form-data" class="form-container fade-up">
             {% csrf_token %}
 
@@ -41,10 +43,9 @@
                 <button type="submit" class="btn btn-primary full-width-btn">تأیید کد</button>
             </div>
         </form>
-
-        <p class="form-note">
-            اگر کد را دریافت نکردید،
-            <a href="{% url 'accounts:otp-verify' form.phone_number %}" class="link-accent">دوباره ارسال کنید</a>.
-        </p>
     </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'accounts/js/persian_fixation.js' %}"></script>
 {% endblock %}

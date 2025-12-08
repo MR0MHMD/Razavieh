@@ -18,5 +18,4 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('otp-verify/<str:phone_number>/', views.otp_verify, name='otp-verify'),
     path('mobile-login/', views.mobile_login_request, name='mobile_login'),
-
 ]

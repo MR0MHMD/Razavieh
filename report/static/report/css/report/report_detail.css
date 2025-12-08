@@ -1,8 +1,3 @@
-/* ===============================
-   📄 report_detail.css — نسخه نهایی و فیکس‌شده لایت‌باکس موبایل
-   =============================== */
-
-/* 🎬 Fade-Up Animation */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -19,14 +14,12 @@
     animation: fadeUp 0.8s ease forwards;
 }
 
-/* ===== ساختار کلی ===== */
 .report-detail-container {
     max-width: 1100px;
     margin: 3rem auto;
     padding: 0 1.2rem;
 }
 
-/* ===== متادیتا ===== */
 .report-meta-detail {
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -75,7 +68,6 @@
     opacity: 0.8;
 }
 
-/* ===== گالری ===== */
 .report-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -109,7 +101,6 @@
     transform: scale(1.07);
 }
 
-/* ===== محتوای گزارش ===== */
 .report-content {
     background: var(--card-bg);
     padding: 2rem;
@@ -121,7 +112,6 @@
     animation: fadeUp 1s ease;
 }
 
-/* ===== برچسب‌ها ===== */
 .report-tags {
     margin-top: 1.8rem;
     background: var(--card-bg);
@@ -163,10 +153,6 @@
     transform: translateY(-3px);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
 }
-
-/* ===============================
-   ❤️ Like Button (modern pulse)
-   =============================== */
 
 .like-wrapper {
     display: flex;
@@ -225,12 +211,10 @@
     font-size: 0.9rem;
 }
 
-/* حالت دارک */
 [data-theme="dark"] .like-count, .dislike-count {
     color: #ffffff;
 }
 
-/* ===== حالت موبایل ===== */
 @media (max-width: 992px) {
     .report-title {
         font-size: 1.7rem;
@@ -319,8 +303,6 @@
     }
 }
 
-
-/* عنوان سکشن */
 .report-media-section .section-title {
     margin-bottom: 1.5rem;
     color: var(--accent);
@@ -328,7 +310,6 @@
     text-align: center;
 }
 
-/* ====== گرید ویدیوها ====== */
 .video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 320px));
@@ -337,15 +318,16 @@
     padding: .5rem 0;
 }
 
-/* ====== کارت ویدیو ====== */
 .video-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 1rem;
     cursor: pointer;
-    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.video-info{
+    padding: 1rem;
 }
 
 .video-card:hover {
@@ -354,28 +336,20 @@
     border-color: var(--accent);
 }
 
-/* ====== تصویر بندانگشتی ====== */
-.video-thumb {
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-}
-
 .video-thumb img {
     width: 100%;
     height: 170px;
     object-fit: cover;
+    border-radius: var(--radius);
     display: block;
     transition: transform var(--transition), filter var(--transition);
 }
 
 .video-card:hover .video-thumb img {
-    transform: scale(1.04);
+    /*transform: scale(1.04);*/
     filter: brightness(1.1);
 }
 
-/* ====== دکمه پخش ====== */
 .video-play-btn {
     position: absolute;
     inset: 0;
@@ -393,7 +367,6 @@
     opacity: 1;
 }
 
-/* ====== عنوان و توضیح ====== */
 .video-title {
     margin-top: .8rem;
     font-size: 1.1rem;
@@ -408,7 +381,6 @@
     line-height: 1.5;
 }
 
-/* ====== لایت‌باکس ویدیو ====== */
 #videoLightbox {
     position: fixed;
     inset: 0;
@@ -424,7 +396,6 @@
     display: flex;
 }
 
-/* قاب ویدیو */
 .video-frame {
     position: relative;
     width: min(900px, 90%);
@@ -439,8 +410,6 @@
     border: none;
 }
 
-/* دکمه بستن */
-/* دکمه بستن — خارج از قاب */
 .video-close {
     position: fixed;
     top: 20px;
@@ -466,7 +435,6 @@
     background: rgba(0, 0, 0, 0.75);
 }
 
-/* ====== ریسپانسیو ====== */
 @media (max-width: 768px) {
     #videoPlayer {
         height: 300px;
@@ -487,7 +455,6 @@
     }
 }
 
-/* tabs */
 .media-tabs {
     display: flex;
     gap: .6rem;
@@ -520,12 +487,10 @@
     box-shadow: var(--shadow);
 }
 
-/* media content */
 .media-content .card {
     background: var(--card-bg);
 }
 
-/* gallery grid */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 320px));
@@ -542,7 +507,6 @@
     display: block;
 }
 
-/* video-grid: از تنظیماتی که قبلتر اصلاح کردیم */
 .video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 320px));
@@ -560,7 +524,6 @@
     margin-bottom: 3rem;
 }
 
-/* responsive single column on small screens */
 @media (max-width: 768px) {
     .gallery-grid, .video-grid {
         grid-template-columns: 1fr;
@@ -598,27 +561,10 @@
     position: relative;
 }
 
-/* خط باریک زیر تب فعال */
-/*.media-tab.active::after {*/
-/*    content: "";*/
-/*    position: absolute;*/
-/*    left: 12%;*/
-/*    right: 12%;*/
-/*    bottom: 4px;*/
-/*    height: 2px;*/
-/*    background: var(--accent);*/
-/*    border-radius: 2px;*/
-/*    opacity: 1;*/
-/*    transform: scaleX(1);*/
-/*    transition: .25s ease;*/
-/*}*/
-
-/* هاور بسیار ظریف */
 .media-tab:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 
-/* انیمیشن تعویض محتوا */
 #media-content-container {
     animation: fadeMedia .25s ease;
 }
@@ -634,7 +580,6 @@
     }
 }
 
-/* لایت‌باکس اصلی */
 .video-lightbox {
     display: none;
     position: fixed;
@@ -646,7 +591,6 @@
     align-items: center;
 }
 
-/* دکمه بستن */
 .video-close {
     position: fixed;
     top: 18px;
@@ -667,7 +611,6 @@
     background: rgba(255, 255, 255, 0.28);
 }
 
-/* قاب ویدیو */
 .video-frame {
     max-width: 95%;
     width: 900px;
@@ -676,8 +619,6 @@
     background: black;
 }
 
-/* لودینگ */
-/* Lightbox Wrapper */
 #videoLightbox {
     display: none;
     position: fixed;
@@ -688,7 +629,6 @@
     align-items: center;
 }
 
-/* Close Button */
 .video-close-btn {
     position: fixed;
     top: 40px;
@@ -705,7 +645,6 @@
     color: #ff4f4f;
 }
 
-/* Loading Spinner */
 .video-loading-spinner {
     width: 60px;
     height: 60px;
@@ -724,7 +663,6 @@
     }
 }
 
-/* Video Frame */
 .video-frame iframe {
     width: 80vw;
     height: 45vw;
@@ -738,7 +676,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
     z-index: 9999999;
     justify-content: center;
     align-items: center;
@@ -759,14 +697,47 @@
     pointer-events: auto !important;
 }
 
-/* Close button */
-.video-close-btn {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    font-size: 40px;
-    color: white;
+.video-thumb {
+    position: relative;
+}
+
+.video-play-btn {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    z-index: 99999999;
-    pointer-events: auto;
+    transition: 0.25s ease;
+}
+
+.video-play-btn::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 22px solid var(--accent);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 4px;
+    transition: 0.25s ease;
+}
+
+.video-card:hover .video-play-btn {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.08);
+}
+
+.video-card:hover .video-play-btn::before {
+    border-left-color: white;
+}
+
+.video-play-btn {
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.45);
 }

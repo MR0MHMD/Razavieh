@@ -476,8 +476,8 @@ ul, li {
 
 /* 🕌 لوگو مرکزی */
 .loader-logo {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: contain;
     z-index: 2;

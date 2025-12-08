@@ -1,8 +1,3 @@
-/* ==========================================================
-   🌿 Mosque Razavieh – Global Form Styles
-   ========================================================== */
-
-/* ===== فرم کلی ===== */
 .form-container {
     max-width: 700px;
     margin: 3rem auto;
@@ -15,7 +10,6 @@
     animation: fadeInForm .7s ease;
 }
 
-/* ===== عنوان فرم ===== */
 .form-title {
     text-align: center;
     font-size: 2rem;
@@ -26,7 +20,6 @@
     margin: 2rem auto 1.5rem;
 }
 
-/* ===== لیبل ===== */
 .form-container label {
     display: block;
     margin-bottom: .5rem;
@@ -34,7 +27,6 @@
     color: var(--text);
 }
 
-/* ===== اینپوت‌ها و سلکت‌ها ===== */
 .form-container input[type="text"],
 .form-container input[type="email"],
 .form-container input[type="password"],
@@ -57,14 +49,12 @@
     box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-/* textarea */
 .form-container textarea {
     resize: vertical;
     min-height: 140px;
     line-height: 1.8;
 }
 
-/* Hover & Focus */
 .form-container input:hover,
 .form-container select:hover,
 .form-container textarea:hover {
@@ -78,7 +68,6 @@
     box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-/* ===== Select Dropdown Dark Mode ===== */
 .form-container select option {
     background: #1a1a1a !important;
     color: #fff !important;
@@ -89,9 +78,6 @@
     appearance: none;
 }
 
-/* ===============================
-   🖼️ File Input
-=============================== */
 .form-container input[type="file"] {
     display: none;
 }
@@ -119,21 +105,6 @@
     text-align: center;
 }
 
-/*.file-upload-label:hover {*/
-/*    transform: translateY(-2px);*/
-/*    box-shadow: 0 6px 22px color-mix(in srgb, var(--accent) 40%, transparent);*/
-/*}*/
-
-/*.file-name {*/
-/*    font-size: .9rem;*/
-/*    */
-/*    color: var(--text);*/
-/*    opacity: .8;*/
-/*}*/
-
-/* ===============================
-   🚀 Submit Button
-=============================== */
 .form-actions {
     text-align: center;
     margin-top: 2rem;
@@ -163,18 +134,17 @@
     box-shadow: 0 12px 35px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
-/* ===== Dark Theme ===== */
 [data-theme="dark"] .form-container {
     background: rgba(25, 25, 25, 0.6);
 }
 
 [data-theme="dark"] .file-upload-label,
+
 [data-theme="dark"] .btn-primary {
     background: linear-gradient(135deg, #ffcc33, #ffae00);
     color: #111;
 }
 
-/* Animation */
 @keyframes fadeInForm {
     from {
         opacity: 0;
@@ -186,9 +156,6 @@
     }
 }
 
-/* ===============================
-   Responsive
-=============================== */
 @media (max-width: 768px) {
     .form-container {
         padding: 1rem 1.2rem;
@@ -199,7 +166,7 @@
         font-size: 1.3rem;
     }
 
-    .form-container textarea{
+    .form-container textarea {
         height: 30px;
     }
 
@@ -223,9 +190,6 @@
     }
 }
 
-/* =============================
-   🟩 Custom Checkbox Styling
-   ============================= */
 .form-container input[type="checkbox"] {
     appearance: none;
     width: 22px;
@@ -277,9 +241,6 @@
     }
 }
 
-/* =============================
-   Fieldset
-=============================== */
 form fieldset {
     border: 2px solid var(--accent);
     border-radius: 1rem;
@@ -308,7 +269,6 @@ form legend {
     right: 1.2rem;
 }
 
-/* Dark Theme */
 [data-theme="dark"] form fieldset {
     border-color: #00bcd4;
     background: rgba(0, 188, 212, 0.05);
@@ -320,9 +280,6 @@ form legend {
     border-color: #00bcd4;
 }
 
-/* =============================
-   Avatar
-=============================== */
 .avatar-img {
     width: 120px;
     height: 120px;
@@ -358,9 +315,6 @@ form legend {
     background-color: #d32f2f;
 }
 
-/* =============================
-   Tags
-=============================== */
 .tag-box {
     display: flex;
     flex-wrap: wrap;
@@ -392,22 +346,16 @@ form legend {
     align-items: center;
     margin-top: 10px;
 }
-/* جلوگیری از هر overflow */
-* {
-    max-width: 100%;
-    box-sizing: border-box;
-}
+
 html, body {
     overflow-x: hidden !important;
 }
 
-/* جلوگیری از بیرون زدن فرم */
 .form-wrapper {
     width: 100%;
     overflow-x: hidden;
 }
 
-/* اصلاح legend برای موبایل */
 @media (max-width: 768px) {
     form legend {
         right: 0.8rem;
@@ -419,7 +367,16 @@ html, body {
         padding: 2rem 1rem 2rem;
     }
 }
+
 .file-upload-label {
     width: fit-content;
     padding: .7rem 1.2rem;
+}
+
+.phone-number-show {
+    text-align: center;
+}
+
+.phone-number-show strong {
+    color: var(--accent);
 }

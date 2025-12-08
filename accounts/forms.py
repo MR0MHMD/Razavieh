@@ -64,7 +64,7 @@ class OTPVerifyForm(forms.Form):
     code = forms.CharField(
         max_length=6,
         label="کد تأیید",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد ارسال شده'})
+        widget=forms.TextInput(attrs={'class': 'form-control persian-fix', 'placeholder': 'کد ارسال شده'})
     )
 
 

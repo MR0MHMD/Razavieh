@@ -98,7 +98,7 @@ def report_list(request, mode=None, id=None, slug=None):
             user=request.user
         ).values_list('report_id', flat=True)
 
-    paginator = Paginator(reports, 9)
+    paginator = Paginator(reports, 12)
     page_number = request.GET.get('page', 1)
     try:
         reports = paginator.page(page_number)
