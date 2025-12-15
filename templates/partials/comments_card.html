@@ -9,7 +9,7 @@
                         <img src="{{ comment.name.photo.url }}" alt="{{ comment.name.username }}"
                              class="comment-avatar">
                     {% else %}
-                        <img src="{% static 'default.png' %}" alt="user avatar" class="comment-avatar">
+                        <img src="{% static 'images/profile-default.png' %}" alt="user avatar" class="comment-avatar">
                     {% endif %}
 
                     <div class="comment-info">
@@ -31,9 +31,9 @@
                 <button class="reaction-btn {% if comment.user_reaction == 'like' %}selected{% endif %}"
                         data-id="{{ comment.id }}" data-reaction="like">
                     <img src="{% if comment.user_reaction == 'like' %}
-                                         {% static 'report/icons/selected_like.svg' %}
+                                         {% static 'icons/selected_like.svg' %}
                                      {% else %}
-                                         {% static 'report/icons/like.svg' %}
+                                         {% static 'icons/like.svg' %}
                                      {% endif %}" alt="like">
                     <span class="like-count">{{ comment.like_count }}</span>
                 </button>
@@ -41,9 +41,9 @@
                 <button class="reaction-btn {% if comment.user_reaction == 'dislike' %}selected{% endif %}"
                         data-id="{{ comment.id }}" data-reaction="dislike">
                     <img src="{% if comment.user_reaction == 'dislike' %}
-                                         {% static 'report/icons/selected_dislike.svg' %}
+                                         {% static 'icons/selected_dislike.svg' %}
                                      {% else %}
-                                         {% static 'report/icons/dislike.svg' %}
+                                         {% static 'icons/dislike.svg' %}
                                      {% endif %}" alt="dislike">
                     <span class="dislike-count">{{ comment.dislike_count }}</span>
                 </button>

@@ -92,61 +92,57 @@
                 <!-- دکمه لایک -->
                 <div class="stat-item like-wrapper">
                     <button class="like-btn" data-id="{{ report.id }}">
-                        <img src="{% if liked %}{% static 'report/icons/heart_full.svg' %}{% else %}
-                                {% static 'report/icons/heart_empty.svg' %}{% endif %}" alt="like" class="like-icon">
+                        <img src="{% if liked %}{% static 'icons/heart_full.svg' %}{% else %}
+                                {% static 'icons/heart_empty.svg' %}{% endif %}" alt="like" class="like-icon">
                     </button>
                     <span class="like-count">{{ likes_count }}</span>
                 </div>
 
                 <div class="stat-item">
-                    <img src="{% static 'report/icons/view.svg' %}" alt="views">
+                    <img src="{% static 'icons/view.svg' %}" alt="views">
                     <span>{{ report.views }}</span>
                 </div>
 
                 <div class="stat-item">
                     <a href="{% url 'report:report_comment' report.id report.slug %}"><img
-                            src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                            src="{% static 'icons/comment.svg' %}" alt="comments" class="icon">
                     </a>
                     <span>{{ active_comments_count }}</span>
                 </div>
 
                 <div class="stat-item">
-                    <img src="{% static 'report/icons/date.svg' %}" alt="date">
+                    <img src="{% static 'icons/date.svg' %}" alt="date">
                     <span>{{ report.date|jformat:"%Y/%m/%d" }}</span>
                 </div>
             </div>
         </div>
         <div class="report-media-wrapper" data-report-id="{{ report.id }}" data-report-slug="{{ report.slug }}">
 
-            {% with has_images=report.images.exists has_videos=report.videos.exists %}
-                {% if has_images or has_videos %}
-                    {% if has_images and has_videos %}
-                        <div class="media-tabs-container">
-                            <div class="media-tabs" role="tablist">
+            <div class="media-tabs-container">
+                <div class="media-tabs" role="tablist">
 
-                                {% if has_images %}
-                                    <button class="media-tab active"
-                                            data-media="images"
-                                            role="tab"
-                                            aria-selected="true">
-                                        تصاویر
-                                    </button>
-                                {% endif %}
-
-                                {% if has_videos %}
-                                    <button class="media-tab {% if not has_images %}active{% endif %}"
-                                            data-media="videos"
-                                            role="tab"
-                                            aria-selected="{% if not has_images %}true{% else %}false{% endif %}">
-                                        ویدیوها
-                                    </button>
-                                {% endif %}
-
-                            </div>
-                        </div>
+                    {% if report.images.exists %}
+                        <button class="media-tab active" data-media="images" role="tab">
+                            تصاویر
+                        </button>
                     {% endif %}
-                {% endif %}
-            {% endwith %}
+
+                    {% if report.videos.exists %}
+                        <button class="media-tab {% if not report.images.exists %}active{% endif %}"
+                                data-media="videos" role="tab">
+                            ویدیوها
+                        </button>
+                    {% endif %}
+
+                    {% if report.audios.exists %}
+                        <button class="media-tab {% if not report.images.exists and not report.videos.exists %}active{% endif %}"
+                                data-media="audios" role="tab">
+                            صوت‌ها
+                        </button>
+                    {% endif %}
+
+                </div>
+            </div>
 
             <div id="media-content" class="media-content">
 
@@ -157,6 +153,10 @@
                 {% elif report.videos.exists %}
 
                     {% include 'report/partials/media_videos.html' %}
+
+                {% elif report.audios.exists %}
+
+                    {% include 'report/partials/media_audios.html' %}
 
                 {% else %}
 
@@ -225,5 +225,6 @@
     <script src="{% static 'report/js/comment_react.js' %}"></script>
     <script src="{% static 'report/js/report_likes.js' %}"></script>
     <script src="{% static 'report/js/report_media_tabs.js' %}"></script>
+    <script src="{% static 'report/js/report_audio_player.js' %}"></script>
     <script src="{% static 'report/js/video_lightbox.js' %}"></script>
 {% endblock %}

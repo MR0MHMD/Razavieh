@@ -27,17 +27,17 @@
                     <div class="report-footer">
                         <div class="report-meta">
                             <div class="meta-item comment">
-                                <img src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                                <img src="{% static 'icons/comment.svg' %}" alt="comments" class="icon">
                                 <span class="count">{{ report.comments_count }}</span>
                             </div>
 
                             <div class="meta-item">
-                                <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
+                                <img src="{% static 'icons/view.svg' %}" alt="views" class="icon">
                                 <span class="count">{{ report.views }}</span>
                             </div>
 
                             <div class="meta-item">
-                                <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
+                                <img src="{% static 'icons/date.svg' %}" alt="date" class="icon">
                                 <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
                             </div>
                         </div>

@@ -332,4 +332,6 @@ def report_media_videos(request, id, slug):
 
 def report_media_audios(request, id, slug):
     report = get_object_or_404(Report, id=id, slug=slug)
-    return HttpResponse("", status=204)
+    return render(request, "report/partials/media_audios.html", {
+        "report": report
+    })

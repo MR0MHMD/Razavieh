@@ -9,7 +9,7 @@
                 {% if report.images.first %}
                     <img src="{{ report.images.first.image.url }}" alt="{{ report.title }}">
                 {% else %}
-                    <img src="{% static 'report/img/no-image.svg' %}" alt="بدون تصویر">
+                    <img src="{% static 'images/default_picture.jpg' %}" alt="بدون تصویر">
                 {% endif %}
             </div>
 
@@ -23,28 +23,28 @@
                     <div class="meta-item like">
                         <button class="like-btn" data-id="{{ report.id }}">
                             {% if report.id in liked_reports %}
-                                <img src="{% static 'report/icons/heart_full.svg' %}" alt="liked" class="icon">
+                                <img src="{% static 'icons/heart_full.svg' %}" alt="liked" class="icon">
                             {% else %}
-                                <img src="{% static 'report/icons/heart_empty.svg' %}" alt="like" class="icon">
+                                <img src="{% static 'icons/heart_empty.svg' %}" alt="like" class="icon">
                             {% endif %}
                         </button>
                         <span class="count like-count">{{ report.likes }}</span>
                     </div>
 
                     <div class="meta-item">
-                        <img src="{% static 'report/icons/view.svg' %}" alt="views" class="icon">
+                        <img src="{% static 'icons/view.svg' %}" alt="views" class="icon">
                         <span class="count">{{ report.views }}</span>
                     </div>
 
                     <div class="meta-item">
                         <a href="{% url 'report:report_comment' report.id report.slug %}"><img
-                                src="{% static 'report/icons/comment.svg' %}" alt="comments" class="icon">
+                                src="{% static 'icons/comment.svg' %}" alt="comments" class="icon">
                         </a>
                         <span class="count">{{ report.comments_count|default:0 }}</span>
                     </div>
 
                     <div class="meta-item">
-                        <img src="{% static 'report/icons/date.svg' %}" alt="date" class="icon">
+                        <img src="{% static 'icons/date.svg' %}" alt="date" class="icon">
                         <span class="count">{{ report.date|jformat:"%Y/%m/%d" }}</span>
                     </div>
                 </div>

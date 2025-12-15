@@ -326,7 +326,7 @@
     cursor: pointer;
 }
 
-.video-info{
+.video-info {
     padding: 1rem;
 }
 
@@ -740,4 +740,324 @@
 
 .video-play-btn {
     box-shadow: 0 0 10px rgba(0, 255, 200, 0.45);
+}
+
+/* ===============================
+   AUDIO SECTION
+================================ */
+.report-audios-section {
+    margin-top: 24px;
+}
+
+.audio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ===============================
+   AUDIO CARD
+================================ */
+.audio-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle glow */
+.audio-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+            600px circle at 100% 0%,
+            rgba(0, 191, 165, 0.12),
+            transparent 40%
+    );
+    pointer-events: none;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.audio-header {
+    margin-bottom: 14px;
+}
+
+.audio-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+/* ===============================
+   PLAYER
+================================ */
+.audio-player {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 12px 14px;
+    align-items: center;
+
+    padding: 14px 16px;
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+}
+
+/* ===============================
+   PLAY BUTTON
+================================ */
+.ap-play {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent-light)
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 6px 18px rgba(0, 191, 165, 0.35);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ap-play::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 10px solid var(--accent-foreground);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    margin-left: 2px;
+}
+
+.ap-play.ap-playing::before {
+    width: 12px;
+    height: 12px;
+    border: none;
+    background: linear-gradient(
+            to right,
+            var(--accent-foreground) 0 40%,
+            transparent 40% 60%,
+            var(--accent-foreground) 60% 100%
+    );
+    margin-left: 0;
+}
+
+.ap-play:hover {
+    transform: scale(1.06);
+    box-shadow: var(--hover-shadow);
+}
+
+/* ===============================
+   TIMELINE
+================================ */
+.ap-timeline {
+    grid-column: 1 / -1;
+    height: 7px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ap-progress {
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    background: linear-gradient(
+            90deg,
+            var(--accent),
+            var(--accent-light)
+    );
+    transition: width 0.1s linear;
+}
+
+/* ===============================
+   TIME
+================================ */
+.ap-time {
+    font-size: .78rem;
+    color: var(--muted);
+    display: flex;
+    gap: 6px;
+    opacity: .8;
+}
+
+/* ===============================
+   DOWNLOAD
+================================ */
+.ap-download {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+
+    background: rgba(255, 255, 255, 0.08) url("/static/icons/download.svg") center/16px no-repeat;
+
+    transition: background .2s ease, transform .2s ease;
+}
+
+.ap-download:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+/* ===============================
+   DESCRIPTION
+================================ */
+.audio-desc {
+    margin-top: 10px;
+    font-size: .9rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 640px) {
+    .audio-player {
+        grid-template-columns: auto 1fr;
+    }
+
+    .ap-download {
+        justify-self: end;
+    }
+}
+
+. /* ===============================
+   GLOBAL AUDIO PLAYER
+================================ */
+#global-audio-player {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    z-index: 9999;
+
+    background: linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.35)
+    );
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+
+    transition: transform .35s ease, opacity .35s ease;
+}
+
+#global-audio-player.gap-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(120%);
+}
+
+.gap-inner {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+/* ===============================
+   INFO
+================================ */
+.gap-title {
+    font-size: .9rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+.gap-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--accent);
+    color: var(--accent-foreground);
+    font-size: .85rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.gap-btn:hover {
+    transform: scale(1.08);
+    box-shadow: var(--hover-shadow);
+}
+
+/* play */
+.gap-play::before {
+    content: "";
+    border-left: 10px solid var(--accent-foreground);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    margin-left: 2px;
+}
+
+.gap-play.playing::before {
+    border: none;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(
+            to right,
+            var(--accent-foreground) 0 40%,
+            transparent 40% 60%,
+            var(--accent-foreground) 60% 100%
+    );
+    margin-left: 0;
+}
+
+/* ===============================
+   WAVE
+================================ */
+.gap-wave {
+    height: 36px;
+    overflow: hidden;
+}
+
+#gap-wave-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 640px) {
+    .gap-title {
+        max-width: 100px;
+    }
 }

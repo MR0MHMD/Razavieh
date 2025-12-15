@@ -1,4 +1,5 @@
 from django_jalali.admin.filters import JDateFieldListFilter
+from django.utils.html import format_html
 from django.contrib import admin
 from report.models import *
 
@@ -22,6 +23,12 @@ class inlines:
         model = ReportVideo
         extra = 0
         readonly_fields = ['title', 'video_uid', "description"]
+
+    class AudioInline(admin.TabularInline):
+        model = ReportAudio
+        extra = 2
+        fields = ("title", "audio_url", "description")
+        show_change_link = True
 
 
 @admin.register(ReportImage)
@@ -86,9 +93,33 @@ class ReportAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ['tags', 'categories']
 
-    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline, inlines.VideoInline]
+    inlines = [inlines.ImageInline, inlines.CommentInline, inlines.LikeInline, inlines.VideoInline, inlines.AudioInline]
 
     fieldsets = (
         ('اطلاعات کلی', {'fields': ('title', 'slug', 'description', 'date')}),
         ('تگ‌ها و آمار', {'fields': ('tags', 'likes', 'views', 'categories')}),
     )
+
+
+@admin.register(ReportAudio)
+class ReportAudioAdmin(admin.ModelAdmin):
+    list_display = ("title", "report", "created", "player_mini")
+    search_fields = ("title", "description", "audio_url")
+    list_filter = ("created", "report")
+    ordering = ("-created",)
+
+    fields = ("report", "title", "audio_url", "description", "player_mini")
+    readonly_fields = ("player_mini",)
+
+    def player_mini(self, obj):
+        if not obj.audio_url:
+            return "-"
+        return format_html(
+            '''
+            <audio controls style="width: 150px; height: 30px;">
+                <source src="{}" type="audio/mpeg">
+            </audio>
+            ''',
+            obj.audio_url
+        )
+    player_mini.short_description = "پیش‌نمایش صوت"

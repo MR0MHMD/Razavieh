@@ -36,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const dislikeImg = commentCard.querySelector('.reaction-btn[data-reaction="dislike"] img');
 
                     // بازگرداندن آیکون‌ها به حالت عادی
-                    likeImg.src = '/static/report/icons/like.svg';
-                    dislikeImg.src = '/static/report/icons/dislike.svg';
+                    likeImg.src = '/static/icons/like.svg';
+                    dislikeImg.src = '/static/icons/dislike.svg';
 
                     // اگر واکنش فعال است، آیکون مربوطه را تغییر بده
                     if (data.user_reaction === 'like') {
-                        likeImg.src = '/static/report/icons/selected_like.svg';
+                        likeImg.src = '/static/icons/selected_like.svg';
                     } else if (data.user_reaction === 'dislike') {
-                        dislikeImg.src = '/static/report/icons/selected_dislike.svg';
+                        dislikeImg.src = '/static/icons/selected_dislike.svg';
                     }
                 })
                 .catch(error => console.error('Error:', error));

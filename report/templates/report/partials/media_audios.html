@@ -1,7 +1,34 @@
-{# templates/report/partials/media_audios.html #}
-<section class="report-media-section report-audios-section fade-up" aria-live="polite">
+<section class="report-audios-section fade-up">
     <h2 class="section-title">صوت‌ها</h2>
-    <div class="audio-list card">
-        <p class="text-muted mb-1">فعلاً هیچ صوتی موجود نیست.</p>
+
+    <div class="audio-list">
+        {% for audio in report.audios.all %}
+            <div class="audio-card">
+
+                <div class="audio-header">
+                    <h3 class="audio-title">{{ audio.title }}</h3>
+                </div>
+
+                <div class="audio-player" data-src="{{ audio.audio_url }}">
+                    <button class="ap-btn ap-play"></button>
+
+                    <div class="ap-timeline">
+                        <div class="ap-progress"></div>
+                    </div>
+
+                    <div class="ap-time">
+                        <span class="ap-current">00:00</span>
+                        <span class="ap-total">--:--</span>
+                    </div>
+
+                    <button class="ap-btn ap-download" data-url="{{ audio.audio_url }}"></button>
+                </div>
+
+                {% if audio.description %}
+                    <p class="audio-desc">{{ audio.description }}</p>
+                {% endif %}
+
+            </div>
+        {% endfor %}
     </div>
 </section>

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (removeBtn) {
         removeBtn.addEventListener('click', () => {
             if (fileInput) fileInput.value = '';
-            previewImg.src = "{% static 'default.png' %}";
+            previewImg.src = "{% static 'profile-default.png' %}";
             previewImg.alt = "بدون تصویر";
 
             let removeInput = document.getElementById('remove_photo_field');

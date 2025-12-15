@@ -126,6 +126,22 @@ class ReportVideo(models.Model):
         return f"https://razaviyehinfo.arvanvod.ir/zVmDrVDb4B/{self.video_uid}/thumbnail.jpg"
 
 
+class ReportAudio(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, related_name='audios')
+    audio_url = models.URLField("لینک فایل صوتی")
+    title = models.CharField("عنوان صوت", max_length=200, blank=True)
+    description = models.TextField("توضیحات صوت", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created']
+        verbose_name = "صوت گزارش"
+        verbose_name_plural = "صوت‌های گزارش"
+
+    def __str__(self):
+        return self.title or f"صوت گزارش {self.report_id}"
+
+
 class Comment(models.Model):
     report = models.ForeignKey('Report', on_delete=models.CASCADE, related_name='comments')
     name = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
@@ -158,6 +174,3 @@ class CommentReaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.reaction_type} ({self.comment.id})"
-
-
-
